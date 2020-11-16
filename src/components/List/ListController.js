@@ -40,6 +40,16 @@ class ListController {
       res.status(400).send(err.message);
     }
   }
+
+  static async deleteList(req,res) {
+    try {
+      const { listId } = req.params;
+      await ListService.deleteList(listId);
+      res.status(204).end();
+    } catch (err) {
+      res.status(400).send(err.message);
+    }
+  }
 }
 
 module.exports = ListController;

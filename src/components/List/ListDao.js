@@ -14,8 +14,11 @@ class ListDao {
   }
 
   async updateList(listId, listData) {
-    const tt = await ListsModel.update(listData, { where: { id: listId } });
-    return tt
+    return await ListsModel.update(listData, { where: { id: listId } });
+  }
+
+  async deleteList(listId) {
+    return await ListsModel.destroy({ where: { id: listId } });
   }
 }
 

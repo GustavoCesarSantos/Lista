@@ -7,5 +7,6 @@ module.exports = (app) => {
 
   app.route('/lists/:listId')
   .get(ListController.getList)
-  .put(ListController.updateList);
+  .put(ListController.updateList)
+  .delete(ListController.deleteList);
 }

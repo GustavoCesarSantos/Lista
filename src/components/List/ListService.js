@@ -16,6 +16,10 @@ class ListService {
   async updateList(listId, listData) {
     return await ListDao.updateList(listId, listData);
   }
+
+  async deleteList(listId) {
+    return await ListDao.deleteList(listId);
+  }
 }
 
 module.exports = new ListService();
