@@ -13,7 +13,6 @@ module.exports = (connection) => {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       createdAt: {
         type: Sequelize.DATE,
