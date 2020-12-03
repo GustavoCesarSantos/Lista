@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 
 module.exports = (connection) => {
-  const Lists = connection.define(
-    'Lists', 
+  const Users = connection.define(
+    'Users', 
     {
       id: {
         type: Sequelize.INTEGER,
@@ -10,14 +10,11 @@ module.exports = (connection) => {
         autoIncrement: true,
         allowNull: false
       },
-      userId: {
-        type: Sequelize.INTEGER,
+      email: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: { model: 'Users', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
       },
-      name: {
+      password: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -32,5 +29,5 @@ module.exports = (connection) => {
     }
   )
   
-  return Lists;
+  return Users;
 }
