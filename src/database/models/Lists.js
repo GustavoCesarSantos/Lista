@@ -8,7 +8,8 @@ class Lists extends Model {
   }
 
   static associate(model) {
-    this.hasMany(model.Annotations, { foreignKey: 'listId', as: 'Annotations'})
+    this.hasMany(model.Annotations, { foreignKey: 'listId', as: 'Annotations'});
+    this.belongsTo(model.Users, { foreignKey: 'userId', as: 'Users' });
   }
 }
 
