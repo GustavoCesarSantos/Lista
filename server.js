@@ -1,4 +1,4 @@
-const app = require('./src/config/server/express');
-require('./src/config/databases/mysql');
+const app = require('./src/config/server/express')
+require('./src/config/databases/mysql')
 
-app.listen(3000, () => console.info('Server on in port 3000'));
+app.listen(3000, () => console.info('Server on in port 3000'))
