@@ -1,25 +1,25 @@
-const UserDao = require('./UserDao');
+const UserDao = require('./UserDao')
 
 class UserService {
-  static async getUsers(req,res) {
-
+  static async getUsers () {
+    return await UserDao.getUsers()
   };
 
-  static async getUser(req, res) {
-
+  static async getUser (userId) {
+    return await UserDao.getUser(userId)
   };
 
-  static async setUser(req, res) {
-
+  static async setUser (userData) {
+    return await UserDao.setUser(userData)
   };
 
-  static updateUser(req, res) {
-
+  static async updateUser (userId, userData) {
+    return await UserDao.updateUser(userId, userData)
   };
 
-  static deleteUser(req, res) {
-
+  static async deleteUser (userId) {
+    return await UserDao.deleteUser(userId)
   };
 }
 
-module.exports = new UserService();
+module.exports = new UserService()
