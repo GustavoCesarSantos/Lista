@@ -1,16 +1,16 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize')
 
 class Users extends Model {
-  static init(connection) {
+  static init (connection) {
     super.init({
       email: DataTypes.STRING,
-      password: DataTypes.STRING,
+      password: DataTypes.STRING
     }, { sequelize: connection })
   }
 
-  static associate(model) {
-    this.hasMany(model.Lists, { foreignKey: 'userId', as: 'Lists'})
+  static associate (model) {
+    this.hasMany(model.Lists, { foreignKey: 'userId', as: 'Lists' })
   }
 }
 
-module.exports = Users;
+module.exports = Users

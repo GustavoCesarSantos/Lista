@@ -1,25 +1,25 @@
-const AnnotationsModel = require('../../database/models/Annotations');
+const AnnotationsModel = require('../../database/models/Annotations')
 
 class AnnotationDao {
-  async getAnnotations() {
-    return await AnnotationsModel.findAll();
+  async getAnnotations () {
+    return await AnnotationsModel.findAll()
   }
 
-  async getAnnotation(annotationId) {
-    return await AnnotationsModel.findByPk(annotationId);
+  async getAnnotation (annotationId) {
+    return await AnnotationsModel.findByPk(annotationId)
   }
 
-  async setAnnotation(annotationData) {
+  async setAnnotation (annotationData) {
     return await AnnotationsModel.create(annotationData)
   }
 
-  async updateAnnotation(annotationId, annotationData) {
-    return await AnnotationsModel.update(annotationData, { where : { id: annotationId } })
+  async updateAnnotation (annotationId, annotationData) {
+    return await AnnotationsModel.update(annotationData, { where: { id: annotationId } })
   }
 
-  async deleteAnnotation(annotationId) {
+  async deleteAnnotation (annotationId) {
     return await AnnotationsModel.destroy({ where: { id: annotationId } })
   }
 }
 
-module.exports = new AnnotationDao();
+module.exports = new AnnotationDao()
