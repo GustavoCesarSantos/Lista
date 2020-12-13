@@ -1,3 +1,4 @@
+const bcryptHelper = require('../../helpers/bcryptHelper')
 const UserDao = require('./UserDao')
 
 class UserService {
@@ -10,7 +11,9 @@ class UserService {
   };
 
   async setUser (userData) {
-    return await UserDao.setUser(userData)
+    const newUser = { ...userData }
+    newUser.password = await bcryptHelper.encryptPassword(userData.password)
+    return await UserDao.setUser(newUser)
   };
 
   async updateUser (userId, userData) {

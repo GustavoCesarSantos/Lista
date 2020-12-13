@@ -24,7 +24,7 @@ class UserController {
     try {
       const userData = req.body
       await UserSerivce.setUser(userData)
-      res.status(201).send(userData)
+      res.status(201).end()
     } catch (err) {
       res.status(400).send(err.message)
     }
