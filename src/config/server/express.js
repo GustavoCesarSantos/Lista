@@ -1,12 +1,14 @@
-const express = require('express');
+const express = require('express')
 
-const routesList = require('../../routes/List');
-const routesAnnotation = require('../../routes/Annotation');
+const routesUser = require('../../routes/User')
+const routesList = require('../../routes/List')
+const routesAnnotation = require('../../routes/Annotation')
 
-const app = express();
-app.use(express.json());
+const app = express()
+app.use(express.json())
 
-routesList(app);
-routesAnnotation(app);
+routesUser(app)
+routesList(app)
+routesAnnotation(app)
 
-module.exports = app;
+module.exports = app
