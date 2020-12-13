@@ -22,7 +22,9 @@ class ListController {
 
   static async setList (req, res) {
     try {
+      const { userId } = req.params
       const listData = req.body
+      listData.userId = userId
       await ListService.setList(listData)
       res.status(201).send(listData)
     } catch (err) {
