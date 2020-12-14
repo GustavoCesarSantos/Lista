@@ -2,8 +2,8 @@ const bcryptHelper = require('../../helpers/bcryptHelper')
 const UserDao = require('./UserDao')
 
 class UserService {
-  async getUsers () {
-    return await UserDao.getUsers()
+  async getUsers (query) {
+    return await UserDao.getUsers(query)
   };
 
   async getUser (userId) {

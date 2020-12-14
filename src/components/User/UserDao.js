@@ -1,8 +1,8 @@
 const UsersModel = require('../../database/models/Users')
 
 class UserDao {
-  async getUsers () {
-    return await UsersModel.findAll()
+  async getUsers (query) {
+    return await UsersModel.findAll({ where: query })
   };
 
   async getUser (userId) {

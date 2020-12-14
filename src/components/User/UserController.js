@@ -3,7 +3,8 @@ const UserSerivce = require('./UserService')
 class UserController {
   static async getUsers (req, res) {
     try {
-      const users = await UserSerivce.getUsers()
+      const query = { ...req.query }
+      const users = await UserSerivce.getUsers(query)
       res.status(200).send(users)
     } catch (err) {
       res.status(400).send(err.message)
