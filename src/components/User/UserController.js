@@ -1,6 +1,10 @@
 const UserSerivce = require('./UserService')
 
 class UserController {
+  static async login (req, res) {
+    res.status(204).end()
+  };
+
   static async getUsers (req, res) {
     try {
       const query = { ...req.query }

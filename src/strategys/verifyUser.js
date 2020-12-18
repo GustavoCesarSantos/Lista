@@ -7,7 +7,7 @@ const UserDao = require('../components/User/UserDao')
 const returnUserFilteredByEmail = async (email) => {
   const user = await UserDao.getUsers({ email })
   if (user.length === 0) throw new Error('Usuário não existe.')
-  return user
+  return user[0]
 }
 
 const verifyIfIsAValidPassword = async (password, encryptedPassword) => {
@@ -20,10 +20,10 @@ passport.use(
     usernameField: 'email',
     passwordField: 'password',
     session: false
-  }, (email, password, done) => {
+  }, async (email, password, done) => {
     try {
-      const user = returnUserFilteredByEmail(email)
-      verifyIfIsAValidPassword(password, user.password)
+      const user = await returnUserFilteredByEmail(email)
+      await verifyIfIsAValidPassword(password, user.password)
       done(null, user)
     } catch (err) {
       done(err)

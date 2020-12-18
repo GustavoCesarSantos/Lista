@@ -7,6 +7,9 @@ const routesAnnotation = require('../../routes/Annotation')
 const app = express()
 app.use(express.json())
 
+// Import authentication strategys
+require('../../strategys/verifyUser')
+
 routesUser(app)
 routesList(app)
 routesAnnotation(app)
