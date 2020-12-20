@@ -1,7 +1,10 @@
+const jwtHelper = require('../../helpers/jwt')
 const UserSerivce = require('./UserService')
 
 class UserController {
   static async login (req, res) {
+    const token = jwtHelper.createToken(req.user)
+    res.set('Authorization', token)
     res.status(204).end()
   };
 
