@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const app = require('./src/config/server/express')
 require('./src/config/databases/mysql')
 
