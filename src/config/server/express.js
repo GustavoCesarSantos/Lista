@@ -9,6 +9,7 @@ app.use(express.json())
 
 // Import authentication strategys
 require('../../strategys/verifyUser')
+require('../../strategys/verifyToken')
 
 routesUser(app)
 routesList(app)
