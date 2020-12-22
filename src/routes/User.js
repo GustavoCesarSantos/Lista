@@ -1,9 +1,9 @@
+const authenticationUser = require('../middlewares/authenticationUser')
 const UserController = require('../components/User/UserController')
-const passport = require('passport')
 
 module.exports = (app) => {
   app.route('/login')
-    .post(passport.authenticate('local', { session: false }), UserController.login)
+    .post(authenticationUser.local, UserController.login)
 
   app.route('/users')
     .get(UserController.getUsers)

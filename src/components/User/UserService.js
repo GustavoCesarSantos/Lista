@@ -1,4 +1,4 @@
-const bcryptHelper = require('../../helpers/bcryptHelper')
+const bcryptHelper = require('../../helpers/bcrypt')
 const UserDao = require('./UserDao')
 
 class UserService {

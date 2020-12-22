@@ -1,6 +1,6 @@
-const passport = require('passport')
 const BearerStrategy = require('passport-http-bearer')
 const jwt = require('jsonwebtoken')
+const passport = require('passport')
 
 const UserDao = require('../components/User/UserDao')
 

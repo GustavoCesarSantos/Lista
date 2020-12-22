@@ -1,7 +1,7 @@
-const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const passport = require('passport')
 
-const bcryptHelper = require('../helpers/bcryptHelper')
+const bcryptHelper = require('../helpers/bcrypt')
 const UserDao = require('../components/User/UserDao')
 
 const returnUserFilteredByEmail = async (email) => {
