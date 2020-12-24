@@ -4,9 +4,13 @@ const UserSerivce = require('./UserService')
 
 class UserController {
   static async login (req, res) {
-    const token = jwtHelper.createToken(req.user)
-    res.set('Authorization', token)
-    res.status(204).end()
+    try {
+      const token = jwtHelper.createToken(req.user)
+      res.set('Authorization', token)
+      res.status(204).end()
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   };
 
   static async logout (req, res) {
