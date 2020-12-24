@@ -7,6 +7,10 @@ module.exports = {
         return res.status(401).send(err.message)
       }
 
+      if (err && err.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: err.message, expiradoEm: err.expiredAt })
+      }
+
       if (err) {
         return res.status(500).send(err.message)
       }
