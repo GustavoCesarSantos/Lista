@@ -10,7 +10,7 @@ passport.use(
       try {
         const payload = jwt.verify(token, process.env.KEY_JWT)
         const user = await UserDao.getUser(payload.id)
-        done(null, user)
+        done(null, user, { token })
       } catch (err) {
         done(err)
       }

@@ -18,6 +18,8 @@ module.exports = {
       if (!user) {
         return res.status(401).end()
       }
+
+      req.token = info.token
       req.user = user
       return next()
     })(req, res, next)
