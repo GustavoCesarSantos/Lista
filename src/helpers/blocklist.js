@@ -20,7 +20,8 @@ module.exports = {
   },
 
   verifyIfExistsToken: async token => {
-    const result = await existsAsync(token)
+    const tokenHash = generateTokenHash(token)
+    const result = await existsAsync(tokenHash)
     return result === 1
   }
 }
