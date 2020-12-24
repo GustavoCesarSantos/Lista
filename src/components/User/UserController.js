@@ -1,3 +1,4 @@
+const blocklistHelper = require('../../helpers/blocklist')
 const jwtHelper = require('../../helpers/jwt')
 const UserSerivce = require('./UserService')
 
@@ -6,6 +7,16 @@ class UserController {
     const token = jwtHelper.createToken(req.user)
     res.set('Authorization', token)
     res.status(204).end()
+  };
+
+  static async logout (req, res) {
+    try {
+      const token = req.token
+      await blocklistHelper.setToken(token)
+      res.status(204).end()
+    } catch (err) {
+      res.status(500).send(err.message)
+    }
   };
 
   static async getUsers (req, res) {
