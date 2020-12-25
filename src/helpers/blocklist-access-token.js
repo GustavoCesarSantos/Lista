@@ -1,11 +1,9 @@
 const { createHash } = require('crypto')
 const jwt = require('jsonwebtoken')
-const { promisify } = require('util')
 
-const blocklist = require('../config/databases/blocklist')
-
-const existsAsync = promisify(blocklist.exists).bind(blocklist)
-const setAsync = promisify(blocklist.set).bind(blocklist)
+const blocklistAccessTokenConfig = require('../config/databases/blocklist-access-token')
+const genericAuthenticationListHelper = require('./genericAuthenticationList')
+const blocklistAccessToken = genericAuthenticationListHelper(blocklistAccessTokenConfig)
 
 function generateTokenHash (token) {
   return createHash('sha256').update(token).digest('hex')
@@ -15,13 +13,11 @@ module.exports = {
   setToken: async token => {
     const { exp } = jwt.decode(token)
     const tokenHash = generateTokenHash(token)
-    await setAsync(tokenHash, '')
-    blocklist.expireat(tokenHash, exp)
+    await blocklistAccessToken.setToken(tokenHash, '', exp)
   },
 
   verifyIfExistsToken: async token => {
     const tokenHash = generateTokenHash(token)
-    const result = await existsAsync(tokenHash)
-    return result === 1
+    return await blocklistAccessToken.verifyIfExistsToken(tokenHash)
   }
 }

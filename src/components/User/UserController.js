@@ -1,13 +1,14 @@
-const blocklistHelper = require('../../helpers/blocklist')
-const jwtHelper = require('../../helpers/jwt')
+const blocklistAccessTokenHelper = require('../../helpers/blocklist-access-token')
+const tokenHelper = require('../../helpers/token')
 const UserSerivce = require('./UserService')
 
 class UserController {
   static async login (req, res) {
     try {
-      const token = jwtHelper.createToken(req.user)
-      res.set('Authorization', token)
-      res.status(204).end()
+      const accessToken = tokenHelper.createToken(req.user)
+      const refreshToken = await tokenHelper.createOpaqueToken(req.user)
+      res.set('Authorization', accessToken)
+      res.status(200).json({ refreshToken })
     } catch (err) {
       res.status(500).send(err.message)
     }
@@ -16,7 +17,7 @@ class UserController {
   static async logout (req, res) {
     try {
       const token = req.token
-      await blocklistHelper.setToken(token)
+      await blocklistAccessTokenHelper.setToken(token)
       res.status(204).end()
     } catch (err) {
       res.status(500).send(err.message)
