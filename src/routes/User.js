@@ -10,12 +10,15 @@ module.exports = (app) => {
   app.route('/logout')
     .post([authenticationRefreshToken.refresh, authenticationToken.bearer], UserController.logout)
 
+  app.route('/users/:userId/tokens/refresh')
+    .post(authenticationRefreshToken.refresh, UserController.login)
+
   app.route('/users')
-    .get(UserController.getUsers)
+    .get(authenticationToken.bearer, UserController.getUsers)
     .post(UserController.setUser)
 
   app.route('/users/:userId')
-    .get(UserController.getUser)
-    .put(UserController.updateUser)
-    .delete(UserController.deleteUser)
+    .get(authenticationToken.bearer, UserController.getUser)
+    .put(authenticationToken.bearer, UserController.updateUser)
+    .delete(authenticationToken.bearer, UserController.deleteUser)
 }

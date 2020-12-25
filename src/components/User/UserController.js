@@ -1,4 +1,3 @@
-const blocklistAccessTokenHelper = require('../../helpers/blocklist-access-token')
 const tokenHelper = require('../../helpers/token')
 const UserSerivce = require('./UserService')
 
@@ -17,7 +16,7 @@ class UserController {
   static async logout (req, res) {
     try {
       const token = req.token
-      await blocklistAccessTokenHelper.setToken(token)
+      await tokenHelper.invalidateToken(token)
       res.status(204).end()
     } catch (err) {
       res.status(500).send(err.message)

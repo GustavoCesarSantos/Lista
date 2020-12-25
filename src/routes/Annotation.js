@@ -1,14 +1,15 @@
+const authenticationToken = require('../middlewares/authenticationToken')
 const AnnotationController = require('../components/Annotation/AnnotationController')
 
 module.exports = (app) => {
   app.route('/annotations')
-    .get(AnnotationController.getAnnotations)
+    .get(authenticationToken.bearer, AnnotationController.getAnnotations)
 
   app.route('/lists/:listId/annotations')
-    .post(AnnotationController.setAnnotation)
+    .post(authenticationToken.bearer, AnnotationController.setAnnotation)
 
   app.route('/annotations/:annotationId')
-    .get(AnnotationController.getAnnotation)
-    .put(AnnotationController.updateAnnotation)
-    .delete(AnnotationController.deleteAnnotation)
+    .get(authenticationToken.bearer, AnnotationController.getAnnotation)
+    .put(authenticationToken.bearer, AnnotationController.updateAnnotation)
+    .delete(authenticationToken.bearer, AnnotationController.deleteAnnotation)
 }

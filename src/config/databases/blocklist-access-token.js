@@ -1,3 +1,7 @@
 const redis = require('redis')
 
-module.exports = redis.createClient({ prefix: 'blocklist-access-token:' })
+const genericAuthenticationListHelper = require('../../helpers/genericAuthenticationList')
+
+const blocklistAccessToken = redis.createClient({ prefix: 'blocklist-access-token:' })
+
+module.exports = genericAuthenticationListHelper(blocklistAccessToken)
