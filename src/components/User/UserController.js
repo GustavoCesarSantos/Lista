@@ -1,3 +1,4 @@
+const emailHelper = require('../../helpers/email')
 const tokenHelper = require('../../helpers/token')
 const UserSerivce = require('./UserService')
 
@@ -47,6 +48,7 @@ class UserController {
     try {
       const userData = req.body
       await UserSerivce.setUser(userData)
+      emailHelper.sendEmail(userData).catch(console.log)
       res.status(201).end()
     } catch (err) {
       res.status(400).send(err.message)
