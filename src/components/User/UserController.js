@@ -1,5 +1,5 @@
-const emailHelper = require('../../helpers/email')
 const tokenHelper = require('../../helpers/token')
+const User = require('./requestsModel/UserModel')
 const UserSerivce = require('./UserService')
 
 class UserController {
@@ -47,8 +47,8 @@ class UserController {
   static async setUser (req, res) {
     try {
       const userData = req.body
-      await UserSerivce.setUser(userData)
-      emailHelper.sendEmail(userData).catch(console.log)
+      const user = new User(userData)
+      await UserSerivce.setUser(user)
       res.status(201).end()
     } catch (err) {
       res.status(400).send(err.message)
