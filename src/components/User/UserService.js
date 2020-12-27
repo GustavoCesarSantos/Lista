@@ -1,5 +1,6 @@
 const bcryptHelper = require('../../helpers/bcrypt')
 const UserDao = require('./UserDao')
+const { VerificationEmail } = require('../../helpers/email')
 
 class UserService {
   async getUsers (query) {
@@ -11,9 +12,18 @@ class UserService {
   };
 
   async setUser (userData) {
+    const users = await UserDao.getUsers()
+    const userExists = users.filter(user => user.email === userData.email)
+    if (userExists.length > 0) throw new Error('Usuário já cadastrado.')
+
     const newUser = { ...userData }
     newUser.password = await bcryptHelper.encryptPassword(userData.password)
-    return await UserDao.setUser(newUser)
+    await UserDao.setUser(newUser)
+
+    const [{ id }] = await UserDao.getUsers({ email: newUser.email })
+    newUser.id = id
+    const verificationEmail = new VerificationEmail(newUser)
+    verificationEmail.sendEmail().catch(console.log)
   };
 
   async updateUser (userId, userData) {
