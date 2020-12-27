@@ -4,7 +4,8 @@ class Users extends Model {
   static init (connection) {
     super.init({
       email: DataTypes.STRING,
-      password: DataTypes.STRING
+      password: DataTypes.STRING,
+      verifiedEmail: DataTypes.INTEGER
     }, { sequelize: connection })
   }
 

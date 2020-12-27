@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize')
 
 module.exports = (connection) => {
   const Users = connection.define(
-    'Users', 
+    'Users',
     {
       id: {
         type: Sequelize.INTEGER,
@@ -12,11 +12,15 @@ module.exports = (connection) => {
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
       },
       password: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: false
+      },
+      verifiedEmail: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -28,6 +32,6 @@ module.exports = (connection) => {
       }
     }
   )
-  
-  return Users;
+
+  return Users
 }
