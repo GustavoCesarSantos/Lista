@@ -24,6 +24,17 @@ class UserController {
     }
   };
 
+  static async verifiedEmail (req, res) {
+    try {
+      const userData = req.user
+      const user = new User(userData)
+      await UserSerivce.updateUser(user.id, { verifiedEmail: user.verifiedEmail })
+      res.status(204).end()
+    } catch (err) {
+      res.status(400).send(err.message)
+    }
+  }
+
   static async getUsers (req, res) {
     try {
       const query = { ...req.query }
