@@ -1,4 +1,5 @@
 const bcryptHelper = require('../../helpers/bcrypt')
+const tokenHelper = require('../../helpers/token')
 const UserDao = require('./UserDao')
 const { VerificationEmail } = require('../../helpers/email')
 
@@ -21,7 +22,8 @@ class UserService {
     await UserDao.setUser(newUser)
 
     const [{ id }] = await UserDao.getUsers({ email: newUser.email })
-    newUser.id = id
+    const idToken = tokenHelper.createToken({ id })
+    newUser.id = idToken
     const verificationEmail = new VerificationEmail(newUser)
     verificationEmail.sendEmail().catch(console.log)
   };

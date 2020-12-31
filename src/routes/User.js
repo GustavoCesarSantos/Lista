@@ -14,7 +14,7 @@ module.exports = (app) => {
   app.route('/users/:userId/tokens/refresh')
     .post(authenticationRefreshToken.refresh, UserController.login)
 
-  app.route('/users/:userId/email/verify')
+  app.route('/users/:token/email/verify')
     .get(authenticationVerificationEmail.verify, UserController.verifiedEmail)
 
   app.route('/users')

@@ -1,16 +1,35 @@
 const nodemailer = require('nodemailer')
 
+const productionEmailConfiguration = {
+  host: process.env.EMAIL_HOST,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD
+  },
+  secure: true
+}
+
+const testEmailConfiguration = (testEmail) => ({
+  host: 'smtp.ethereal.email',
+  auth: testEmail
+})
+
+async function createEmailConfiguration () {
+  if (process.env.NODE_ENV === 'production') {
+    return productionEmailConfiguration
+  } else {
+    const testEmail = await nodemailer.createTestAccount()
+    return testEmailConfiguration(testEmail)
+  }
+}
+
 class Email {
   async sendEmail () {
-    const testEmail = await nodemailer.createTestAccount()
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
-      auth: testEmail
-    })
-
+    const emailConfiguration = await createEmailConfiguration()
+    const transporter = nodemailer.createTransport(emailConfiguration)
     const sendedEmail = await transporter.sendMail(this)
 
-    console.log('URL: ' + nodemailer.getTestMessageUrl(sendedEmail))
+    if (process.env.NODE_ENV !== 'production') console.log('URL: ' + nodemailer.getTestMessageUrl(sendedEmail))
   }
 }
 
