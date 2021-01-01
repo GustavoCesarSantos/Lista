@@ -59,6 +59,7 @@ class UserController {
     try {
       const userData = req.body
       const user = new User(userData)
+      await user.isValid()
       await UserSerivce.setUser(user)
       res.status(201).end()
     } catch (err) {
