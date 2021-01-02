@@ -37,8 +37,9 @@ class UserController {
 
   static async getUsers (req, res) {
     try {
-      const query = { ...req.query }
-      const users = await UserSerivce.getUsers(query)
+      const userModel = new User({ ...req.query })
+      await userModel.isValid()
+      const users = await UserSerivce.getUsers(userModel)
       res.status(200).send(users)
     } catch (err) {
       res.status(400).send(err.message)
@@ -47,8 +48,9 @@ class UserController {
 
   static async getUser (req, res) {
     try {
-      const { userId } = req.params
-      const user = await UserSerivce.getUser(userId)
+      const userModel = new User({ ...req.params })
+      await userModel.isValid()
+      const user = await UserSerivce.getUser(userModel.id)
       res.status(200).send(user)
     } catch (err) {
       res.status(400).send(err.message)
@@ -69,9 +71,9 @@ class UserController {
 
   static async updateUser (req, res) {
     try {
-      const { userId } = req.params
-      const userData = req.body
-      await UserSerivce.updateUser(userId, userData)
+      const userModel = new User({ ...req.params, ...req.body })
+      await userModel.isValid()
+      await UserSerivce.updateUser(userModel)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)
@@ -80,8 +82,9 @@ class UserController {
 
   static async deleteUser (req, res) {
     try {
-      const { userId } = req.params
-      await UserSerivce.deleteUser(userId)
+      const userModel = new User({ ...req.params })
+      await userModel.isValid()
+      await UserSerivce.deleteUser(userModel.id)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)

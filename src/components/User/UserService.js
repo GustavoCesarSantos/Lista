@@ -28,8 +28,8 @@ class UserService {
     verificationEmail.sendEmail().catch(console.log)
   };
 
-  async updateUser (userId, userData) {
-    return await UserDao.updateUser(userId, userData)
+  async updateUser (userData) {
+    return await UserDao.updateUser(userData.id, userData)
   };
 
   async deleteUser (userId) {
