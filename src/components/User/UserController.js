@@ -38,8 +38,8 @@ class UserController {
   static async getUsers (req, res) {
     try {
       const userModel = new User({ ...req.query })
-      await userModel.isValid()
-      const users = await UserSerivce.getUsers(userModel)
+      const query = await userModel.returnsAValidQuery()
+      const users = await UserSerivce.getUsers(query)
       res.status(200).send(users)
     } catch (err) {
       res.status(400).send(err.message)
@@ -59,8 +59,7 @@ class UserController {
 
   static async setUser (req, res) {
     try {
-      const userData = req.body
-      const user = new User(userData)
+      const user = new User({ ...req.body })
       await user.isValid()
       await UserSerivce.setUser(user)
       res.status(201).end()
