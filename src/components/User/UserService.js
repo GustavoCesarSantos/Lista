@@ -13,9 +13,8 @@ class UserService {
   };
 
   async setUser (userData) {
-    const users = await UserDao.getUsers()
-    const userExists = users.filter(user => user.email === userData.email)
-    if (userExists.length > 0) throw new Error('Usuário já cadastrado.')
+    const users = await UserDao.getUsers({ email: userData.email })
+    if (users.length > 0) throw new Error('Usuário já cadastrado.')
 
     const newUser = { ...userData }
     newUser.password = await bcryptHelper.encryptPassword(userData.password)
