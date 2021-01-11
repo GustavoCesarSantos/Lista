@@ -3,7 +3,7 @@ const Joi = require('joi')
 const schema = Joi.object({
   id: [Joi.string(), Joi.number()],
   email: Joi.string().email(),
-  password: Joi.string(),
+  password: Joi.string().min(8).max(30),
   verifiedEmail: [Joi.boolean(), Joi.number()]
 })
 
