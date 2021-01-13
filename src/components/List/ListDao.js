@@ -1,8 +1,8 @@
 const ListsModel = require('../../database/models/Lists')
 
 class ListDao {
-  async getLists () {
-    return await ListsModel.findAll()
+  async getLists (query) {
+    return await ListsModel.findAll({ where: query })
   }
 
   async getList (listId) {

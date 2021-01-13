@@ -1,8 +1,8 @@
 const ListDao = require('./ListDao')
 
 class ListService {
-  async getLists () {
-    return await ListDao.getLists()
+  async getLists (query) {
+    return await ListDao.getLists(query)
   };
 
   async getList (listId) {

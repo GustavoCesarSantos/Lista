@@ -1,9 +1,12 @@
+const List = require('./requestsModel/ListModel')
 const ListService = require('./ListService')
 
 class ListController {
   static async getLists (req, res) {
     try {
-      const lists = await ListService.getLists()
+      const listModel = new List({ ...req.query })
+      const query = await listModel.returnsAValidQuery()
+      const lists = await ListService.getLists(query)
       res.status(200).send(lists)
     } catch (err) {
       res.status(400).send(err.message)
