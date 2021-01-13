@@ -15,8 +15,9 @@ class ListController {
 
   static async getList (req, res) {
     try {
-      const { listId } = req.params
-      const list = await ListService.getList(listId)
+      const listModel = new List({ ...req.params })
+      await listModel.isValid()
+      const list = await ListService.getList(listModel)
       res.status(200).send(list)
     } catch (err) {
       res.status(404).send(err.message)
@@ -25,11 +26,10 @@ class ListController {
 
   static async setList (req, res) {
     try {
-      const { userId } = req.params
-      const listData = req.body
-      listData.userId = userId
-      await ListService.setList(listData)
-      res.status(201).send(listData)
+      const listModel = new List({ ...req.params, ...req.body })
+      await listModel.isValid()
+      await ListService.setList(listModel)
+      res.status(201).end()
     } catch (err) {
       res.status(400).send(err.message)
     }
@@ -37,9 +37,9 @@ class ListController {
 
   static async updateList (req, res) {
     try {
-      const { listId } = req.params
-      const listData = req.body
-      await ListService.updateList(listId, listData)
+      const listModel = new List({ ...req.params, ...req.body })
+      await listModel.isValid()
+      await ListService.updateList(listModel)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)
@@ -48,8 +48,9 @@ class ListController {
 
   static async deleteList (req, res) {
     try {
-      const { listId } = req.params
-      await ListService.deleteList(listId)
+      const listModel = new List({ ...req.params })
+      await listModel.isValid()
+      await ListService.deleteList(listModel.id)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)

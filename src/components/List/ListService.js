@@ -13,8 +13,8 @@ class ListService {
     return await ListDao.setList(listData)
   }
 
-  async updateList (listId, listData) {
-    return await ListDao.updateList(listId, listData)
+  async updateList (listData) {
+    return await ListDao.updateList(listData.id, listData)
   }
 
   async deleteList (listId) {
