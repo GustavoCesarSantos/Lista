@@ -1,4 +1,4 @@
-const swaggerAutogen = require('swagger-autogen')({ language: 'pt-BR' })
+const swaggerAutogen = require('swagger-autogen')()
 
 const outputFile = './src/config/doc/swagger_output.json'
 const endpointsFiles = ['./src/routes/User.js', './src/routes/List', './src/routes/Annotation']
@@ -17,7 +17,15 @@ const doc = {
   tags: [
     {
       name: 'User',
-      description: 'Endpoints'
+      description: 'User endpoints'
+    },
+    {
+      name: 'List',
+      description: 'List endpoints'
+    },
+    {
+      name: 'Annotation',
+      description: 'Annotation endpoints'
     }
   ],
   definitions: {
@@ -32,4 +40,6 @@ const doc = {
   }
 }
 
-swaggerAutogen(outputFile, endpointsFiles, doc)
+swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
+  require('../../../server.js')
+})

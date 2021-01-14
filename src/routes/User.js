@@ -23,6 +23,6 @@ module.exports = (app) => {
 
   app.route('/users/:userId')
     .get(authenticationToken.bearer, UserController.getUser)
-    .put(authenticationToken.bearer, UserController.updateUser)
+    .patch(authenticationToken.bearer, UserController.updateUser)
     .delete(authenticationToken.bearer, UserController.deleteUser)
 }
