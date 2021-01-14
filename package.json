@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "swagger": "node ./src/config/doc/swagger.js"
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +26,9 @@
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "redis": "^3.0.2",
-    "sequelize": "^6.3.5"
+    "sequelize": "^6.3.5",
+    "swagger-autogen": "^2.3.6",
+    "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {
     "eslint": "^7.15.0",
