@@ -4,6 +4,8 @@ const UserSerivce = require('./UserService')
 
 class UserController {
   static async login (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para criar token opaco e token de acesso.'
     try {
       const accessToken = tokenHelper.createToken(req.user)
       const refreshToken = await tokenHelper.createOpaqueToken(req.user)
@@ -15,6 +17,8 @@ class UserController {
   };
 
   static async logout (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para invalidar token opaco e token de acesso.'
     try {
       const token = req.token
       await tokenHelper.invalidateToken(token)
@@ -25,6 +29,9 @@ class UserController {
   };
 
   static async verifiedEmail (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para validar e-mail de acesso.'
+    // #swagger.parameters['token'] = { description: 'Token de acesso.' }
     try {
       const userData = req.user
       const user = new User(userData)
@@ -36,6 +43,12 @@ class UserController {
   }
 
   static async getUsers (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para obter os usuários.'
+    /* #swagger.parameters['email'] = {
+      description: 'Obter usuário pela filtragem do e-mail.',
+      type: 'string'
+    } */
     try {
       const userModel = new User({ ...req.query })
       const query = await userModel.returnsAValidQuery()
@@ -47,6 +60,9 @@ class UserController {
   };
 
   static async getUser (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para obter o usuário.'
+    // #swagger.parameters['userId'] = { description: 'ID do usuário.' }
     try {
       const userModel = new User({ ...req.params })
       await userModel.isValid()
@@ -58,6 +74,15 @@ class UserController {
   };
 
   static async setUser (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para cadastrar o usuário.'
+    /* #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Informações do usuário.',
+      required: true,
+      type: 'object',
+      schema: { $ref: "#/definitions/AddUser" }
+    } */
     try {
       const user = new User({ ...req.body })
       await user.isValid()
@@ -69,10 +94,20 @@ class UserController {
   };
 
   static async updateUser (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para atualizar infos do usuário.'
+    // #swagger.parameters['userId'] = { description: 'ID do usuário.' }
+    /* #swagger.parameters['body'] = {
+      in: 'body',
+      description: 'Informações do usuário.',
+      required: true,
+      type: 'object',
+      schema: { $ref: "#/definitions/AddUser" }
+    } */
     try {
       const userModel = new User({ ...req.params, ...req.body })
-      await userModel.isValid()
-      await UserSerivce.updateUser(userModel)
+      const user = await userModel.returnsAValidQuery()
+      await UserSerivce.updateUser(user)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)
@@ -80,6 +115,9 @@ class UserController {
   };
 
   static async deleteUser (req, res) {
+    // #swagger.tags = ['User']
+    // #swagger.description = 'Endpoint para deletar o usuário.'
+    // #swagger.parameters['userId'] = { description: 'ID do usuário.' }
     try {
       const userModel = new User({ ...req.params })
       await userModel.isValid()
