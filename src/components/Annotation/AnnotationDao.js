@@ -1,8 +1,8 @@
 const AnnotationsModel = require('../../database/models/Annotations')
 
 class AnnotationDao {
-  async getAnnotations () {
-    return await AnnotationsModel.findAll()
+  async getAnnotations (query) {
+    return await AnnotationsModel.findAll({ where: query })
   }
 
   async getAnnotation (annotationId) {

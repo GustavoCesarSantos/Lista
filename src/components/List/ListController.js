@@ -50,7 +50,7 @@ class ListController {
     try {
       const listModel = new List({ ...req.params })
       await listModel.isValid()
-      await ListService.deleteList(listModel.id)
+      await ListService.deleteList(listModel)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)

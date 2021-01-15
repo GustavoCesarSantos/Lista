@@ -83,7 +83,7 @@ class UserController {
     try {
       const userModel = new User({ ...req.params })
       await userModel.isValid()
-      await UserSerivce.deleteUser(userModel.id)
+      await UserSerivce.deleteUser(userModel)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)

@@ -31,8 +31,8 @@ class UserService {
     return await UserDao.updateUser(userData.id, userData)
   };
 
-  async deleteUser (userId) {
-    return await UserDao.deleteUser(userId)
+  async deleteUser (userData) {
+    return await UserDao.deleteUser(userData.id)
   };
 }
 

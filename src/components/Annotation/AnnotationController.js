@@ -1,9 +1,12 @@
+const Annotation = require('./requestsModel/AnnotationModel')
 const AnnotationService = require('./AnnotationService')
 
 class AnnotationController {
   static async getAnnotations (req, res) {
     try {
-      const annotations = await AnnotationService.getAnnotations()
+      const annotationModel = new Annotation({ ...req.query })
+      const query = await annotationModel.returnsAValidQuery()
+      const annotations = await AnnotationService.getAnnotations(query)
       res.status(200).send(annotations)
     } catch (err) {
       res.status(404).send(err.message)
@@ -12,8 +15,9 @@ class AnnotationController {
 
   static async getAnnotation (req, res) {
     try {
-      const { annotationId } = req.params
-      const annotation = await AnnotationService.getAnnotation(annotationId)
+      const annotationModel = new Annotation({ ...req.params })
+      await annotationModel.isValid()
+      const annotation = await AnnotationService.getAnnotation(annotationModel)
       res.status(200).send(annotation)
     } catch (err) {
       res.status(404).send(err.message)
@@ -22,11 +26,10 @@ class AnnotationController {
 
   static async setAnnotation (req, res) {
     try {
-      const { listId } = req.params
-      const annotationData = req.body
-      annotationData.listId = listId
-      await AnnotationService.setAnnotation(annotationData)
-      res.status(201).send(annotationData)
+      const annotationModel = new Annotation({ ...req.params, ...req.body })
+      await annotationModel.isValid()
+      await AnnotationService.setAnnotation(annotationModel)
+      res.status(201).end()
     } catch (err) {
       res.status(400).send(err.message)
     }
@@ -34,9 +37,9 @@ class AnnotationController {
 
   static async updateAnnotation (req, res) {
     try {
-      const { annotationId } = req.params
-      const annotationData = req.body
-      await AnnotationService.updateAnnotation(annotationId, annotationData)
+      const annotationModel = new Annotation({ ...req.params, ...req.body })
+      await annotationModel.isValid()
+      await AnnotationService.updateAnnotation(annotationModel)
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)
@@ -45,8 +48,9 @@ class AnnotationController {
 
   static async deleteAnnotation (req, res) {
     try {
-      const { annotationId } = req.params
-      await AnnotationService.deleteAnnotation(annotationId)
+      const annotationModel = new Annotation({ ...req.params })
+      await annotationModel.isValid()
+      await AnnotationService.deleteAnnotation(annotationModel)
       res.status(204).end()
     } catch (err) {
       res.status(400).end()

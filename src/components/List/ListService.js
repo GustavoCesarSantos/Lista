@@ -17,8 +17,8 @@ class ListService {
     return await ListDao.updateList(listData.id, listData)
   }
 
-  async deleteList (listId) {
-    return await ListDao.deleteList(listId)
+  async deleteList (listData) {
+    return await ListDao.deleteList(listData.id)
   }
 }
 

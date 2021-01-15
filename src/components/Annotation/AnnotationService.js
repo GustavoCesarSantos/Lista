@@ -1,8 +1,8 @@
 const AnnotationDao = require('./AnnotationDao')
 
 class AnnotationService {
-  async getAnnotations () {
-    return await AnnotationDao.getAnnotations()
+  async getAnnotations (query) {
+    return await AnnotationDao.getAnnotations(query)
   }
 
   async getAnnotation (annotationId) {
@@ -13,12 +13,12 @@ class AnnotationService {
     return await AnnotationDao.setAnnotation(annotationData)
   }
 
-  async updateAnnotation (annotationId, annotationData) {
-    return await AnnotationDao.updateAnnotation(annotationId, annotationData)
+  async updateAnnotation (annotationData) {
+    return await AnnotationDao.updateAnnotation(annotationData.id, annotationData)
   }
 
-  async deleteAnnotation (annotationId) {
-    return await AnnotationDao.deleteAnnotation(annotationId)
+  async deleteAnnotation (annotationData) {
+    return await AnnotationDao.deleteAnnotation(annotationData.id)
   }
 }
 
