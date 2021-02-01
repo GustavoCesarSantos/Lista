@@ -14,7 +14,8 @@ const dbConnection = new Sequelize(
   config.PASSWORD,
   {
     host: config.HOST,
-    dialect: 'mysql',
+    dialect: config.DIALECT,
+    storage: './__tests__/database.sqlite',
     timestamp: true,
     logging: false
   }
