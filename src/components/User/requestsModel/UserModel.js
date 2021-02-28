@@ -9,7 +9,7 @@ const schema = Joi.object({
 
 class User {
   constructor (user) {
-    this.id = user.userId
+    this.id = user.userId ? user.userId : user.id
     this.email = user.email
     this.password = user.password
     this.verifiedEmail = !user.verifiedEmail ? false : user.verifiedEmail

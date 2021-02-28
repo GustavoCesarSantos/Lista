@@ -28,7 +28,7 @@ class UserController {
     try {
       const userData = req.user
       const user = new User(userData)
-      await UserSerivce.updateUser(user.id, { verifiedEmail: user.verifiedEmail })
+      await UserSerivce.updateUser({ id: user.id, verifiedEmail: user.verifiedEmail })
       res.status(204).end()
     } catch (err) {
       res.status(400).send(err.message)
