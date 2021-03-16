@@ -1,17 +1,19 @@
-const { Model, DataTypes } = require('sequelize')
+'use strict'
+const { Model } = require('sequelize')
 
-class Users extends Model {
-  static init (connection) {
-    super.init({
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      verifiedEmail: DataTypes.INTEGER
-    }, { sequelize: connection })
+module.exports = (sequelize, DataTypes) => {
+  class Users extends Model {
+    static associate (models) {
+      Users.hasMany(models.Lists, { foreignKey: 'userId', as: 'Lists' })
+    }
   }
-
-  static associate (model) {
-    this.hasMany(model.Lists, { foreignKey: 'userId', as: 'Lists' })
-  }
+  Users.init({
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
+    verifiedEmail: DataTypes.INTEGER
+  }, {
+    sequelize,
+    modelName: 'Users'
+  })
+  return Users
 }
-
-module.exports = Users
