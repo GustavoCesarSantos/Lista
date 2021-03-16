@@ -1,24 +1,24 @@
-const UsersModel = require('../../database/models/Users')
+const models = require('../../database/models')
 
 class UserDao {
   async getUsers (query) {
-    return await UsersModel.findAll({ where: query })
+    return await models.Users.findAll({ where: query })
   };
 
   async getUser (userId) {
-    return await UsersModel.findByPk(userId, { include: { association: 'Lists' } })
+    return await models.Users.findByPk(userId, { include: { association: 'Lists' } })
   };
 
   async setUser (userData) {
-    return await UsersModel.create(userData)
+    return await models.Users.create(userData)
   };
 
   async updateUser (userId, userData) {
-    return await UsersModel.update(userData, { where: { id: userId } })
+    return await models.Users.update(userData, { where: { id: userId } })
   };
 
   async deleteUser (userId) {
-    return await UsersModel.destroy({ where: { id: userId } })
+    return await models.Users.destroy({ where: { id: userId } })
   };
 }
 
