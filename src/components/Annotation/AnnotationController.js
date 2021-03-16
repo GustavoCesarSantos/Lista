@@ -17,7 +17,7 @@ class AnnotationController {
     try {
       const annotationModel = new Annotation({ ...req.params })
       await annotationModel.isValid()
-      const annotation = await AnnotationService.getAnnotation(annotationModel)
+      const annotation = await AnnotationService.getAnnotation(annotationModel.id)
       res.status(200).send(annotation)
     } catch (err) {
       res.status(404).send(err.message)

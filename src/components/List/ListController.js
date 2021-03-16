@@ -17,7 +17,7 @@ class ListController {
     try {
       const listModel = new List({ ...req.params })
       await listModel.isValid()
-      const list = await ListService.getList(listModel)
+      const list = await ListService.getList(listModel.id)
       res.status(200).send(list)
     } catch (err) {
       res.status(404).send(err.message)
