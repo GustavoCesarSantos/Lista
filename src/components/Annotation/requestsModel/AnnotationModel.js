@@ -3,14 +3,14 @@ const Joi = require('joi')
 const schema = Joi.object({
   id: [Joi.string(), Joi.number()],
   listId: [Joi.string(), Joi.number()],
-  data: Joi.string().max(30)
+  contents: Joi.string().max(30)
 })
 
 class Annotation {
   constructor (annotation) {
     this.id = annotation.annotationId
     this.listId = annotation.listId
-    this.data = annotation.data
+    this.contents = annotation.contents
   }
 
   async isValid () {
