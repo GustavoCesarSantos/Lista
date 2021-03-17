@@ -13,7 +13,8 @@
     "database": "list-test",
     "host": "localhost",
     "dialect": "sqlite",
-    "timestamp": "true"
+    "timestamp": "true",
+    "storage": "./__tests__/database.sqlite"
   },
   "production": {
     "username": "root",
