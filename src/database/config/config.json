@@ -12,7 +12,7 @@
     "password": "123456",
     "database": "list-test",
     "host": "localhost",
-    "dialect": "mysql",
+    "dialect": "sqlite",
     "timestamp": "true"
   },
   "production": {
