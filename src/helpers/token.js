@@ -11,7 +11,7 @@ module.exports = {
       id: user.id
     }
 
-    const token = jwt.sign(payload, process.env.KEY_JWT, { expiresIn: '15m' })
+    const token = jwt.sign(payload, `${process.env.KEY_JWT}`, { expiresIn: '15m' })
     return token
   },
 
@@ -20,7 +20,7 @@ module.exports = {
 
     if (exists) throw new jwt.JsonWebTokenError('Token invalido por logout.')
 
-    const { id } = jwt.verify(token, process.env.KEY_JWT)
+    const { id } = jwt.verify(token, `${process.env.KEY_JWT}`)
     return id
   },
 

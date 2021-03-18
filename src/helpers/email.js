@@ -29,7 +29,7 @@ class Email {
     const transporter = nodemailer.createTransport(emailConfiguration)
     const sendedEmail = await transporter.sendMail(this)
 
-    if (process.env.NODE_ENV !== 'production') console.log('URL: ' + nodemailer.getTestMessageUrl(sendedEmail))
+    if (`${process.env.NODE_ENV}` !== 'production') return console.log(`URL: ${nodemailer.getTestMessageUrl(sendedEmail)}`)
   }
 }
 

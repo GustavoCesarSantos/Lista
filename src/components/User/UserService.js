@@ -24,7 +24,7 @@ class UserService {
     const idToken = tokenHelper.createToken({ id })
     newUser.id = idToken
     const verificationEmail = new VerificationEmail(newUser)
-    verificationEmail.sendEmail().catch(console.log)
+    await verificationEmail.sendEmail().catch(console.log)
   };
 
   async updateUser (userData) {
