@@ -8,7 +8,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Annotations.init({
-    contents: DataTypes.STRING
+    contents: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [30]
+      }
+    }
   }, {
     sequelize,
     modelName: 'Annotations'

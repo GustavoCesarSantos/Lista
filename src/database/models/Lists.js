@@ -9,7 +9,12 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   Lists.init({
-    name: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        len: [30]
+      }
+    }
   }, {
     sequelize,
     modelName: 'Lists'
