@@ -9,13 +9,14 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       listId: {
-        type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: 'Lists', key: 'id' },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onDelete: 'CASCADE',
+        type: Sequelize.INTEGER
       },
       contents: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {
