@@ -5,7 +5,7 @@ module.exports = {
     passport.authenticate('local', { session: false }, (err, user, info) => {
       if (err && err.name === 'InvalidArgumentError') return res.status(401).send(err.message)
 
-      if (err) return res.status(500).send(err.message)
+      if (err) return res.status(err.httpCode).send(err.message)
 
       if (!user) return res.status(401).end()
 
