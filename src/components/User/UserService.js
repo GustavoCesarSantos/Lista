@@ -1,4 +1,5 @@
 const bcryptHelper = require('../../helpers/bcrypt')
+const ErrorHandler = require('../../helpers/ErrorHandler')
 const tokenHelper = require('../../helpers/token')
 const UserDao = require('./UserDao')
 const { VerificationEmail } = require('../../helpers/email')
@@ -9,12 +10,16 @@ class UserService {
   };
 
   async getUser (userId) {
-    return await UserDao.getUser(userId)
+    const user = await UserDao.getUser(userId)
+
+    if (!user) throw new ErrorHandler('Usuário não encontrado', 404)
+
+    return user
   };
 
   async setUser (userData) {
     const users = await UserDao.getUsers({ email: userData.email })
-    if (users.length > 0) throw new Error('Usuário já cadastrado.')
+    if (users.length > 0) throw new ErrorHandler('Usuário já cadastrado.', 400)
 
     const newUser = { ...userData }
     newUser.password = await bcryptHelper.encryptPassword(userData.password)
@@ -28,11 +33,19 @@ class UserService {
   };
 
   async updateUser (userData) {
-    return await UserDao.updateUser(userData.id, userData)
+    const user = await UserDao.getUser(userData.id)
+
+    if (!user) throw new ErrorHandler('Usuário não encontrado', 404)
+
+    return await UserDao.updateUser(user.id, userData)
   };
 
   async deleteUser (userData) {
-    return await UserDao.deleteUser(userData.id)
+    const user = await UserDao.getUser(userData.id)
+
+    if (!user) throw new ErrorHandler('Usuário não encontrado', 404)
+
+    return await UserDao.deleteUser(user.id)
   };
 }
 

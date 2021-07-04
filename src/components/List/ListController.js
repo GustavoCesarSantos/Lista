@@ -9,7 +9,7 @@ class ListController {
       const lists = await ListService.getLists(query)
       res.status(200).send(lists)
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -20,7 +20,7 @@ class ListController {
       const list = await ListService.getList(listModel.id)
       res.status(200).send(list)
     } catch (err) {
-      res.status(404).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -31,7 +31,7 @@ class ListController {
       await ListService.setList(listModel)
       res.status(201).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -42,7 +42,7 @@ class ListController {
       await ListService.updateList(listModel)
       res.status(204).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -53,7 +53,7 @@ class ListController {
       await ListService.deleteList(listModel)
       res.status(204).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 }

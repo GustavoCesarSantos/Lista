@@ -9,7 +9,7 @@ class AnnotationController {
       const annotations = await AnnotationService.getAnnotations(query)
       res.status(200).send(annotations)
     } catch (err) {
-      res.status(404).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   }
 
@@ -20,7 +20,7 @@ class AnnotationController {
       const annotation = await AnnotationService.getAnnotation(annotationModel.id)
       res.status(200).send(annotation)
     } catch (err) {
-      res.status(404).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   }
 
@@ -31,7 +31,7 @@ class AnnotationController {
       await AnnotationService.setAnnotation(annotationModel)
       res.status(201).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   }
 
@@ -42,7 +42,7 @@ class AnnotationController {
       await AnnotationService.updateAnnotation(annotationModel)
       res.status(204).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   }
 
@@ -53,7 +53,7 @@ class AnnotationController {
       await AnnotationService.deleteAnnotation(annotationModel)
       res.status(204).end()
     } catch (err) {
-      res.status(400).end()
+      res.status(err.httpCode).send(err.message)
     }
   }
 }

@@ -1,5 +1,7 @@
 const Joi = require('joi')
 
+const ErrorHandler = require('../../../helpers/ErrorHandler')
+
 const schema = Joi.object({
   id: [Joi.string(), Joi.number()],
   email: Joi.string().email(),
@@ -19,7 +21,7 @@ class User {
     try {
       await schema.validateAsync(this)
     } catch (err) {
-      throw new Error(err.message)
+      throw new ErrorHandler(err.message, 500)
     }
   }
 
@@ -33,7 +35,7 @@ class User {
       }
       return query
     } catch (err) {
-      throw new Error(err.message)
+      throw new ErrorHandler(err.message, 500)
     }
   }
 }

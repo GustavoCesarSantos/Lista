@@ -2,9 +2,8 @@ const LocalStrategy = require('passport-local').Strategy
 const passport = require('passport')
 
 const bcryptHelper = require('../helpers/bcrypt')
-const UserDao = require('../components/User/UserDao')
-
 const ErrorHandler = require('../helpers/ErrorHandler')
+const UserDao = require('../components/User/UserDao')
 
 const returnUserFilteredByEmail = async (email) => {
   const user = await UserDao.getUsers({ email })
@@ -14,7 +13,7 @@ const returnUserFilteredByEmail = async (email) => {
 
 const verifyIfIsAValidPassword = async (password, encryptedPassword) => {
   const validPassword = await bcryptHelper.comparePassword(password, encryptedPassword)
-  if (!validPassword) throw new ErrorHandler('Senha invalida.', 500)
+  if (!validPassword) throw new ErrorHandler('E-mail ou senha invalida.', 500)
 }
 
 passport.use(

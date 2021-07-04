@@ -1,4 +1,5 @@
 const AnnotationDao = require('./AnnotationDao')
+const ErrorHandler = require('../../helpers/ErrorHandler')
 
 class AnnotationService {
   async getAnnotations (query) {
@@ -6,7 +7,11 @@ class AnnotationService {
   }
 
   async getAnnotation (annotationId) {
-    return await AnnotationDao.getAnnotation(annotationId)
+    const annotation = await AnnotationDao.getAnnotation(annotationId)
+
+    if (!annotation) throw new ErrorHandler('Anotação não encontrada', 404)
+
+    return annotation
   }
 
   async setAnnotation (annotationData) {
@@ -14,11 +19,19 @@ class AnnotationService {
   }
 
   async updateAnnotation (annotationData) {
-    return await AnnotationDao.updateAnnotation(annotationData.id, annotationData)
+    const annotation = await AnnotationDao.getAnnotation(annotationData.id)
+
+    if (!annotation) throw new ErrorHandler('Anotação não encontrada', 404)
+
+    return await AnnotationDao.updateAnnotation(annotation.id, annotationData)
   }
 
   async deleteAnnotation (annotationData) {
-    return await AnnotationDao.deleteAnnotation(annotationData.id)
+    const annotation = await AnnotationDao.getAnnotation(annotationData.id)
+
+    if (!annotation) throw new ErrorHandler('Anotação não encontrada', 404)
+
+    return await AnnotationDao.deleteAnnotation(annotation.id)
   }
 }
 

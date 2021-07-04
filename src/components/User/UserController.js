@@ -42,7 +42,7 @@ class UserController {
       const users = await UserSerivce.getUsers(query)
       res.status(200).send(users)
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -53,7 +53,7 @@ class UserController {
       const user = await UserSerivce.getUser(userModel.id)
       res.status(200).send(user)
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -64,7 +64,7 @@ class UserController {
       await UserSerivce.setUser(user)
       res.status(201).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -75,7 +75,7 @@ class UserController {
       await UserSerivce.updateUser(userModel)
       res.status(204).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 
@@ -86,7 +86,7 @@ class UserController {
       await UserSerivce.deleteUser(userModel)
       res.status(204).end()
     } catch (err) {
-      res.status(400).send(err.message)
+      res.status(err.httpCode).send(err.message)
     }
   };
 }

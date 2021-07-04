@@ -1,3 +1,4 @@
+const ErrorHandler = require('../../helpers/ErrorHandler')
 const ListDao = require('./ListDao')
 
 class ListService {
@@ -6,7 +7,11 @@ class ListService {
   };
 
   async getList (listId) {
-    return await ListDao.getList(listId)
+    const list = await ListDao.getList(listId)
+
+    if (!list) throw new ErrorHandler('Lista não encontrada', 404)
+
+    return list
   }
 
   async setList (listData) {
@@ -14,11 +19,19 @@ class ListService {
   }
 
   async updateList (listData) {
-    return await ListDao.updateList(listData.id, listData)
+    const list = await ListDao.getList(listData.id)
+
+    if (!list) throw new ErrorHandler('Lista não encontrada', 404)
+
+    return await ListDao.updateList(list.id, listData)
   }
 
   async deleteList (listData) {
-    return await ListDao.deleteList(listData.id)
+    const list = await ListDao.getList(listData.id)
+
+    if (!list) throw new ErrorHandler('Lista não encontrada', 404)
+
+    return await ListDao.deleteList(list.id)
   }
 }
 

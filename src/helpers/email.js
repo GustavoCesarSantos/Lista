@@ -15,12 +15,10 @@ const testEmailConfiguration = (testEmail) => ({
 })
 
 async function createEmailConfiguration () {
-  if (process.env.NODE_ENV === 'production') {
-    return productionEmailConfiguration
-  } else {
-    const testEmail = await nodemailer.createTestAccount()
-    return testEmailConfiguration(testEmail)
-  }
+  if (process.env.NODE_ENV === 'production') return productionEmailConfiguration
+
+  const testEmail = await nodemailer.createTestAccount()
+  return testEmailConfiguration(testEmail)
 }
 
 class Email {

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 
 const allowlistRefreshToken = require('../config/databases/allowlist-refresh-token')
 const blocklistAccessTokenHelper = require('../helpers/blocklist-access-token')
+const ErrorHandler = require('../helpers/ErrorHandler')
 
 module.exports = {
   createToken (user) {
@@ -36,11 +37,11 @@ module.exports = {
   },
 
   async verifyOpaqueToken (token) {
-    if (!token) throw new Error('Refresh token não enviado.')
+    if (!token) throw new ErrorHandler('Refresh token não enviado.', 500)
 
     const id = await allowlistRefreshToken.returnPayload(token)
 
-    if (!id) throw new Error('Refresh token inválido.')
+    if (!id) throw new ErrorHandler('Refresh token inválido.', 500)
 
     return id
   },

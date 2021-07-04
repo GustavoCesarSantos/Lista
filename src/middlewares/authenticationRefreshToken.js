@@ -12,7 +12,7 @@ module.exports = {
     } catch (err) {
       if (err.name === 'InvalidArgumentError') res.status(401).send(err.message)
 
-      return res.status(500).send(err.message)
+      return res.status(err.httpCode).send(err.message)
     }
   }
 }
