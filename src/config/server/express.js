@@ -1,14 +1,18 @@
 const express = require('express')
 const helmet = require('helmet')
+const swaggerUi = require('swagger-ui-express')
 
 const routesUser = require('../../routes/User')
 const routesList = require('../../routes/List')
 const routesAnnotation = require('../../routes/Annotation')
+const swaggerFile = require('../doc/swagger_output.json')
 
 const app = express()
 app.use(express.json())
 
 app.use(helmet())
+
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 // Import strategys
 require('../../strategys/verifyUser')
