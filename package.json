@@ -32,7 +32,8 @@
     "redis": "^3.0.2",
     "sequelize": "^6.3.5",
     "swagger-autogen": "^2.3.6",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^7.15.0",
