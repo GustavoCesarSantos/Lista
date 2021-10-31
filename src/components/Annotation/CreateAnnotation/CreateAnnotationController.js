@@ -3,6 +3,10 @@ const CreateAnnotationService = require('./CreateAnnotationService')
 const logger = require('../../../helpers/logger')
 
 class CreateAnnotationController {
+  constructor (createAnnotationRepository) {
+    this.createAnnotationRepository = createAnnotationRepository
+  }
+
   async handler (request, response) {
     try {
       logger.info('Usuário está tentando cadastrar uma anotação.')
@@ -10,7 +14,7 @@ class CreateAnnotationController {
         ...request.params,
         ...request.body
       })
-      const createAnnotationService = new CreateAnnotationService()
+      const createAnnotationService = new CreateAnnotationService(this.createAnnotationRepository)
       await createAnnotationService.execute(createAnnotationRequestDTO)
       logger.info('Anotação cadastrada com sucesso.')
       response.status(201).end()
