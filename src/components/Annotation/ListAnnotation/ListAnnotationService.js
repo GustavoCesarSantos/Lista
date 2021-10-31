@@ -1,12 +1,16 @@
 const Annotation = require('../requestsModel/AnnotationModel')
-const ListAnnotationRepository = require('./ListAnnotationRepository')
+const ListAnnotationResponseDTO = require('./ListAnnotationResponseDTO')
 
 class ListAnnotationService {
+  constructor (listAnnotationRepository) {
+    this.listAnnotationRepository = listAnnotationRepository
+  }
+
   async execute (listAnnotationRequestDTO) {
     const annotation = new Annotation(listAnnotationRequestDTO)
     await annotation.isValid()
-    const listAnnotationRepository = new ListAnnotationRepository()
-    return await listAnnotationRepository.listOne(annotation.id)
+    const annotationDb = await this.listAnnotationRepository.listOne(annotation.id)
+    return new ListAnnotationResponseDTO(annotationDb)
   }
 }
 
