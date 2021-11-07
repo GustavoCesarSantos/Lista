@@ -1,14 +1,14 @@
 const Annotation = require('../requestsModel/AnnotationModel')
 
 class CreateAnnotationService {
-  constructor (createAnnotationRepository) {
-    this.createAnnotationRepository = createAnnotationRepository
+  constructor (annotationRepository) {
+    this.annotationRepository = annotationRepository
   }
 
   async execute (createAnnotationRequestDTO) {
     const annotation = new Annotation(createAnnotationRequestDTO)
     await annotation.isValid()
-    await this.createAnnotationRepository.create(annotation)
+    await this.annotationRepository.create(annotation)
   }
 }
 
