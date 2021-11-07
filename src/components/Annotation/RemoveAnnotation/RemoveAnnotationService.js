@@ -1,4 +1,4 @@
-const Annotation = require('../requestsModel/AnnotationModel')
+const Annotation = require('../entities/Annotation')
 const ErrorHandler = require('../../../helpers/ErrorHandler')
 
 class RemoveAnnotationService {
