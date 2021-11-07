@@ -1,25 +1,28 @@
+const { Annotations } = require('../database/models')
+const AnnotationRepositoryMySql = require('../components/Annotation/Repositories/AnnotationRepositoryMySql')
 const authenticationToken = require('../middlewares/authenticationToken')
-const AnnotationController = require('../components/Annotation/AnnotationController')
-
 const CreateAnnotationController = require('../components/Annotation/CreateAnnotation/CreateAnnotationController')
-const CreateAnnotationRepository = require('../components/Annotation/CreateAnnotation/CreateAnnotationRepository')
 const ListAnnotationController = require('../components/Annotation/ListAnnotation/ListAnnotationController')
-const ListAnnotationRepository = require('../components/Annotation/ListAnnotation/ListAnnotationRepository')
+const ListAnnotationsController = require('../components/Annotation/ListAnnotations/ListAnnotationsController')
+const ModifyAnnotationController = require('../components/Annotation/ModifyAnnotation/ModifyAnnotationController')
+const RemoveAnnotationController = require('../components/Annotation/RemoveAnnotation/RemoveAnnotationController')
 
-const createAnnotationRepository = new CreateAnnotationRepository()
-const createAnnotationController = new CreateAnnotationController(createAnnotationRepository)
-const listAnnotationRepository = new ListAnnotationRepository()
-const listAnnotationController = new ListAnnotationController(listAnnotationRepository)
+const annotationRepositoryMySql = new AnnotationRepositoryMySql(Annotations)
+const createAnnotationController = new CreateAnnotationController(annotationRepositoryMySql)
+const listAnnotationController = new ListAnnotationController(annotationRepositoryMySql)
+const listAnnotationsController = new ListAnnotationsController(annotationRepositoryMySql)
+const modifyAnnotationController = new ModifyAnnotationController(annotationRepositoryMySql)
+const removeAnnotationController = new RemoveAnnotationController(annotationRepositoryMySql)
 
 module.exports = (app) => {
   app.route('/annotations')
-    .get(authenticationToken.bearer, AnnotationController.getAnnotations)
+    .get(authenticationToken.bearer, listAnnotationsController.handler.bind(listAnnotationsController))
 
   app.route('/lists/:listId/annotations')
     .post(authenticationToken.bearer, createAnnotationController.handler.bind(createAnnotationController))
 
   app.route('/annotations/:annotationId')
     .get(authenticationToken.bearer, listAnnotationController.handler.bind(listAnnotationController))
-    .put(authenticationToken.bearer, AnnotationController.updateAnnotation)
-    .delete(authenticationToken.bearer, AnnotationController.deleteAnnotation)
+    .patch(authenticationToken.bearer, modifyAnnotationController.handler.bind(modifyAnnotationController))
+    .delete(authenticationToken.bearer, removeAnnotationController.handler.bind(removeAnnotationController))
 }
