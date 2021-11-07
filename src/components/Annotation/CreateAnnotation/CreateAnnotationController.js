@@ -20,7 +20,7 @@ class CreateAnnotationController {
       response.status(201).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500
-      logger.error(`http status code: ${err.httpCode} - ${err.message}`)
+      logger.error(`${err.httpCode} - ${err.message}`)
       response.status(err.httpCode).send(err.message)
     }
   }

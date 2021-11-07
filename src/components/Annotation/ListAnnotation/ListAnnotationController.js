@@ -15,10 +15,11 @@ class ListAnnotationController {
       })
       const listAnnotationService = new ListAnnotationService(this.listAnnotationRepository)
       const annotation = await listAnnotationService.execute(listAnnotationRequestDTO)
+      logger.info('Usuário conseguiu retornar a anotação.')
       response.status(200).json(annotation)
     } catch (error) {
       if (!error.httpCode) error.httpCode = 500
-      logger.error(`http status code: ${error.httpCode} - ${error.message}`)
+      logger.error(`${error.httpCode} - ${error.message}`)
       response.status(error.httpCode).send(error.message)
     }
   }
