@@ -1,15 +1,23 @@
-const { Model, DataTypes } = require('sequelize');
+'use strict'
+const { Model } = require('sequelize')
 
-class Lists extends Model {
-  static init(connection) {
-    super.init({
-      name: DataTypes.STRING,
-    }, { sequelize: connection })
-  }
-
-  static associate(model) {
-    this.hasMany(model.Annotations, { foreignKey: 'listId', as: 'Annotations'})
-  }
+module.exports = (sequelize, DataTypes) => {
+  class Lists extends Model {
+    static associate (models) {
+      Lists.hasMany(models.Annotations, { foreignKey: 'listId', as: 'Annotations' })
+      Lists.belongsTo(models.Users, { foreignKey: 'userId', as: 'Users' })
+    }
+  };
+  Lists.init({
+    name: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: true
+      }
+    }
+  }, {
+    sequelize,
+    modelName: 'Lists'
+  })
+  return Lists
 }
-
-module.exports = Lists;

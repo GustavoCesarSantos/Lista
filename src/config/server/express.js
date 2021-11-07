@@ -1,12 +1,25 @@
-const express = require('express');
+const express = require('express')
+const helmet = require('helmet')
+const swaggerUi = require('swagger-ui-express')
 
-const routesList = require('../../routes/List');
-const routesAnnotation = require('../../routes/Annotation');
+const routesUser = require('../../routes/User')
+const routesList = require('../../routes/List')
+const routesAnnotation = require('../../routes/Annotation')
+const swaggerFile = require('../doc/swagger_output.json')
 
-const app = express();
-app.use(express.json());
+const app = express()
+app.use(express.json())
 
-routesList(app);
-routesAnnotation(app);
+app.use(helmet())
 
-module.exports = app;
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
+// Import strategys
+require('../../strategys/verifyUser')
+require('../../strategys/verifyToken')
+
+routesUser(app)
+routesList(app)
+routesAnnotation(app)
+
+module.exports = app
