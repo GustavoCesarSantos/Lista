@@ -19,7 +19,7 @@ class Annotation {
     try {
       await schema.validateAsync(this)
     } catch (err) {
-      throw new ErrorHandler(err.message, 500)
+      throw new ErrorHandler(err.message, 400)
     }
   }
 
@@ -33,7 +33,7 @@ class Annotation {
       }
       return query
     } catch (err) {
-      throw new ErrorHandler(err.message, 500)
+      throw new ErrorHandler(err.message, 400)
     }
   }
 }
