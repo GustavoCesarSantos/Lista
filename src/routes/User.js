@@ -1,7 +1,7 @@
-const authenticationRefreshToken = require('../middlewares/authenticationRefreshToken')
+const AuthenticationRefreshToken = require('../middlewares/AuthenticationRefreshToken')
 const authenticationToken = require('../middlewares/authenticationToken')
 const authenticationUser = require('../middlewares/authenticationUser')
-const authenticationVerificationEmail = require('../middlewares/authenticationVerificationEmail')
+const AuthenticationVerificationEmail = require('../middlewares/AuthenticationVerificationEmail')
 const CreateUserController = require('../components/User/CreateUser/CreateUserController')
 const LoginController = require('../components/User/Login/LoginController')
 const LogoutController = require('../components/User/Logout/LogoutController')
@@ -14,6 +14,8 @@ const UserRepositoryMySql = require('../components/User/Repositories/UserReposit
 const VerifyEmailController = require('../components/User/VerifyEmail/VerifyEmailController')
 
 const userRepositoryMySql = new UserRepositoryMySql(Users)
+const authenticationRefreshToken = new AuthenticationRefreshToken(userRepositoryMySql)
+const authenticationVerificationEmail = new AuthenticationVerificationEmail(userRepositoryMySql)
 const createUserController = new CreateUserController(userRepositoryMySql)
 const loginController = new LoginController(userRepositoryMySql)
 const logoutController = new LogoutController(userRepositoryMySql)
@@ -28,13 +30,13 @@ module.exports = (app) => {
     .post(authenticationUser.local, loginController.handler.bind(loginController))
 
   app.route('/logout')
-    .post([authenticationRefreshToken.refresh, authenticationToken.bearer], logoutController.handler.bind(logoutController))
+    .post([authenticationRefreshToken.refresh.bind(authenticationRefreshToken), authenticationToken.bearer], logoutController.handler.bind(logoutController))
 
   app.route('/users/:userId/tokens/refresh')
-    .post(authenticationRefreshToken.refresh, loginController.handler.bind(loginController))
+    .post(authenticationRefreshToken.refresh.bind(authenticationRefreshToken), loginController.handler.bind(loginController))
 
   app.route('/users/:token/emails/verify')
-    .get(authenticationVerificationEmail.verify, verifyEmailController.handler.bind(verifyEmailController))
+    .get(authenticationVerificationEmail.verify.bind(authenticationVerificationEmail), verifyEmailController.handler.bind(verifyEmailController))
 
   app.route('/users')
     .get(authenticationToken.bearer, returnUsersController.handler.bind(returnUsersController))
