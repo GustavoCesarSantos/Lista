@@ -5,11 +5,11 @@ const LoginService = require('./LoginService')
 class Login {
   async handler (request, response) {
     try {
-      logger.info(`Usuário: ${request.user} está tentando realizar login na aplicação.`)
-      const loginRequestDTO = new LoginRequestDTO({ ...request.user })
+      logger.info(`Usuário: ${request.user.id} está tentando realizar login na aplicação.`)
+      const loginRequestDTO = new LoginRequestDTO(request.user)
       const loginService = new LoginService()
       const { accessToken, refreshToken } = await loginService.execute(loginRequestDTO)
-      logger.info(`Usuário: ${request.user} conseguiu realizar login na aplicação.`)
+      logger.info(`Usuário: ${request.user.id} conseguiu realizar login na aplicação.`)
       response.set('Authorization', accessToken)
       response.status(200).json({ refreshToken })
     } catch (err) {
