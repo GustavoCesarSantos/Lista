@@ -1,18 +1,22 @@
 const tokenHelper = require('../helpers/token')
-const UserDao = require('../components/User/UserDao')
 
-module.exports = {
-  refresh: async (req, res, next) => {
+class AuthenticationRefreshToken {
+  constructor (userRepository) {
+    this.userRepository = userRepository
+  }
+
+  async refresh (request, response, next) {
     try {
-      const { refreshToken } = req.body
+      const { refreshToken } = request.body
       const userId = await tokenHelper.verifyOpaqueToken(refreshToken)
       await tokenHelper.invalidateOpaqueToken(refreshToken)
-      req.user = await UserDao.getUser(userId)
+      request.user = await this.userRepository.findOne(userId)
       return next()
     } catch (err) {
-      if (err.name === 'InvalidArgumentError') res.status(401).send(err.message)
-
-      return res.status(err.httpCode).send(err.message)
+      if (err.name === 'InvalidArgumentError') response.status(401).send(err.message)
+      return response.status(err.httpCode).send(err.message)
     }
   }
 }
+
+module.exports = AuthenticationRefreshToken
