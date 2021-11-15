@@ -1,4 +1,5 @@
 const ErrorHandler = require('../../../helpers/ErrorHandler')
+const ReturnUserResponseDTO = require('./ReturnUserResponseDTO')
 const User = require('../Entities/User')
 
 class ReturnUserService {
@@ -11,7 +12,7 @@ class ReturnUserService {
     const validUser = await user.returnsAValidQuery()
     const userDb = await this.userRepository.findOne(validUser.id)
     if (!userDb) throw new ErrorHandler('Usuário não encontrado', 404)
-    return userDb
+    return new ReturnUserResponseDTO(userDb)
   }
 }
 
