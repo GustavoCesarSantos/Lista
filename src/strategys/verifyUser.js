@@ -3,10 +3,13 @@ const passport = require('passport')
 
 const bcryptHelper = require('../helpers/bcrypt')
 const ErrorHandler = require('../helpers/ErrorHandler')
-const UserDao = require('../components/User/UserDao')
+const { Users } = require('../database/models')
+const UserRepositoryMySql = require('../components/User/Repositories/UserRepositoryMySql')
+
+const userRepositoryMySql = new UserRepositoryMySql(Users)
 
 const returnUserFilteredByEmail = async (email) => {
-  const user = await UserDao.getUsers({ email })
+  const user = await userRepositoryMySql.findMany({ email })
   if (user.length === 0) throw new ErrorHandler('Usuário não existe.', 404)
   return user[0]
 }
