@@ -1,6 +1,6 @@
 class LogoutRequestDTO {
-  constructor (data) {
-    this.token = data.token
+  constructor (token) {
+    this.token = token
   }
 }
 

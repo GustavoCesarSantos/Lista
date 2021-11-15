@@ -10,7 +10,7 @@ class VerifyEmailController {
   async handler (request, response) {
     try {
       logger.info('Usuário tentando validar e-mail.')
-      const verifyEmailRequestDTO = new VerifyEmailRequestDTO({ ...request.user })
+      const verifyEmailRequestDTO = new VerifyEmailRequestDTO(request.user)
       const verifyEmailService = new VerifyEmailService(this.userRepository)
       await verifyEmailService.execute(verifyEmailRequestDTO)
       logger.info('Usuário validou e-mail com sucesso.')

@@ -6,7 +6,7 @@ class Logout {
   async handler (request, response) {
     try {
       logger.info('Usuário está tentando realizar logout na aplicação.')
-      const logoutRequestDTO = new LogoutRequestDTO({ ...request.token })
+      const logoutRequestDTO = new LogoutRequestDTO(request.token)
       const logoutService = new LogoutService()
       await logoutService.execute(logoutRequestDTO)
       logger.info('Usuário conseguiu realizar logout na aplicação.')
