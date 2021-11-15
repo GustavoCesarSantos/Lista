@@ -9,13 +9,13 @@ class RemoveAnnotationController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando excluir uma anotação.')
+      logger.info(`Usuário:${request.user.id} está tentando excluir a anotação:${request.params.annotationId}.`)
       const removeAnnotationRequestDTO = new RemoveAnnotationRequestDTO({
         ...request.params
       })
       const removeAnnotationService = new RemoveAnnotationService(this.removeAnnotationRepository)
       await removeAnnotationService.execute(removeAnnotationRequestDTO)
-      logger.info('Anotação excluída com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu excluir a anotação:${request.params.annotationId}.`)
       response.status(201).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

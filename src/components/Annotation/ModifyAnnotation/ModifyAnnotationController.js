@@ -9,14 +9,14 @@ class ModifyAnnotationController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando modificar uma anotação.')
+      logger.info(`Usuário:${request.user.id} está tentando modificar a anotação:${request.params.annotationId}.`)
       const modifyAnnotationRequestDTO = new ModifyAnnotationRequestDTO({
         ...request.params,
         ...request.body
       })
       const modifyAnnotationService = new ModifyAnnotationService(this.modifyAnnotationRepository)
       await modifyAnnotationService.execute(modifyAnnotationRequestDTO)
-      logger.info('Anotação modificada com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu modificar a anotação:${request.params.annotationId}.`)
       response.status(201).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500
