@@ -5,4 +5,4 @@ class CreateUserRequestDTO {
   }
 }
 
-module.export = CreateUserRequestDTO
+module.exports = CreateUserRequestDTO
