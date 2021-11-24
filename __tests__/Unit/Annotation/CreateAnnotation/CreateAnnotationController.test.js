@@ -1,5 +1,5 @@
-const logger = require('../../../../src/helpers/logger')
 const CreateAnnotationController = require('../../../../src/components/Annotation/CreateAnnotation/CreateAnnotationController')
+const logger = require('../../../../src/helpers/logger')
 
 describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
       .mockImplementation()
   })
 
-  test('Should catch a error with default http status code', async () => {
+  test('Should catch an error with default http status code', async () => {
     const request = {
       params: { listId: 1 },
       body: { contents: 'text' }
@@ -32,7 +32,7 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
     expect(spy).toHaveBeenCalledWith(500)
   })
 
-  test('Should catch a error with custom http status code', async () => {
+  test('Should catch an error with custom http status code', async () => {
     const request = {
       params: { listId: 1 },
       body: { contents: 'text' }
