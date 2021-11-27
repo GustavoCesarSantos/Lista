@@ -1,7 +1,5 @@
 // const Annotation = require('../../../../src/components/Annotation/Entities/Annotation')
 
-const { TestWatcher } = require('@jest/core')
-
 // describe('ENTITY ANNOTATION UNIT TEST', () => {
 //   test('Should not create a annotation object when passed a integer value in contents property', () => {
 //     const data = {
