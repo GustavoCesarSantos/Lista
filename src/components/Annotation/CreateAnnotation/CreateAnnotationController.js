@@ -1,10 +1,9 @@
 const CreateAnnotationRequestDTO = require('./CreateAnnotationRequestDTO')
-const CreateAnnotationService = require('./CreateAnnotationService')
 const logger = require('../../../helpers/logger')
 
 class CreateAnnotationController {
-  constructor (createAnnotationRepository) {
-    this.createAnnotationRepository = createAnnotationRepository
+  constructor (createAnnotationService) {
+    this.createAnnotationService = createAnnotationService
   }
 
   async handler (request, response) {
@@ -14,14 +13,15 @@ class CreateAnnotationController {
         ...request.params,
         ...request.body
       })
-      const createAnnotationService = new CreateAnnotationService(this.createAnnotationRepository)
-      await createAnnotationService.execute(createAnnotationRequestDTO)
+      await this.createAnnotationService.execute(createAnnotationRequestDTO)
       logger.info('Anotação cadastrada com sucesso.')
-      response.status(201).end()
+      response.status(201)
+      response.end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500
       logger.error(`${err.httpCode} - ${err.message}`)
-      response.status(err.httpCode).send(err.message)
+      response.status(err.httpCode)
+      response.send(err.message)
     }
   }
 }
