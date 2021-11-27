@@ -1,6 +1,6 @@
 const IAnnotationRepository = require('./IAnnotationRepository')
 
-class AnnotationRepositoryMySql extends IAnnotationRepository {
+class AnnotationRepositorySqlite extends IAnnotationRepository {
   constructor (annotationModel) {
     super()
     this.annotationModel = annotationModel
@@ -27,4 +27,4 @@ class AnnotationRepositoryMySql extends IAnnotationRepository {
   }
 }
 
-module.exports = AnnotationRepositoryMySql
+module.exports = AnnotationRepositorySqlite
