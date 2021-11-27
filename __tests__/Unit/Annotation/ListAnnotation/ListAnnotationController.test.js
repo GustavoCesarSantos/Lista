@@ -77,7 +77,7 @@ describe('LIST ANNOTATION CONTROLLER UNIT TEST', () => {
     expect(spy).toHaveBeenCalledWith(200)
   })
 
-  test('Should pass with http status code 200', async () => {
+  test('Should return a valid content', async () => {
     const request = {
       params: { annotationId: 1 }
     }
