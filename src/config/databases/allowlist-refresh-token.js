@@ -2,6 +2,11 @@ const redis = require('redis')
 
 const genericAuthenticationListHelper = require('../../helpers/genericAuthenticationList')
 
-const allowlistRefreshToken = redis.createClient({ prefix: 'allowlist-refresh-token:' })
+const uri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URI_CACHE_PROD : process.env.DATABASE_URI_CACHE_DEV
+
+const allowlistRefreshToken = redis.createClient({
+  url: uri,
+  prefix: 'allowlist-refresh-token:'
+})
 
 module.exports = genericAuthenticationListHelper(allowlistRefreshToken)
