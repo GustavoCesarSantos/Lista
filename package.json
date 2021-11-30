@@ -9,8 +9,8 @@
     "test": "set NODE_ENV=test&&jest --no-cache --runInBand",
     "test:cov": "set NODE_ENV=test&&jest --no-cache --runInBand --coverage",
     "posttest": "set NODE_ENV=test&&sequelize db:migrate:undo:all",
-    "start": "set NODE_ENV=production&&node server.js",
-    "dev": "set NODE_ENV=development&&nodemon server.js --ignore __tests__",
+    "start": "set NODE_ENV=production&&sequelize db:migrate&&node server.js",
+    "dev": "set NODE_ENV=development&&sequelize db:migrate&&nodemon server.js --ignore __tests__",
     "swagger-autogen": "node ./src/config/doc/swagger.js"
   },
   "author": "",
