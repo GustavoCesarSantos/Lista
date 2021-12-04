@@ -1,4 +1,4 @@
-const Annotation = require("../Entities/Annotation");
+const Annotation = require("../entities/Annotation");
 const ErrorHandler = require("../../../helpers/ErrorHandler");
 const ListAnnotationResponseDTO = require("./ListAnnotationResponseDTO");
 

@@ -1,5 +1,5 @@
 const ErrorHandler = require("../../../helpers/ErrorHandler");
-const List = require("../Entities/List");
+const List = require("../entities/List");
 const ReturnListResponseDTO = require("./ReturnListResponseDTO");
 
 class ReturnListService {

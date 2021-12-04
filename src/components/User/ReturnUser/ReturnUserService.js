@@ -1,6 +1,6 @@
 const ErrorHandler = require('../../../helpers/ErrorHandler')
 const ReturnUserResponseDTO = require('./ReturnUserResponseDTO')
-const User = require('../Entities/User')
+const User = require('../entities/User')
 
 class ReturnUserService {
   constructor (userRepository) {

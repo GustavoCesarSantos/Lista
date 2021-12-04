@@ -1,15 +1,15 @@
-const Annotation = require("../Entities/Annotation");
+const Annotation = require('../entities/Annotation')
 
 class CreateAnnotationService {
-  constructor(annotationRepository) {
-    this.annotationRepository = annotationRepository;
+  constructor (annotationRepository) {
+    this.annotationRepository = annotationRepository
   }
 
-  async execute(createAnnotationRequestDTO) {
-    const annotation = new Annotation(createAnnotationRequestDTO);
-    await annotation.isValid();
-    await this.annotationRepository.create(annotation);
+  async execute (createAnnotationRequestDTO) {
+    const annotation = new Annotation(createAnnotationRequestDTO)
+    await annotation.isValid()
+    await this.annotationRepository.create(annotation)
   }
 }
 
-module.exports = CreateAnnotationService;
+module.exports = CreateAnnotationService

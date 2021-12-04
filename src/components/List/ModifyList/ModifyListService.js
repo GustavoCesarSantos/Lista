@@ -1,4 +1,4 @@
-const List = require("../Entities/List");
+const List = require("../entities/List");
 const ErrorHandler = require("../../../helpers/ErrorHandler");
 
 class ModifyListService {
