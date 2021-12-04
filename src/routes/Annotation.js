@@ -1,5 +1,5 @@
 const { Annotations } = require('../database/models')
-const AnnotationRepositoryMySql = require('../components/Annotation/repositories/AnnotationRepositoryMySql')
+const AnnotationRepositoryMySql = require('../components/Annotation/Repositories/AnnotationRepositoryMySql')
 const authenticationToken = require('../middlewares/authenticationToken')
 const CreateAnnotationController = require('../components/Annotation/CreateAnnotation/CreateAnnotationController')
 const ListAnnotationController = require('../components/Annotation/ListAnnotation/ListAnnotationController')
