@@ -8,8 +8,7 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
 module.exports = winston.createLogger({
   level: 'silly',
   transports: [
-    new (winston.transports.Console)(),
-    new (winston.transports.File)({ filename: 'lista-api.log' })
+    new (winston.transports.Console)()
   ],
   format: combine(
     label({ label: 'lista-api' }),
