@@ -1,7 +1,7 @@
 const bcryptHelper = require('../../../helpers/bcrypt')
 const ErrorHandler = require('../../../helpers/ErrorHandler')
 const tokenHelper = require('../../../helpers/token')
-const User = require('../entities/User')
+const User = require('../Entities/User')
 const { VerificationEmail } = require('../../../helpers/email')
 
 class CreateUserService {
