@@ -14,7 +14,7 @@ class CreateAnnotationController {
         ...request.body
       })
       await this.createAnnotationService.execute(createAnnotationRequestDTO)
-      logger.info('Anotação cadastrada com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu cadastrar a anotação.`)
       response.status(201)
       response.end()
     } catch (err) {

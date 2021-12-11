@@ -13,7 +13,7 @@ class RemoveAnnotationController {
         ...request.params
       })
       await this.removeAnnotationService.execute(removeAnnotationRequestDTO)
-      logger.info('Anotação excluída com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu excluir a anotação:${request.params.annotationId}.`)
       response.status(201)
       response.end()
     } catch (err) {

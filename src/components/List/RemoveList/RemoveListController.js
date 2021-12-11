@@ -9,13 +9,13 @@ class RemoveListController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando excluir uma lista.')
+      logger.info(`Usuário:${request.user.id} está tentando excluir uma lista:${request.params.listId}.`)
       const removeListRequestDTO = new RemoveListRequestDTO({
         ...request.params
       })
       const removeListService = new RemoveListService(this.removeListRepository)
       await removeListService.execute(removeListRequestDTO)
-      logger.info('Lista excluída com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu excluir a lista:${request.params.listId}.`)
       response.status(201).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

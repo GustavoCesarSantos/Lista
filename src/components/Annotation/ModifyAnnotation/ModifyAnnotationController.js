@@ -14,7 +14,7 @@ class ModifyAnnotationController {
         ...request.body
       })
       await this.modifyAnnotationService.execute(modifyAnnotationRequestDTO)
-      logger.info('Anotação modificada com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu modificar a anotação:${request.params.annotationId}.`)
       response.status(201)
       response.end()
     } catch (err) {

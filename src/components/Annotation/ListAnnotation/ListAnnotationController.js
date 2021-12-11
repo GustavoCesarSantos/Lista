@@ -13,7 +13,7 @@ class ListAnnotationController {
         ...request.params
       })
       const annotation = await this.listAnnotationService.execute(listAnnotationRequestDTO)
-      logger.info('Usuário conseguiu retornar a anotação.')
+      logger.info(`Usuário:${request.user.id} conseguiu retornar a anotação:${request.params.annotationId}.`)
       response.status(200)
       response.json(annotation)
     } catch (error) {
