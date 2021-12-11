@@ -3,7 +3,7 @@ const passport = require('passport')
 
 const tokenHelper = require('../helpers/token')
 const { Users } = require('../database/models')
-const UserRepositoryMySql = require('../components/User/Repositories/UserRepositoryMySql')
+const UserRepositoryMySql = require('../components/User/repositories/UserRepositoryMySql')
 
 const userRepositoryMySql = new UserRepositoryMySql(Users)
 
