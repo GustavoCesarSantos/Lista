@@ -1,5 +1,5 @@
 const ErrorHandler = require('../../../helpers/ErrorHandler')
-const User = require('../Entities/User')
+const User = require('../entities/User')
 
 class RemoveUserService {
   constructor (userRepository) {

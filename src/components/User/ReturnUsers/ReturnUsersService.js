@@ -1,5 +1,5 @@
 const ReturnUsersResponseDTO = require('./ReturnUsersResponseDTO')
-const User = require('../Entities/User')
+const User = require('../entities/User')
 
 class ReturnUsersService {
   constructor (userRepository) {

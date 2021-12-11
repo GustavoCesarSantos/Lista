@@ -1,18 +1,18 @@
 const authenticationToken = require('../middlewares/authenticationToken')
 const CreateListController = require('../components/List/CreateList/CreateListController')
-const { Lists } = require('../database/models')
-const ListRepositoryMySql = require('../components/List/repositories/ListRepositoryMySql')
+const ListServiceWithMySqlFactory = require('../components/List/factories/ListServiceWithMySqlFactory')
 const ModifyListController = require('../components/List/ModifyList/ModifyListController')
 const RemoveListController = require('../components/List/RemoveList/RemoveListController')
 const ReturnListController = require('../components/List/ReturnList/ReturnListController')
 const ReturnListsController = require('../components/List/ReturnLists/ReturnListsController')
 
-const listRepositoryMySql = new ListRepositoryMySql(Lists)
-const createListController = new CreateListController(listRepositoryMySql)
-const listListController = new ReturnListController(listRepositoryMySql)
-const listListsController = new ReturnListsController(listRepositoryMySql)
-const modifyListController = new ModifyListController(listRepositoryMySql)
-const removeListController = new RemoveListController(listRepositoryMySql)
+const listServiceWithMySqlFactory = new ListServiceWithMySqlFactory()
+
+const createListController = new CreateListController(listServiceWithMySqlFactory.createListService())
+const listListController = new ReturnListController(listServiceWithMySqlFactory.listListService())
+const listListsController = new ReturnListsController(listServiceWithMySqlFactory.listListsService())
+const modifyListController = new ModifyListController(listServiceWithMySqlFactory.modifyListService())
+const removeListController = new RemoveListController(listServiceWithMySqlFactory.removeListService())
 
 module.exports = (app) => {
   app.route('/lists')

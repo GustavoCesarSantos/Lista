@@ -4,7 +4,7 @@ const passport = require('passport')
 const bcryptHelper = require('../helpers/bcrypt')
 const ErrorHandler = require('../helpers/ErrorHandler')
 const { Users } = require('../database/models')
-const UserRepositoryMySql = require('../components/User/Repositories/UserRepositoryMySql')
+const UserRepositoryMySql = require('../components/User/repositories/UserRepositoryMySql')
 
 const userRepositoryMySql = new UserRepositoryMySql(Users)
 

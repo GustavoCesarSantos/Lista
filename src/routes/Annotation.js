@@ -1,18 +1,18 @@
-const { Annotations } = require('../database/models')
-const AnnotationRepositoryMySql = require('../components/Annotation/repositories/AnnotationRepositoryMySql')
 const authenticationToken = require('../middlewares/authenticationToken')
+const AnnotationServiceWithMySqlFactory = require('../components/Annotation/factories/AnnotationServiceWithMySqlFactory')
 const CreateAnnotationController = require('../components/Annotation/CreateAnnotation/CreateAnnotationController')
 const ListAnnotationController = require('../components/Annotation/ListAnnotation/ListAnnotationController')
 const ListAnnotationsController = require('../components/Annotation/ListAnnotations/ListAnnotationsController')
 const ModifyAnnotationController = require('../components/Annotation/ModifyAnnotation/ModifyAnnotationController')
 const RemoveAnnotationController = require('../components/Annotation/RemoveAnnotation/RemoveAnnotationController')
 
-const annotationRepositoryMySql = new AnnotationRepositoryMySql(Annotations)
-const createAnnotationController = new CreateAnnotationController(annotationRepositoryMySql)
-const listAnnotationController = new ListAnnotationController(annotationRepositoryMySql)
-const listAnnotationsController = new ListAnnotationsController(annotationRepositoryMySql)
-const modifyAnnotationController = new ModifyAnnotationController(annotationRepositoryMySql)
-const removeAnnotationController = new RemoveAnnotationController(annotationRepositoryMySql)
+const annotationServiceWithMySqlFactory = new AnnotationServiceWithMySqlFactory()
+
+const createAnnotationController = new CreateAnnotationController(annotationServiceWithMySqlFactory.createAnnotationService())
+const listAnnotationController = new ListAnnotationController(annotationServiceWithMySqlFactory.listAnnotationService())
+const listAnnotationsController = new ListAnnotationsController(annotationServiceWithMySqlFactory.listAnnotationsService())
+const modifyAnnotationController = new ModifyAnnotationController(annotationServiceWithMySqlFactory.modifyAnnotationService())
+const removeAnnotationController = new RemoveAnnotationController(annotationServiceWithMySqlFactory.removeAnnotationService())
 
 module.exports = (app) => {
   app.route('/annotations')
