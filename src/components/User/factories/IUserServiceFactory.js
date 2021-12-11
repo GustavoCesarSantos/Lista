@@ -1,4 +1,8 @@
 class IUserServiceFactory {
+  authenticationRefreshToken () { throw new Error('Método não implementado.') }
+
+  authenticationVerificationEmail () { throw new Error('Método não implementado.') }
+
   loginService () { throw new Error('Método não implementado.') }
 
   logoutService () { throw new Error('Método não implementado.') }
