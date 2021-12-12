@@ -9,14 +9,14 @@ class ModifyListController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando modificar uma lista.')
+      logger.info(`Usuário:${request.user.id} está tentando modificar a lista:${request.params.listId}.`)
       const modifyListRequestDTO = new ModifyListRequestDTO({
         ...request.params,
         ...request.body
       })
       const modifyListService = new ModifyListService(this.modifyListRepository)
       await modifyListService.execute(modifyListRequestDTO)
-      logger.info('Lista modificada com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu modificar a lista:${request.params.listId}.`)
       response.status(201).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

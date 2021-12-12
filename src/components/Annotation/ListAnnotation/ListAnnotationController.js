@@ -8,12 +8,12 @@ class ListAnnotationController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando retornar a anotação.')
+      logger.info(`Usuário:${request.user.id} está tentando retornar a anotação:${request.params.annotationId}.`)
       const listAnnotationRequestDTO = new ListAnnotationRequestDTO({
         ...request.params
       })
       const annotation = await this.listAnnotationService.execute(listAnnotationRequestDTO)
-      logger.info('Usuário conseguiu retornar a anotação.')
+      logger.info(`Usuário:${request.user.id} conseguiu retornar a anotação:${request.params.annotationId}.`)
       response.status(200)
       response.json(annotation)
     } catch (error) {

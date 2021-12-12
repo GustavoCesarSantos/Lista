@@ -9,11 +9,11 @@ class ReturnUsersController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando retornar todos os usuários.')
+      logger.info(`Usuário:${request.user.id} está tentando retornar todos os usuários.`)
       const returnUsersRequestDTO = new ReturnUsersRequestDTO({ ...request.query })
       const returnUsersService = new ReturnUserService(this.userRepository)
       const users = await returnUsersService.execute(returnUsersRequestDTO)
-      logger.info('Usuário conseguiu retornar todos os usuários.')
+      logger.info(`Usuário:${request.user.id} conseguiu retornar todos os usuários.`)
       response.status(200).json(users)
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

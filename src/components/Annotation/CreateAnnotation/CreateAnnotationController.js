@@ -8,13 +8,13 @@ class CreateAnnotationController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando cadastrar uma anotação.')
+      logger.info(`Usuário:${request.user.id} está tentando cadastrar uma anotação.`)
       const createAnnotationRequestDTO = new CreateAnnotationRequestDTO({
         ...request.params,
         ...request.body
       })
       await this.createAnnotationService.execute(createAnnotationRequestDTO)
-      logger.info('Anotação cadastrada com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu cadastrar a anotação.`)
       response.status(201)
       response.end()
     } catch (err) {

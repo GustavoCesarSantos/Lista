@@ -9,14 +9,14 @@ class ModifyUserController {
 
   async handler (request, response) {
     try {
-      logger.info('Tentando modificar um usuário.')
+      logger.info(`Usuário:${request.user.id} está tentando modificar o usuário:${request.params.userId}.`)
       const modifyUserRequestDTO = new ModifyUserRequestDTO({
         ...request.params,
         ...request.body
       })
       const modifyUserService = new ModifyUserService(this.userRepository)
       await modifyUserService.execute(modifyUserRequestDTO)
-      logger.info('Usuário modificado com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu modificar o usuário:${request.params.userId}.`)
       response.status(204).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

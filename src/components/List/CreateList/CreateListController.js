@@ -9,14 +9,14 @@ class CreateListController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando cadastrar uma lista.')
+      logger.info(`Usuário:${request.user.id} está tentando cadastrar uma lista.`)
       const createListRequestDTO = new CreateListRequestDTO({
         ...request.params,
         ...request.body
       })
       const createListService = new CreateListService(this.createListRepository)
       await createListService.execute(createListRequestDTO)
-      logger.info('Lista cadastrada com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu cadastrar a lista.`)
       response.status(201).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

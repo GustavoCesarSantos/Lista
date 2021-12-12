@@ -9,13 +9,13 @@ class ReturnListController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário está tentando retornar a lista.')
+      logger.info(`Usuário:${request.user.id} está tentando retornar a lista:${request.params.listId}.`)
       const returnListRequestDTO = new ReturnListRequestDTO({
         ...request.params
       })
       const returnListService = new ReturnListService(this.returnListRepository)
       const list = await returnListService.execute(returnListRequestDTO)
-      logger.info('Usuário conseguiu retornar a lista.')
+      logger.info(`Usuário:${request.user.id} conseguiu retornar a lista:${request.params.listId}.`)
       response.status(200).json(list)
     } catch (error) {
       if (!error.httpCode) error.httpCode = 500

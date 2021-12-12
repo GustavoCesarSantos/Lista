@@ -13,7 +13,7 @@ class CreateUserController {
       const createUserRequestDTO = new CreateUserRequestDTO({ ...request.body })
       const createUserService = new CreateUserService(this.userRepository)
       await createUserService.execute(createUserRequestDTO)
-      logger.info('Usuário criado com sucesso.')
+      logger.info(`Usuário:${request.body.email} criado com sucesso.`)
       response.status(201).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

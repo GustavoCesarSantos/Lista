@@ -9,11 +9,11 @@ class VerifyEmailController {
 
   async handler (request, response) {
     try {
-      logger.info('Usuário tentando validar e-mail.')
+      logger.info(`Usuário:${request.user.id} está tentando validar seu e-mail.`)
       const verifyEmailRequestDTO = new VerifyEmailRequestDTO(request.user)
       const verifyEmailService = new VerifyEmailService(this.userRepository)
       await verifyEmailService.execute(verifyEmailRequestDTO)
-      logger.info('Usuário validou e-mail com sucesso.')
+      logger.info(`Usuário:${request.user.id} conseguiu validar seu e-mail.`)
       response.status(204).end()
     } catch (err) {
       if (!err.httpCode) err.httpCode = 500

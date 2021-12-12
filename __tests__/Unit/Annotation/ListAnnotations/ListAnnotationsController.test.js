@@ -12,6 +12,7 @@ describe('LIST ANNOTATIONS CONTROLLER UNIT TEST', () => {
 
   test('Should catch an error with default http status code', async () => {
     const request = {
+      user: { id: 1 },
       query: { }
     }
     const response = {
@@ -33,6 +34,7 @@ describe('LIST ANNOTATIONS CONTROLLER UNIT TEST', () => {
 
   test('Should catch an error with custom http status code', async () => {
     const request = {
+      user: { id: 1 },
       query: {}
     }
     const response = {
@@ -58,6 +60,7 @@ describe('LIST ANNOTATIONS CONTROLLER UNIT TEST', () => {
 
   test('Should pass with http status code 200', async () => {
     const request = {
+      user: { id: 1 },
       query: { }
     }
     const response = {
@@ -79,6 +82,7 @@ describe('LIST ANNOTATIONS CONTROLLER UNIT TEST', () => {
 
   test('Should return a valid content', async () => {
     const request = {
+      user: { id: 1 },
       query: { }
     }
     const response = {
