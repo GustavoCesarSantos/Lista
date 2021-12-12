@@ -4,10 +4,18 @@
   "description": "Projeto para estudo de back-end",
   "repository": "https://github.com/GustavoCesarSantos/Lista",
   "main": "server.js",
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "pretest": "set NODE_ENV=test&&sequelize db:migrate",
+    "test": "set NODE_ENV=test&&jest --no-cache --runInBand",
+    "test:cov": "set NODE_ENV=test&&jest --no-cache --runInBand --coverage",
+    "posttest": "set NODE_ENV=test&&sequelize db:migrate:undo:all",
+    "start": "sequelize db:migrate&&node server.js",
+    "dev": "set NODE_ENV=development&&sequelize db:migrate&&nodemon server.js --ignore __tests__",
+    "swagger-autogen": "node ./src/config/doc/swagger.js",
+    "prepare": "husky install",
+    "lint-staged": "lint-staged"
   },
   "lint-staged": {
     "*.js": [
@@ -16,17 +24,6 @@
       "git add"
     ]
   },
-  "scripts": {
-    "pretest": "set NODE_ENV=test&&sequelize db:migrate",
-    "test": "set NODE_ENV=test&&jest --no-cache --runInBand",
-    "test:cov": "set NODE_ENV=test&&jest --no-cache --runInBand --coverage",
-    "posttest": "set NODE_ENV=test&&sequelize db:migrate:undo:all",
-    "start": "sequelize db:migrate&&node server.js",
-    "dev": "set NODE_ENV=development&&sequelize db:migrate&&nodemon server.js --ignore __tests__",
-    "swagger-autogen": "node ./src/config/doc/swagger.js"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
