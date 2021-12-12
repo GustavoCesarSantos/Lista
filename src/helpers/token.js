@@ -3,8 +3,8 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 
 const allowlistRefreshToken = require('../config/databases/allowlist-refresh-token');
-const blocklistAccessTokenHelper = require('../helpers/blocklist-access-token');
-const ErrorHandler = require('../helpers/ErrorHandler');
+const blocklistAccessTokenHelper = require('./blocklist-access-token');
+const ErrorHandler = require('./ErrorHandler');
 
 module.exports = {
     createToken(user) {
@@ -23,8 +23,7 @@ module.exports = {
             token,
         );
 
-        if (exists)
-            throw new jwt.JsonWebTokenError('Token invalido por logout.');
+        if (exists) throw new jwt.JsonWebTokenError('Token invalido por logout.');
 
         const { id } = jwt.verify(token, `${process.env.KEY_JWT}`);
         return id;

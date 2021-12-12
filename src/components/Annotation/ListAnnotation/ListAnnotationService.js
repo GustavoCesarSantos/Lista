@@ -13,8 +13,7 @@ class ListAnnotationService {
         const annotationDb = await this.annotationRepository.findOne(
             annotation.id,
         );
-        if (!annotationDb)
-            throw new ErrorHandler('Anotação não encontrada', 404);
+        if (!annotationDb) throw new ErrorHandler('Anotação não encontrada', 404);
         return new ListAnnotationResponseDTO(annotationDb);
     }
 }

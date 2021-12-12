@@ -13,8 +13,7 @@ class AuthenticationRefreshToken {
             request.user = await this.userRepository.findOne(userId);
             return next();
         } catch (err) {
-            if (err.name === 'InvalidArgumentError')
-                response.status(401).send(err.message);
+            if (err.name === 'InvalidArgumentError') response.status(401).send(err.message);
             return response.status(err.httpCode).send(err.message);
         }
     }

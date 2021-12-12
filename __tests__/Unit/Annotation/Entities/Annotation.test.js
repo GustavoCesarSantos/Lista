@@ -9,8 +9,7 @@ describe('ENTITY ANNOTATION UNIT TEST', () => {
         const annotation = new Annotation(data);
         annotation
             .isValid()
-            .catch(error =>
-                expect(error.message).toBe('"contents" must be a string'),
+            .catch(error => expect(error.message).toBe('"contents" must be a string'),
             );
     });
 

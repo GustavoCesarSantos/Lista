@@ -31,8 +31,7 @@ class User {
 
             const query = {};
             for (const prop in this) {
-                if (this[prop] !== undefined && this[prop] !== false)
-                    query[prop] = this[prop];
+                if (this[prop] !== undefined && this[prop] !== false) query[prop] = this[prop];
             }
             return query;
         } catch (err) {

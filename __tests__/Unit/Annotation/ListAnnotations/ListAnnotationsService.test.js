@@ -3,11 +3,9 @@ const ListAnnotationsService = require('../../../../src/components/Annotation/Li
 describe('LIST ANNOTATIONS SERVICE UNIT TEST', () => {
     test('Should return a valid annotations with out throw an erro', async () => {
         const annotation = {};
-        const AnnotationRepositoryFake = jest.fn().mockImplementation(() => {
-            return {
-                async findMany(data) {},
-            };
-        });
+        const AnnotationRepositoryFake = jest.fn().mockImplementation(() => ({
+            async findMany(data) {},
+        }));
         const annotationRepositoryFake = new AnnotationRepositoryFake();
         const listAnnotationsService = new ListAnnotationsService(
             annotationRepositoryFake,

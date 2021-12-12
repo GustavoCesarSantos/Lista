@@ -14,13 +14,13 @@ class AuthenticationVerificationEmail {
             request.user = user;
             return next();
         } catch (err) {
-            if (err && err.name === 'JsonWebTokenError')
-                return response.status(401).send(err.message);
+            if (err && err.name === 'JsonWebTokenError') return response.status(401).send(err.message);
 
-            if (err && err.name === 'TokenExpiredError')
+            if (err && err.name === 'TokenExpiredError') {
                 return response
                     .status(401)
                     .json({ error: err.message, expiradoEm: err.expiredAt });
+            }
 
             return response.status(500).send(err.message);
         }

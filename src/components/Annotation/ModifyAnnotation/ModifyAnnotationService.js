@@ -12,8 +12,7 @@ class ModifyAnnotationService {
         const hasAnnotation = await this.annotationRepository.findOne(
             annotation.id,
         );
-        if (!hasAnnotation)
-            throw new ErrorHandler('Anotação não encontrada', 404);
+        if (!hasAnnotation) throw new ErrorHandler('Anotação não encontrada', 404);
         await this.annotationRepository.modify(annotation);
     }
 }

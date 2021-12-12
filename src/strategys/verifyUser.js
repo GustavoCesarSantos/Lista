@@ -19,8 +19,7 @@ const verifyIfIsAValidPassword = async (password, encryptedPassword) => {
         password,
         encryptedPassword,
     );
-    if (!validPassword)
-        throw new ErrorHandler('E-mail ou senha invalida.', 500);
+    if (!validPassword) throw new ErrorHandler('E-mail ou senha invalida.', 500);
 };
 
 passport.use(

@@ -22,13 +22,11 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
                 return message;
             },
         };
-        const ModifyAnnotationServiceFake = jest.fn().mockImplementation(() => {
-            return {
-                async execute(data) {
-                    throw new Error('Teste');
-                },
-            };
-        });
+        const ModifyAnnotationServiceFake = jest.fn().mockImplementation(() => ({
+            async execute(data) {
+                throw new Error('Teste');
+            },
+        }));
         const spy = jest.spyOn(response, 'status');
         const listAnnotationsServiceFake = new ModifyAnnotationServiceFake();
         const listAnnotationsController = new ModifyAnnotationController(
@@ -53,15 +51,13 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
                 return message;
             },
         };
-        const ModifyAnnotationServiceFake = jest.fn().mockImplementation(() => {
-            return {
-                async execute(data) {
-                    const error = new Error('Teste');
-                    error.httpCode = 404;
-                    throw error;
-                },
-            };
-        });
+        const ModifyAnnotationServiceFake = jest.fn().mockImplementation(() => ({
+            async execute(data) {
+                const error = new Error('Teste');
+                error.httpCode = 404;
+                throw error;
+            },
+        }));
         const spy = jest.spyOn(response, 'status');
         const listAnnotationsServiceFake = new ModifyAnnotationServiceFake();
         const listAnnotationsController = new ModifyAnnotationController(
@@ -85,11 +81,9 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
             end() {},
         };
         const spy = jest.spyOn(response, 'status');
-        const ModifyAnnotationServiceFake = jest.fn().mockImplementation(() => {
-            return {
-                execute: data => {},
-            };
-        });
+        const ModifyAnnotationServiceFake = jest.fn().mockImplementation(() => ({
+            execute: data => {},
+        }));
         const listAnnotationsServiceFake = new ModifyAnnotationServiceFake();
         const listAnnotationsController = new ModifyAnnotationController(
             listAnnotationsServiceFake,

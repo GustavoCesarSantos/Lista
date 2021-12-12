@@ -21,13 +21,11 @@ describe('LIST ANNOTATION CONTROLLER UNIT TEST', () => {
                 return message;
             },
         };
-        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => {
-            return {
-                async execute(data) {
-                    throw new Error('Teste');
-                },
-            };
-        });
+        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => ({
+            async execute(data) {
+                throw new Error('Teste');
+            },
+        }));
         const spy = jest.spyOn(response, 'status');
         const listAnnotationServiceFake = new ListAnnotationServiceFake();
         const listAnnotationController = new ListAnnotationController(
@@ -51,15 +49,13 @@ describe('LIST ANNOTATION CONTROLLER UNIT TEST', () => {
                 return message;
             },
         };
-        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => {
-            return {
-                async execute(data) {
-                    const error = new Error('Teste');
-                    error.httpCode = 401;
-                    throw error;
-                },
-            };
-        });
+        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => ({
+            async execute(data) {
+                const error = new Error('Teste');
+                error.httpCode = 401;
+                throw error;
+            },
+        }));
         const spy = jest.spyOn(response, 'status');
         const listAnnotationServiceFake = new ListAnnotationServiceFake();
         const listAnnotationController = new ListAnnotationController(
@@ -84,13 +80,9 @@ describe('LIST ANNOTATION CONTROLLER UNIT TEST', () => {
             },
         };
         const spy = jest.spyOn(response, 'status');
-        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => {
-            return {
-                execute: data => {
-                    return data;
-                },
-            };
-        });
+        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => ({
+            execute: data => data,
+        }));
         const listAnnotationServiceFake = new ListAnnotationServiceFake();
         const listAnnotationController = new ListAnnotationController(
             listAnnotationServiceFake,
@@ -114,13 +106,9 @@ describe('LIST ANNOTATION CONTROLLER UNIT TEST', () => {
             },
         };
         const spy = jest.spyOn(response, 'json');
-        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => {
-            return {
-                execute: data => {
-                    return { contents: 'Teste' };
-                },
-            };
-        });
+        const ListAnnotationServiceFake = jest.fn().mockImplementation(() => ({
+            execute: data => ({ contents: 'Teste' }),
+        }));
         const listAnnotationServiceFake = new ListAnnotationServiceFake();
         const listAnnotationController = new ListAnnotationController(
             listAnnotationServiceFake,

@@ -15,8 +15,7 @@ class CreateUserService {
         const userExists = await this.userRepository.findMany({
             email: user.email,
         });
-        if (userExists.length > 0)
-            throw new ErrorHandler('Usuário já cadastrado.', 400);
+        if (userExists.length > 0) throw new ErrorHandler('Usuário já cadastrado.', 400);
         const hashedPassword = await bcryptHelper.encryptPassword(
             user.password,
         );

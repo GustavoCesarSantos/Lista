@@ -7,21 +7,18 @@ describe('LIST ANNOTATION SERVICE UNIT TEST', () => {
             listId: 1,
             contents: 'Teste',
         };
-        const AnnotationRepositoryFake = jest.fn().mockImplementation(() => {
-            return {
-                async findOne(data) {
-                    return false;
-                },
-            };
-        });
+        const AnnotationRepositoryFake = jest.fn().mockImplementation(() => ({
+            async findOne(data) {
+                return false;
+            },
+        }));
         const annotationRepositoryFake = new AnnotationRepositoryFake();
         const listAnnotationService = new ListAnnotationService(
             annotationRepositoryFake,
         );
         await listAnnotationService
             .execute(annotation)
-            .catch(error =>
-                expect(error.message).toBe('Anotação não encontrada'),
+            .catch(error => expect(error.message).toBe('Anotação não encontrada'),
             );
     });
 
@@ -35,13 +32,11 @@ describe('LIST ANNOTATION SERVICE UNIT TEST', () => {
             id: 1,
             contents: 'Teste',
         };
-        const AnnotationRepositoryFake = jest.fn().mockImplementation(() => {
-            return {
-                async findOne(data) {
-                    return annotation;
-                },
-            };
-        });
+        const AnnotationRepositoryFake = jest.fn().mockImplementation(() => ({
+            async findOne(data) {
+                return annotation;
+            },
+        }));
         const annotationRepositoryFake = new AnnotationRepositoryFake();
         const listAnnotationService = new ListAnnotationService(
             annotationRepositoryFake,

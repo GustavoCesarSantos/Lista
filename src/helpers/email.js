@@ -15,8 +15,7 @@ const testEmailConfiguration = testEmail => ({
 });
 
 async function createEmailConfiguration() {
-    if (process.env.NODE_ENV === 'production')
-        return productionEmailConfiguration;
+    if (process.env.NODE_ENV === 'production') return productionEmailConfiguration;
 
     const testEmail = await nodemailer.createTestAccount();
     return testEmailConfiguration(testEmail);
@@ -28,10 +27,11 @@ class Email {
         const transporter = nodemailer.createTransport(emailConfiguration);
         const sendedEmail = await transporter.sendMail(this);
 
-        if (`${process.env.NODE_ENV}` !== 'production')
+        if (`${process.env.NODE_ENV}` !== 'production') {
             return console.log(
                 `URL: ${nodemailer.getTestMessageUrl(sendedEmail)}`,
             );
+        }
     }
 }
 
