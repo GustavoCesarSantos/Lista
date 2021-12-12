@@ -8,4 +8,15 @@ require('./src/config/databases/blocklist-access-token')
 
 const port = process.env.PORT || 3000
 
-app.listen(port, logger.info(`Server on in port ${port}`))
+const server = app.listen(port, logger.info(`Server on in port ${port}`))
+
+process.on('uncaughtException', (err, origin) => {
+  logger.error('uncaughtException', err)
+  logger.error('uncaughtExceptionOrigin', origin)
+})
+
+process.on('SIGTERM', () => {
+  logger.error('SIGTERM signal received.')
+  logger.info('Closing http server.')
+  server.close(() => logger.info('Http server closed.'))
+})

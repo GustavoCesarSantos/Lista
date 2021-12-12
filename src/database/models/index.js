@@ -40,4 +40,9 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
+process.on('SIGTERM', async () => {
+  await sequelize.close()
+  process.exit(0)
+})
+
 module.exports = db
