@@ -12,6 +12,7 @@ describe('REMOVE ANNOTATION CONTROLLER UNIT TEST', () => {
 
   test('Should catch an error with default http status code', async () => {
     const request = {
+      user: { id: 1 },
       params: { listId: 1 }
     }
     const response = {
@@ -33,6 +34,7 @@ describe('REMOVE ANNOTATION CONTROLLER UNIT TEST', () => {
 
   test('Should catch an error with custom http status code', async () => {
     const request = {
+      user: { id: 1 },
       params: { listId: 1 }
     }
     const response = {
@@ -58,6 +60,7 @@ describe('REMOVE ANNOTATION CONTROLLER UNIT TEST', () => {
 
   test('Should pass', async () => {
     const request = {
+      user: { id: 1 },
       params: { listId: 1 }
     }
     const response = {

@@ -12,6 +12,7 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
 
   test('Should catch an error with default http status code', async () => {
     const request = {
+      user: { id: 1 },
       params: {},
       body: {}
     }
@@ -34,6 +35,7 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
 
   test('Should catch an error with custom http status code', async () => {
     const request = {
+      user: { id: 1 },
       params: {},
       body: {}
     }
@@ -60,6 +62,7 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
 
   test('Should pass with http status code 201', async () => {
     const request = {
+      user: { id: 1 },
       params: {},
       body: {}
     }
