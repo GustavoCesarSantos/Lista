@@ -20,8 +20,7 @@
   "lint-staged": {
     "*.js": [
       "eslint --fix",
-      "npm run test --bail --findRelatedTests",
-      "git add"
+      "npm run test --bail --findRelatedTests"
     ]
   },
   "dependencies": {
