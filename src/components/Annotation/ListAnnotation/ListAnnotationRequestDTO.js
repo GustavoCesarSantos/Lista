@@ -1,7 +1,7 @@
 class ListAnnotationRequestDTO {
-  constructor (annotation) {
-    this.annotationId = annotation.annotationId
-  }
+    constructor(annotation) {
+        this.annotationId = annotation.annotationId;
+    }
 }
 
-module.exports = ListAnnotationRequestDTO
+module.exports = ListAnnotationRequestDTO;

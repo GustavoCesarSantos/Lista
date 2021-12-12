@@ -1,7 +1,7 @@
 class ReturnListRequestDTO {
-  constructor (list) {
-    this.listId = list.listId
-  }
+    constructor(list) {
+        this.listId = list.listId;
+    }
 }
 
-module.exports = ReturnListRequestDTO
+module.exports = ReturnListRequestDTO;

@@ -1,7 +1,7 @@
 class LoginRequestDTO {
-  constructor (user) {
-    this.id = user.id
-  }
+    constructor(user) {
+        this.id = user.id;
+    }
 }
 
-module.exports = LoginRequestDTO
+module.exports = LoginRequestDTO;

@@ -1,9 +1,9 @@
-const tokenHelper = require('../../../helpers/token')
+const tokenHelper = require('../../../helpers/token');
 
 class LogoutService {
-  async execute (logoutRequestDTO) {
-    await tokenHelper.invalidateToken(logoutRequestDTO.token)
-  }
+    async execute(logoutRequestDTO) {
+        await tokenHelper.invalidateToken(logoutRequestDTO.token);
+    }
 }
 
-module.exports = LogoutService
+module.exports = LogoutService;

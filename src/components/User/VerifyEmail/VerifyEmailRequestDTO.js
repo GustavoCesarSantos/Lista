@@ -1,8 +1,8 @@
 class VerifyEmailRequestDTO {
-  constructor (user) {
-    this.id = user.id
-    this.verifiedEmail = user.verifiedEmail
-  }
+    constructor(user) {
+        this.id = user.id;
+        this.verifiedEmail = user.verifiedEmail;
+    }
 }
 
-module.exports = VerifyEmailRequestDTO
+module.exports = VerifyEmailRequestDTO;

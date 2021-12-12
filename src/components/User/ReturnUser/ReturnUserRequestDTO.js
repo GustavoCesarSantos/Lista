@@ -1,7 +1,7 @@
 class ReturnUserRequestDTO {
-  constructor (user) {
-    this.id = user.userId
-  }
+    constructor(user) {
+        this.id = user.userId;
+    }
 }
 
-module.exports = ReturnUserRequestDTO
+module.exports = ReturnUserRequestDTO;
