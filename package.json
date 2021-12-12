@@ -14,7 +14,8 @@
         "start": "sequelize db:migrate&&node server.js",
         "dev": "set NODE_ENV=development&&sequelize db:migrate&&nodemon server.js --ignore __tests__",
         "swagger-autogen": "node ./src/config/doc/swagger.js",
-        "lint": "npx standard --fix",
+        "prettier": "npx prettier —write —ignore-unknown .",
+        "lint": "npx eslint --fix src --ext .js",
         "prepare": "husky install",
         "lint-staged": "lint-staged"
     },
@@ -43,6 +44,9 @@
         "winston": "^3.3.3"
     },
     "devDependencies": {
+        "eslint": "^8.4.1",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-plugin-import": "^2.25.3",
         "jest": "^27.3.1",
         "nodemon": "^2.0.6",
         "prettier": "^2.5.1",
