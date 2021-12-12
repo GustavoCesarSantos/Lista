@@ -14,14 +14,12 @@
     "start": "sequelize db:migrate&&node server.js",
     "dev": "set NODE_ENV=development&&sequelize db:migrate&&nodemon server.js --ignore __tests__",
     "swagger-autogen": "node ./src/config/doc/swagger.js",
+    "lint": "npx standard --fix",
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "npm run test --bail --findRelatedTests"
-    ]
+    "*.js": "npm run lint"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
