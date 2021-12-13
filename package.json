@@ -14,13 +14,16 @@
         "start": "sequelize db:migrate&&node server.js",
         "dev": "set NODE_ENV=development&&sequelize db:migrate&&nodemon server.js --ignore __tests__",
         "swagger-autogen": "node ./src/config/doc/swagger.js",
-        "prettier": "npx prettier —write —ignore-unknown .",
+        "prettier": "npx prettier --write --ignore-unknown .",
         "lint": "npx eslint --fix src --ext .js",
         "prepare": "husky install",
         "lint-staged": "lint-staged"
     },
     "lint-staged": {
-        "*.js": "npm run lint"
+        "*.js": [
+            "npx pretty-quick --staged",
+            "npm run lint"
+        ]
     },
     "dependencies": {
         "bcrypt": "^5.0.0",

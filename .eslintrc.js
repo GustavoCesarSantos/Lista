@@ -3,6 +3,7 @@ module.exports = {
         browser: true,
         commonjs: true,
         es2021: true,
+        jest: true,
     },
     extends: ['airbnb-base', 'eslint:recommended'],
     parserOptions: {
@@ -31,7 +32,7 @@ module.exports = {
                 allow: [],
             },
         ],
-        'operator-linebreak': [2, 'before', { overrides: { '?': 'after' } }],
+        'operator-linebreak': [2, 'after', { overrides: { '?': 'after' } }],
         'import/prefer-default-export': 'off',
     },
 };
