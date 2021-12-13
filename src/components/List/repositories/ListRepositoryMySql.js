@@ -11,13 +11,15 @@ class ListRepositoryMySql extends IListRepository {
     }
 
     async findOne(listId) {
-        return await this.listModel.findByPk(listId, {
+        const listDb = await this.listModel.findByPk(listId, {
             include: { association: 'Annotations' },
         });
+        return listDb;
     }
 
     async findMany(query) {
-        return await this.listModel.findAll({ where: query });
+        const listsDb = await this.listModel.findAll({ where: query });
+        return listsDb;
     }
 
     async modify(list) {

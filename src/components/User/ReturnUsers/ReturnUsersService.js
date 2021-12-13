@@ -10,7 +10,7 @@ class ReturnUsersService {
         const user = new User(returnUsersRequestDTO);
         const validQuery = await user.returnsAValidQuery();
         const usersDb = await this.userRepository.findMany(validQuery);
-        return usersDb.map(user => new ReturnUsersResponseDTO(user));
+        return usersDb.map(userDb => new ReturnUsersResponseDTO(userDb));
     }
 }
 

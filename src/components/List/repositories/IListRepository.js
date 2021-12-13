@@ -1,21 +1,23 @@
+/* eslint-disable no-unused-vars */ /* eslint-disable no-unused-vars */
+
 class IListRepository {
-    create(list) {
+    static create(list) {
         throw new Error('Método não implementado.');
     }
 
-    findOne(listId) {
+    static findOne(listId) {
         throw new Error('Método não implementado.');
     }
 
-    findMany(query) {
+    static findMany(query) {
         throw new Error('Método não implementado.');
     }
 
-    modify(list) {
+    static modify(list) {
         throw new Error('Método não implementado.');
     }
 
-    remove(listId) {
+    static remove(listId) {
         throw new Error('Método não implementado.');
     }
 }

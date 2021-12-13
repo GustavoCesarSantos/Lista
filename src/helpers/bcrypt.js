@@ -8,6 +8,7 @@ module.exports = {
     },
 
     async comparePassword(password, encryptedPassword) {
-        return await bcrypt.compare(password, encryptedPassword);
+        const samePassword = await bcrypt.compare(password, encryptedPassword);
+        return samePassword;
     },
 };

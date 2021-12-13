@@ -6,8 +6,8 @@ const ListAnnotationsController = require('../components/Annotation/ListAnnotati
 const ModifyAnnotationController = require('../components/Annotation/ModifyAnnotation/ModifyAnnotationController');
 const RemoveAnnotationController = require('../components/Annotation/RemoveAnnotation/RemoveAnnotationController');
 
-const annotationServiceWithMySqlFactory
-    = new AnnotationServiceWithMySqlFactory();
+const annotationServiceWithMySqlFactory =
+    new AnnotationServiceWithMySqlFactory();
 
 const createAnnotationController = new CreateAnnotationController(
     annotationServiceWithMySqlFactory.createAnnotationService(),

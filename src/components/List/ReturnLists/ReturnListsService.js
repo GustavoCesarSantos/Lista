@@ -8,7 +8,8 @@ class ReturnListsService {
     async execute(returnListsRequestDTO) {
         const list = new List(returnListsRequestDTO);
         await list.returnsAValidQuery();
-        return await this.listRepository.findMany(list);
+        const listsDb = await this.listRepository.findMany(list);
+        return listsDb;
     }
 }
 

@@ -1,21 +1,21 @@
 class IListServiceFactory {
-    createListService() {
+    static createListService() {
         throw new Error('Método não implementado.');
     }
 
-    returnListService() {
+    static returnListService() {
         throw new Error('Método não implementado.');
     }
 
-    returnListsService() {
+    static returnListsService() {
         throw new Error('Método não implementado.');
     }
 
-    modifyListService() {
+    static modifyListService() {
         throw new Error('Método não implementado.');
     }
 
-    removeListService() {
+    static removeListService() {
         throw new Error('Método não implementado.');
     }
 }

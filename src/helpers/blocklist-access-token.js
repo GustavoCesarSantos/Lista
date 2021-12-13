@@ -16,6 +16,9 @@ module.exports = {
 
     verifyIfExistsToken: async token => {
         const tokenHash = generateTokenHash(token);
-        return await blocklistAccessToken.verifyIfExistsToken(tokenHash);
+        const exists = await blocklistAccessToken.verifyIfExistsToken(
+            tokenHash,
+        );
+        return exists;
     },
 };

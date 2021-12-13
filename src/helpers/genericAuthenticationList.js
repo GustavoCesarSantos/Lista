@@ -14,7 +14,8 @@ module.exports = authenticationList => {
         },
 
         async returnPayload(key) {
-            return await getAsync(key);
+            const payload = await getAsync(key);
+            return payload;
         },
 
         async setToken(key, value, expirationDate) {

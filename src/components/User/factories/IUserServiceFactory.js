@@ -1,41 +1,41 @@
 class IUserServiceFactory {
-    authenticationRefreshToken() {
+    static authenticationRefreshToken() {
         throw new Error('Método não implementado.');
     }
 
-    authenticationVerificationEmail() {
+    static authenticationVerificationEmail() {
         throw new Error('Método não implementado.');
     }
 
-    loginService() {
+    static loginService() {
         throw new Error('Método não implementado.');
     }
 
-    logoutService() {
+    static logoutService() {
         throw new Error('Método não implementado.');
     }
 
-    verifyEmailService() {
+    static verifyEmailService() {
         throw new Error('Método não implementado.');
     }
 
-    createUserService() {
+    static createUserService() {
         throw new Error('Método não implementado.');
     }
 
-    returnUserService() {
+    static returnUserService() {
         throw new Error('Método não implementado.');
     }
 
-    returnUsersService() {
+    static returnUsersService() {
         throw new Error('Método não implementado.');
     }
 
-    modifyUserService() {
+    static modifyUserService() {
         throw new Error('Método não implementado.');
     }
 
-    removeUserService() {
+    static removeUserService() {
         throw new Error('Método não implementado.');
     }
 }

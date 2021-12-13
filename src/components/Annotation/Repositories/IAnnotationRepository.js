@@ -1,21 +1,23 @@
+/* eslint-disable no-unused-vars */
+
 class IAnnotationRepository {
-    create(annotation) {
+    static create(annotation) {
         throw new Error('Método não implementado.');
     }
 
-    findOne(annotationId) {
+    static findOne(annotationId) {
         throw new Error('Método não implementado.');
     }
 
-    findMany(query) {
+    static findMany(query) {
         throw new Error('Método não implementado.');
     }
 
-    modify(annotation) {
+    static modify(annotation) {
         throw new Error('Método não implementado.');
     }
 
-    remove(annotationId) {
+    static remove(annotationId) {
         throw new Error('Método não implementado.');
     }
 }

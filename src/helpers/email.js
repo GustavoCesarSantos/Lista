@@ -1,50 +1,48 @@
 const nodemailer = require('nodemailer');
 
-const productionEmailConfiguration = {
-    host: process.env.EMAIL_HOST,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-    },
-    secure: true,
-};
-
-const testEmailConfiguration = testEmail => ({
-    host: 'smtp.ethereal.email',
-    auth: testEmail,
-});
-
-async function createEmailConfiguration() {
-    if (process.env.NODE_ENV === 'production') return productionEmailConfiguration;
-
-    const testEmail = await nodemailer.createTestAccount();
-    return testEmailConfiguration(testEmail);
-}
+const logger = require('./logger');
 
 class Email {
-    async sendEmail() {
-        const emailConfiguration = await createEmailConfiguration();
+    constructor() {
+        this.productionEmailConfiguration = {
+            host: process.env.EMAIL_HOST,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASSWORD,
+            },
+            secure: true,
+        };
+    }
+
+    static async sendEmail() {
+        const emailConfiguration = await this.createEmailConfiguration();
         const transporter = nodemailer.createTransport(emailConfiguration);
         const sendedEmail = await transporter.sendMail(this);
 
         if (`${process.env.NODE_ENV}` !== 'production') {
-            return console.log(
+            return logger.info(
                 `URL: ${nodemailer.getTestMessageUrl(sendedEmail)}`,
             );
         }
+
+        return true;
+    }
+
+    static testEmailConfiguration(testEmail) {
+        return {
+            host: 'smtp.ethereal.email',
+            auth: testEmail,
+        };
+    }
+
+    async createEmailConfiguration() {
+        if (process.env.NODE_ENV === 'production') {
+            return this.productionEmailConfiguration;
+        }
+
+        const testEmail = await nodemailer.createTestAccount();
+        return this.testEmailConfiguration(testEmail);
     }
 }
 
-class VerificationEmail extends Email {
-    constructor(user) {
-        super();
-        this.address = `${process.env.BASE_URL}/users/${user.id}/email/verify`;
-        this.from = '"Teste" <gustavocs789@gmail.com>';
-        this.to = user.email;
-        this.subject = 'teste de email';
-        this.text = `Verifique seu e-mail aqui: ${this.address}`;
-        this.html = `Verifique seu e-mail aqui: <a href="${this.address}">${this.address}</a>`;
-    }
-}
-
-module.exports = { VerificationEmail };
+module.exports = Email;

@@ -30,9 +30,9 @@ class User {
             await this.isValid();
 
             const query = {};
-            for (const prop in this) {
-                if (this[prop] !== undefined && this[prop] !== false) query[prop] = this[prop];
-            }
+            Object.entries(this).forEach((key, value) => {
+                if (value && value !== '') query[key] = value;
+            });
             return query;
         } catch (err) {
             throw new ErrorHandler(err.message, 500);

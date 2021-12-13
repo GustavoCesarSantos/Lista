@@ -23,7 +23,9 @@ module.exports = {
             token,
         );
 
-        if (exists) throw new jwt.JsonWebTokenError('Token invalido por logout.');
+        if (exists) {
+            throw new jwt.JsonWebTokenError('Token invalido por logout.');
+        }
 
         const { id } = jwt.verify(token, `${process.env.KEY_JWT}`);
         return id;
@@ -37,6 +39,7 @@ module.exports = {
         const opaqueToken = crypto.randomBytes(24).toString('hex');
         const expireAt = parseInt(
             (addDays(new Date(), 5).getTime() / 1000).toFixed(0),
+            10,
         );
         await allowlistRefreshToken.setToken(opaqueToken, user.id, expireAt);
         return opaqueToken;

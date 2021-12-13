@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+
 const swaggerAutogen = require('swagger-autogen')();
 
 const outputFile = './src/config/doc/swagger_output.json';
@@ -46,5 +48,5 @@ const doc = {
 };
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
-    require('../../../server.js');
+    require('../../../server');
 });

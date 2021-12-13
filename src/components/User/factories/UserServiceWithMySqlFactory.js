@@ -15,43 +15,43 @@ const VerifyEmailService = require('../VerifyEmail/VerifyEmailService');
 const userRepositoryMySql = new UserRepositoryMySql(User);
 
 class UserServiceWithMySqlFactory extends IUserServiceFactory {
-    authenticationRefreshToken() {
+    static authenticationRefreshToken() {
         return new AuthenticationRefreshToken(userRepositoryMySql);
     }
 
-    authenticationVerificationEmail() {
+    static authenticationVerificationEmail() {
         return new AuthenticationVerificationEmail(userRepositoryMySql);
     }
 
-    loginService() {
+    static loginService() {
         return new LoginService();
     }
 
-    logoutService() {
+    static logoutService() {
         return new LogoutService();
     }
 
-    verifyEmailService() {
+    static verifyEmailService() {
         return new VerifyEmailService(userRepositoryMySql);
     }
 
-    createUserService() {
+    static createUserService() {
         return new CreateUserService(userRepositoryMySql);
     }
 
-    returnUserService() {
+    static returnUserService() {
         return new ReturnUserService(userRepositoryMySql);
     }
 
-    returnUsersService() {
+    static returnUsersService() {
         return new ReturnUsersService(userRepositoryMySql);
     }
 
-    modifyUserService() {
+    static modifyUserService() {
         return new ModifyUserService(userRepositoryMySql);
     }
 
-    removeUserService() {
+    static removeUserService() {
         return new RemoveUserService(userRepositoryMySql);
     }
 }

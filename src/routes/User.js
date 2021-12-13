@@ -12,10 +12,10 @@ const VerifyEmailController = require('../components/User/VerifyEmail/VerifyEmai
 
 const userServiceWithMySqlFactory = new UserServiceWithMySqlFactory();
 
-const authenticationRefreshToken
-    = userServiceWithMySqlFactory.authenticationRefreshToken();
-const authenticationVerificationEmail
-    = userServiceWithMySqlFactory.authenticationVerificationEmail();
+const authenticationRefreshToken =
+    userServiceWithMySqlFactory.authenticationRefreshToken();
+const authenticationVerificationEmail =
+    userServiceWithMySqlFactory.authenticationVerificationEmail();
 const loginController = new LoginController(
     userServiceWithMySqlFactory.loginService(),
 );

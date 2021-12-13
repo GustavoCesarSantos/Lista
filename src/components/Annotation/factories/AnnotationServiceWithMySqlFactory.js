@@ -10,23 +10,23 @@ const RemoveAnnotationService = require('../RemoveAnnotation/RemoveAnnotationSer
 const annotationRepositoryMySql = new AnnotationRepositoryMySql(Annotations);
 
 class AnnotationServiceWithMySqlFactory extends IAnnotationServiceFactory {
-    createAnnotationService() {
+    static createAnnotationService() {
         return new CreateAnnotationService(annotationRepositoryMySql);
     }
 
-    listAnnotationService() {
+    static listAnnotationService() {
         return new ListAnnotationService(annotationRepositoryMySql);
     }
 
-    listAnnotationsService() {
+    static listAnnotationsService() {
         return new ListAnnotationsService(annotationRepositoryMySql);
     }
 
-    modifyAnnotationService() {
+    static modifyAnnotationService() {
         return new ModifyAnnotationService(annotationRepositoryMySql);
     }
 
-    removeAnnotationService() {
+    static removeAnnotationService() {
         return new RemoveAnnotationService(annotationRepositoryMySql);
     }
 }

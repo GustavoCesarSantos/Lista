@@ -1,21 +1,21 @@
 class IAnnotationServiceFactory {
-    createAnnotationService() {
+    static createAnnotationService() {
         throw new Error('Método não implementado.');
     }
 
-    listAnnotationService() {
+    static listAnnotationService() {
         throw new Error('Método não implementado.');
     }
 
-    listAnnotationsService() {
+    static listAnnotationsService() {
         throw new Error('Método não implementado.');
     }
 
-    modifyAnnotationService() {
+    static modifyAnnotationService() {
         throw new Error('Método não implementado.');
     }
 
-    removeAnnotationService() {
+    static removeAnnotationService() {
         throw new Error('Método não implementado.');
     }
 }

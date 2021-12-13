@@ -28,9 +28,9 @@ class List {
             await this.isValid();
 
             const query = {};
-            for (const prop in this) {
-                if (typeof this[prop] !== 'undefined') query[prop] = this[prop];
-            }
+            Object.entries(this).forEach((key, value) => {
+                if (value && value !== '') query[key] = value;
+            });
             return query;
         } catch (err) {
             throw new ErrorHandler(err.message, 500);
