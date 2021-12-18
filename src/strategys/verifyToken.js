@@ -8,13 +8,13 @@ const UserRepositoryMySql = require('../components/User/repositories/UserReposit
 const userRepositoryMySql = new UserRepositoryMySql(Users);
 
 passport.use(
-    new BearerStrategy(async (token, done) => {
-        try {
-            const userId = await tokenHelper.verifyToken(token);
-            const user = await userRepositoryMySql.findOne(userId);
-            done(null, user, { token });
-        } catch (err) {
-            done(err);
-        }
-    }),
+	new BearerStrategy(async (token, done) => {
+		try {
+			const userId = await tokenHelper.verifyToken(token);
+			const user = await userRepositoryMySql.findOne(userId);
+			done(null, user, { token });
+		} catch (err) {
+			done(err);
+		}
+	}),
 );

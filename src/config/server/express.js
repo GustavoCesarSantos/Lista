@@ -13,7 +13,8 @@ app.use(express.json());
 app.use(helmet());
 
 app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
-app.get('/status', (request, response) => response.status(200).json({ message: 'ok' }),
+app.get('/status', (request, response) =>
+	response.status(200).json({ message: 'ok' }),
 );
 
 // Import strategys

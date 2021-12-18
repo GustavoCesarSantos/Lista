@@ -10,25 +10,25 @@ const ReturnListsService = require('../ReturnLists/ReturnListsService');
 const listRepositoryMySql = new ListRepositoryMySql(List);
 
 class ListServiceWithMySqlFactory extends IListServiceFactory {
-    static createListService() {
-        return new CreateListService(listRepositoryMySql);
-    }
+	static createListService() {
+		return new CreateListService(listRepositoryMySql);
+	}
 
-    static returnListService() {
-        return new ReturnListService(listRepositoryMySql);
-    }
+	static returnListService() {
+		return new ReturnListService(listRepositoryMySql);
+	}
 
-    static returnListsService() {
-        return new ReturnListsService(listRepositoryMySql);
-    }
+	static returnListsService() {
+		return new ReturnListsService(listRepositoryMySql);
+	}
 
-    static modifyListService() {
-        return new ModifyListService(listRepositoryMySql);
-    }
+	static modifyListService() {
+		return new ModifyListService(listRepositoryMySql);
+	}
 
-    static removeListService() {
-        return new RemoveListService(listRepositoryMySql);
-    }
+	static removeListService() {
+		return new RemoveListService(listRepositoryMySql);
+	}
 }
 
 module.exports = ListServiceWithMySqlFactory;

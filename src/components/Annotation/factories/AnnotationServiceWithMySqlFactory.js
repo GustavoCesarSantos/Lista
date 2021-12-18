@@ -10,25 +10,25 @@ const RemoveAnnotationService = require('../RemoveAnnotation/RemoveAnnotationSer
 const annotationRepositoryMySql = new AnnotationRepositoryMySql(Annotations);
 
 class AnnotationServiceWithMySqlFactory extends IAnnotationServiceFactory {
-    static createAnnotationService() {
-        return new CreateAnnotationService(annotationRepositoryMySql);
-    }
+	static createAnnotationService() {
+		return new CreateAnnotationService(annotationRepositoryMySql);
+	}
 
-    static listAnnotationService() {
-        return new ListAnnotationService(annotationRepositoryMySql);
-    }
+	static listAnnotationService() {
+		return new ListAnnotationService(annotationRepositoryMySql);
+	}
 
-    static listAnnotationsService() {
-        return new ListAnnotationsService(annotationRepositoryMySql);
-    }
+	static listAnnotationsService() {
+		return new ListAnnotationsService(annotationRepositoryMySql);
+	}
 
-    static modifyAnnotationService() {
-        return new ModifyAnnotationService(annotationRepositoryMySql);
-    }
+	static modifyAnnotationService() {
+		return new ModifyAnnotationService(annotationRepositoryMySql);
+	}
 
-    static removeAnnotationService() {
-        return new RemoveAnnotationService(annotationRepositoryMySql);
-    }
+	static removeAnnotationService() {
+		return new RemoveAnnotationService(annotationRepositoryMySql);
+	}
 }
 
 module.exports = AnnotationServiceWithMySqlFactory;

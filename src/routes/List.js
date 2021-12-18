@@ -9,43 +9,43 @@ const ReturnListsController = require('../components/List/ReturnLists/ReturnList
 const listServiceWithMySqlFactory = new ListServiceWithMySqlFactory();
 
 const createListController = new CreateListController(
-    listServiceWithMySqlFactory.createListService(),
+	listServiceWithMySqlFactory.createListService(),
 );
 const listListController = new ReturnListController(
-    listServiceWithMySqlFactory.listListService(),
+	listServiceWithMySqlFactory.listListService(),
 );
 const listListsController = new ReturnListsController(
-    listServiceWithMySqlFactory.listListsService(),
+	listServiceWithMySqlFactory.listListsService(),
 );
 const modifyListController = new ModifyListController(
-    listServiceWithMySqlFactory.modifyListService(),
+	listServiceWithMySqlFactory.modifyListService(),
 );
 const removeListController = new RemoveListController(
-    listServiceWithMySqlFactory.removeListService(),
+	listServiceWithMySqlFactory.removeListService(),
 );
 
 module.exports = app => {
-    app.route('/lists').get(
-        authenticationToken.bearer,
-        listListsController.handler.bind(listListsController),
-    );
+	app.route('/lists').get(
+		authenticationToken.bearer,
+		listListsController.handler.bind(listListsController),
+	);
 
-    app.route('/users/:userId/lists').post(
-        authenticationToken.bearer,
-        createListController.handler.bind(createListController),
-    );
+	app.route('/users/:userId/lists').post(
+		authenticationToken.bearer,
+		createListController.handler.bind(createListController),
+	);
 
-    app.route('/lists/:listId')
-        .get(
-            authenticationToken.bearer,
-            listListController.handler.bind(listListController),
-        )
-        .patch(
-            authenticationToken.bearer,
-            modifyListController.handler.bind(modifyListController),
-        )
-        .delete(
-            authenticationToken.bearer,
-            removeListController.handler.bind(removeListController),
-        );
+	app.route('/lists/:listId')
+		.get(
+			authenticationToken.bearer,
+			listListController.handler.bind(listListController),
+		)
+		.patch(
+			authenticationToken.bearer,
+			modifyListController.handler.bind(modifyListController),
+		)
+		.delete(
+			authenticationToken.bearer,
+			removeListController.handler.bind(removeListController),
+		);
 };

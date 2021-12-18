@@ -15,45 +15,45 @@ const VerifyEmailService = require('../VerifyEmail/VerifyEmailService');
 const userRepositoryMySql = new UserRepositoryMySql(User);
 
 class UserServiceWithMySqlFactory extends IUserServiceFactory {
-    static authenticationRefreshToken() {
-        return new AuthenticationRefreshToken(userRepositoryMySql);
-    }
+	static authenticationRefreshToken() {
+		return new AuthenticationRefreshToken(userRepositoryMySql);
+	}
 
-    static authenticationVerificationEmail() {
-        return new AuthenticationVerificationEmail(userRepositoryMySql);
-    }
+	static authenticationVerificationEmail() {
+		return new AuthenticationVerificationEmail(userRepositoryMySql);
+	}
 
-    static loginService() {
-        return new LoginService();
-    }
+	static loginService() {
+		return new LoginService();
+	}
 
-    static logoutService() {
-        return new LogoutService();
-    }
+	static logoutService() {
+		return new LogoutService();
+	}
 
-    static verifyEmailService() {
-        return new VerifyEmailService(userRepositoryMySql);
-    }
+	static verifyEmailService() {
+		return new VerifyEmailService(userRepositoryMySql);
+	}
 
-    static createUserService() {
-        return new CreateUserService(userRepositoryMySql);
-    }
+	static createUserService() {
+		return new CreateUserService(userRepositoryMySql);
+	}
 
-    static returnUserService() {
-        return new ReturnUserService(userRepositoryMySql);
-    }
+	static returnUserService() {
+		return new ReturnUserService(userRepositoryMySql);
+	}
 
-    static returnUsersService() {
-        return new ReturnUsersService(userRepositoryMySql);
-    }
+	static returnUsersService() {
+		return new ReturnUsersService(userRepositoryMySql);
+	}
 
-    static modifyUserService() {
-        return new ModifyUserService(userRepositoryMySql);
-    }
+	static modifyUserService() {
+		return new ModifyUserService(userRepositoryMySql);
+	}
 
-    static removeUserService() {
-        return new RemoveUserService(userRepositoryMySql);
-    }
+	static removeUserService() {
+		return new RemoveUserService(userRepositoryMySql);
+	}
 }
 
 module.exports = UserServiceWithMySqlFactory;

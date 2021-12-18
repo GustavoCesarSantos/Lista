@@ -7,46 +7,46 @@ const ModifyAnnotationController = require('../components/Annotation/ModifyAnnot
 const RemoveAnnotationController = require('../components/Annotation/RemoveAnnotation/RemoveAnnotationController');
 
 const annotationServiceWithMySqlFactory =
-    new AnnotationServiceWithMySqlFactory();
+	new AnnotationServiceWithMySqlFactory();
 
 const createAnnotationController = new CreateAnnotationController(
-    annotationServiceWithMySqlFactory.createAnnotationService(),
+	annotationServiceWithMySqlFactory.createAnnotationService(),
 );
 const listAnnotationController = new ListAnnotationController(
-    annotationServiceWithMySqlFactory.listAnnotationService(),
+	annotationServiceWithMySqlFactory.listAnnotationService(),
 );
 const listAnnotationsController = new ListAnnotationsController(
-    annotationServiceWithMySqlFactory.listAnnotationsService(),
+	annotationServiceWithMySqlFactory.listAnnotationsService(),
 );
 const modifyAnnotationController = new ModifyAnnotationController(
-    annotationServiceWithMySqlFactory.modifyAnnotationService(),
+	annotationServiceWithMySqlFactory.modifyAnnotationService(),
 );
 const removeAnnotationController = new RemoveAnnotationController(
-    annotationServiceWithMySqlFactory.removeAnnotationService(),
+	annotationServiceWithMySqlFactory.removeAnnotationService(),
 );
 
 module.exports = app => {
-    app.route('/annotations').get(
-        authenticationToken.bearer,
-        listAnnotationsController.handler.bind(listAnnotationsController),
-    );
+	app.route('/annotations').get(
+		authenticationToken.bearer,
+		listAnnotationsController.handler.bind(listAnnotationsController),
+	);
 
-    app.route('/lists/:listId/annotations').post(
-        authenticationToken.bearer,
-        createAnnotationController.handler.bind(createAnnotationController),
-    );
+	app.route('/lists/:listId/annotations').post(
+		authenticationToken.bearer,
+		createAnnotationController.handler.bind(createAnnotationController),
+	);
 
-    app.route('/annotations/:annotationId')
-        .get(
-            authenticationToken.bearer,
-            listAnnotationController.handler.bind(listAnnotationController),
-        )
-        .patch(
-            authenticationToken.bearer,
-            modifyAnnotationController.handler.bind(modifyAnnotationController),
-        )
-        .delete(
-            authenticationToken.bearer,
-            removeAnnotationController.handler.bind(removeAnnotationController),
-        );
+	app.route('/annotations/:annotationId')
+		.get(
+			authenticationToken.bearer,
+			listAnnotationController.handler.bind(listAnnotationController),
+		)
+		.patch(
+			authenticationToken.bearer,
+			modifyAnnotationController.handler.bind(modifyAnnotationController),
+		)
+		.delete(
+			authenticationToken.bearer,
+			removeAnnotationController.handler.bind(removeAnnotationController),
+		);
 };
