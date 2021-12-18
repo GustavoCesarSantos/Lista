@@ -1,10 +1,9 @@
 const logger = require('../../../helpers/logger');
 const RemoveListRequestDTO = require('./RemoveListRequestDTO');
-const RemoveListService = require('./RemoveListService');
 
 class RemoveListController {
-	constructor(removeListRepository) {
-		this.removeListRepository = removeListRepository;
+	constructor(removeListService) {
+		this.removeListService = removeListService;
 	}
 
 	async handler(request, response) {
@@ -15,18 +14,17 @@ class RemoveListController {
 			const removeListRequestDTO = new RemoveListRequestDTO({
 				...request.params,
 			});
-			const removeListService = new RemoveListService(
-				this.removeListRepository,
-			);
-			await removeListService.execute(removeListRequestDTO);
+			await this.removeListService.execute(removeListRequestDTO);
 			logger.info(
 				`Usuário:${request.user.id} conseguiu excluir a lista:${request.params.listId}.`,
 			);
-			response.status(201).end();
+			response.status(201);
+			response.end();
 		} catch (err) {
 			if (!err.httpCode) err.httpCode = 500;
 			logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode).send(err.message);
+			response.status(err.httpCode);
+			response.send(err.message);
 		}
 	}
 }

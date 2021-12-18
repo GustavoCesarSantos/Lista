@@ -1,10 +1,9 @@
 const logger = require('../../../helpers/logger');
 const ModifyListRequestDTO = require('./ModifyListRequestDTO');
-const ModifyListService = require('./ModifyListService');
 
 class ModifyListController {
-	constructor(modifyListRepository) {
-		this.modifyListRepository = modifyListRepository;
+	constructor(modifyListService) {
+		this.modifyListService = modifyListService;
 	}
 
 	async handler(request, response) {
@@ -16,18 +15,17 @@ class ModifyListController {
 				...request.params,
 				...request.body,
 			});
-			const modifyListService = new ModifyListService(
-				this.modifyListRepository,
-			);
-			await modifyListService.execute(modifyListRequestDTO);
+			await this.modifyListService.execute(modifyListRequestDTO);
 			logger.info(
 				`Usuário:${request.user.id} conseguiu modificar a lista:${request.params.listId}.`,
 			);
-			response.status(201).end();
+			response.status(201);
+			response.end();
 		} catch (err) {
 			if (!err.httpCode) err.httpCode = 500;
 			logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode).send(err.message);
+			response.status(err.httpCode);
+			response.send(err.message);
 		}
 	}
 }
