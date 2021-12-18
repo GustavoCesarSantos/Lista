@@ -29,11 +29,11 @@ describe('REMOVE ANNOTATION CONTROLLER UNIT TEST', () => {
 				},
 			}));
 		const spy = jest.spyOn(response, 'status');
-		const createAnnotationServiceFake = new RemoveAnnotationServiceFake();
-		const createAnnotationController = new RemoveAnnotationController(
-			createAnnotationServiceFake,
+		const removeAnnotationServiceFake = new RemoveAnnotationServiceFake();
+		const removeAnnotationController = new RemoveAnnotationController(
+			removeAnnotationServiceFake,
 		);
-		await createAnnotationController.handler(request, response);
+		await removeAnnotationController.handler(request, response);
 		expect(spy).toHaveBeenCalledTimes(1);
 		expect(spy).toHaveBeenCalledWith(500);
 	});
@@ -61,11 +61,11 @@ describe('REMOVE ANNOTATION CONTROLLER UNIT TEST', () => {
 				},
 			}));
 		const spy = jest.spyOn(response, 'status');
-		const createAnnotationServiceFake = new RemoveAnnotationServiceFake();
-		const createAnnotationController = new RemoveAnnotationController(
-			createAnnotationServiceFake,
+		const removeAnnotationServiceFake = new RemoveAnnotationServiceFake();
+		const removeAnnotationController = new RemoveAnnotationController(
+			removeAnnotationServiceFake,
 		);
-		await createAnnotationController.handler(request, response);
+		await removeAnnotationController.handler(request, response);
 		expect(spy).toHaveBeenCalledTimes(1);
 		expect(spy).toHaveBeenCalledWith(401);
 	});
@@ -87,11 +87,11 @@ describe('REMOVE ANNOTATION CONTROLLER UNIT TEST', () => {
 			.mockImplementation(() => ({
 				execute: data => {},
 			}));
-		const createAnnotationServiceFake = new RemoveAnnotationServiceFake();
-		const createAnnotationController = new RemoveAnnotationController(
-			createAnnotationServiceFake,
+		const removeAnnotationServiceFake = new RemoveAnnotationServiceFake();
+		const removeAnnotationController = new RemoveAnnotationController(
+			removeAnnotationServiceFake,
 		);
-		await createAnnotationController.handler(request, response);
+		await removeAnnotationController.handler(request, response);
 		expect(spy).toHaveBeenCalledTimes(1);
 		expect(spy).toHaveBeenCalledWith(201);
 	});

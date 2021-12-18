@@ -9,10 +9,10 @@ describe('MODIFY ANNOTATION SERVICE UNIT TEST', () => {
 			},
 		}));
 		const annotationRepositoryFake = new AnnotationRepositoryFake();
-		const listAnnotationService = new ModifyAnnotationService(
+		const modifyAnnotationService = new ModifyAnnotationService(
 			annotationRepositoryFake,
 		);
-		await listAnnotationService
+		await modifyAnnotationService
 			.execute(annotation)
 			.catch(error =>
 				expect(error.message).toBe('Anotação não encontrada'),
@@ -28,11 +28,11 @@ describe('MODIFY ANNOTATION SERVICE UNIT TEST', () => {
 			async modify(data) {},
 		}));
 		const annotationRepositoryFake = new AnnotationRepositoryFake();
-		const listAnnotationService = new ModifyAnnotationService(
+		const modifyAnnotationService = new ModifyAnnotationService(
 			annotationRepositoryFake,
 		);
 		await expect(
-			listAnnotationService.execute(annotation),
+			modifyAnnotationService.execute(annotation),
 		).resolves.not.toThrow();
 	});
 });
