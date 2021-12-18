@@ -1,4 +1,3 @@
-const expectExport = require('expect');
 const CreateAnnotationService = require('../../../../src/components/Annotation/CreateAnnotation/CreateAnnotationService');
 
 describe('CREATE ANNOTATION SERVICE UNIT TEST', () => {
@@ -15,7 +14,7 @@ describe('CREATE ANNOTATION SERVICE UNIT TEST', () => {
 		const createAnnotationService = new CreateAnnotationService(
 			annotationRepositoryFake,
 		);
-		await expectExport(
+		await expect(
 			createAnnotationService.execute(annotation),
 		).resolves.not.toThrow();
 	});
