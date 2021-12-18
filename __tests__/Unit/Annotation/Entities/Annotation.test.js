@@ -36,5 +36,3 @@ describe('ENTITY ANNOTATION UNIT TEST', () => {
 		expect(annotation.returnsAValidQuery()).resolves.toEqual(data);
 	});
 });
-
-// test('TESTE', () => expect(1 + 1).toBe(2))
