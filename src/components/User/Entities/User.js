@@ -30,7 +30,7 @@ class User {
 			await this.isValid();
 
 			const query = {};
-			Object.entries(this).forEach((key, value) => {
+			Object.entries(this).forEach(([key, value]) => {
 				if (value && value !== '') query[key] = value;
 			});
 			return query;
