@@ -1,3 +1,5 @@
+/* global process */
+
 const nodemailer = require('nodemailer');
 
 const logger = require('./logger');

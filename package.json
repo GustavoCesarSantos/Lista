@@ -14,7 +14,7 @@
 		"start": "sequelize db:migrate&&node server.js",
 		"dev": "set NODE_ENV=development&&sequelize db:migrate&&nodemon server.js --ignore __tests__",
 		"swagger-autogen": "node ./src/config/doc/swagger.js",
-		"lint": "eslint --fix",
+		"lint": "eslint src --fix",
 		"prettier": "prettier --config .prettierrc *.js --write --ignore-unknown .",
 		"lint-staged": "lint-staged",
 		"prepare": "husky install"

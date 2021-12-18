@@ -1,6 +1,4 @@
-/* eslint-disable import/no-dynamic-require */
-/* eslint-disable global-require */
-/* eslint-disable implicit-arrow-linebreak */
+/* global process, __filename, __dirname */
 
 const fs = require('fs');
 const path = require('path');

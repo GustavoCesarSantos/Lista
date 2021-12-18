@@ -1,3 +1,5 @@
+/* global process */
+
 const redis = require('redis');
 
 const genericAuthenticationListHelper = require('../../helpers/genericAuthenticationList');

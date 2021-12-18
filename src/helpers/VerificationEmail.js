@@ -1,3 +1,5 @@
+/* global process */
+
 const Email = require('./email');
 
 class VerificationEmail extends Email {
