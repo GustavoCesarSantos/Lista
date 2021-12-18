@@ -1,9 +1,9 @@
 class ReturnUserResponseDTO {
-  constructor (user) {
-    this.id = user.id
-    this.email = user.email
-    this.lists = user.Lists
-  }
+	constructor(user) {
+		this.id = user.id;
+		this.email = user.email;
+		this.lists = user.Lists;
+	}
 }
 
-module.exports = ReturnUserResponseDTO
+module.exports = ReturnUserResponseDTO;

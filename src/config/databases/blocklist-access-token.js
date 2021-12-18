@@ -1,12 +1,17 @@
-const redis = require('redis')
+/* global process */
 
-const genericAuthenticationListHelper = require('../../helpers/genericAuthenticationList')
+const redis = require('redis');
 
-const url = process.env.NODE_ENV === 'production' ? process.env.REDISCLOUD_URL : process.env.DEV_CACHE_URL
+const genericAuthenticationListHelper = require('../../helpers/genericAuthenticationList');
+
+const url =
+	process.env.NODE_ENV === 'production'
+		? process.env.REDISCLOUD_URL
+		: process.env.DEV_CACHE_URL;
 
 const blocklistAccessToken = redis.createClient({
-  url: url,
-  prefix: 'blocklist-access-token:'
-})
+	url,
+	prefix: 'blocklist-access-token:',
+});
 
-module.exports = genericAuthenticationListHelper(blocklistAccessToken)
+module.exports = genericAuthenticationListHelper(blocklistAccessToken);

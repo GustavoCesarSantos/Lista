@@ -1,7 +1,7 @@
 class LogoutRequestDTO {
-  constructor (token) {
-    this.token = token
-  }
+	constructor(token) {
+		this.token = token;
+	}
 }
 
-module.exports = LogoutRequestDTO
+module.exports = LogoutRequestDTO;
