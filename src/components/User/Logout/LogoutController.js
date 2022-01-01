@@ -2,7 +2,7 @@ const LogoutRequestDTO = require('./LogoutRequestDTO');
 const LogoutService = require('./LogoutService');
 
 class Logout {
-	static async handler(request, response) {
+	async handler(request, response) {
 		try {
 			// logger.info(
 			// 	`Usuário:${request.user.id} está tentando realizar logout na aplicação.`,

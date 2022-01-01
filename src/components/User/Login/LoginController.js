@@ -2,7 +2,7 @@ const LoginRequestDTO = require('./LoginRequestDTO');
 const LoginService = require('./LoginService');
 
 class Login {
-	static async handler(request, response) {
+	async handler(request, response) {
 		try {
 			// logger.info(
 			// 	`Usuário:${request.user.id} está tentando realizar login na aplicação.`,
