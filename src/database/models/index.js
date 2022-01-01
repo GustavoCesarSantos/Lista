@@ -7,7 +7,7 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(`${__dirname}/../config/config.js`)[env];
-const logger = require('../../helpers/logger');
+const WinstonLog = require('../../helpers/logs/WinstonLog');
 
 const db = {};
 
@@ -16,10 +16,10 @@ const sequelize = new Sequelize(config.url, { logging: false });
 sequelize
 	.authenticate()
 	.then(() => {
-		logger.info('Connection has been established successfully.');
+		WinstonLog.info('Connection has been established successfully.');
 	})
 	.catch(err => {
-		logger.error('Unable to connect to the database:', err);
+		WinstonLog.error('Unable to connect to the database:', err);
 	});
 
 fs.readdirSync(__dirname)
