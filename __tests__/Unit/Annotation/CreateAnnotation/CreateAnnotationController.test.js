@@ -1,36 +1,40 @@
 const CreateAnnotationController = require('../../../../src/components/Annotation/CreateAnnotation/CreateAnnotationController');
 const InvalidParamError = require('../../../../src/helpers/Errors/InvalidParamError');
-const logger = require('../../../../src/helpers/logger');
 const MissingParamError = require('../../../../src/helpers/Errors/MissingParamError');
 const ServerError = require('../../../../src/helpers/Errors/ServerError');
 
-class CreateAnnotationServiceSpy {
+class CreateAnnotationServiceDummy {
 	async execute() {}
 }
 
-class ParamTypeValidatorSpy {
+class LoggerDummy {
+	info(message) {
+		return message;
+	}
+	error(message) {
+		return message;
+	}
+}
+
+class ParamTypeValidatorMock {
 	isString(param) {
 		return typeof param === 'string';
 	}
 }
 
 const makeSut = () => {
-	const createAnnotationServiceSpy = new CreateAnnotationServiceSpy();
-	const paramTypeValidatorSpy = new ParamTypeValidatorSpy();
+	const createAnnotationServiceDummy = new CreateAnnotationServiceDummy();
+	const loggerDummy = new LoggerDummy();
+	const paramTypeValidatorMock = new ParamTypeValidatorMock();
 	const sut = new CreateAnnotationController(
-		createAnnotationServiceSpy,
-		paramTypeValidatorSpy,
+		createAnnotationServiceDummy,
+		loggerDummy,
+		paramTypeValidatorMock,
 	);
 	return sut;
 };
 
 describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
-	beforeEach(() => {
-		jest.spyOn(logger, 'info').mockImplementation();
-
-		jest.spyOn(logger, 'error').mockImplementation();
-	});
-
 	test('Should return 500 if no http request is provided', async () => {
 		const sut = makeSut();
 		const httpResponse = await sut.handle();
@@ -38,9 +42,10 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
 		expect(httpResponse.message).toBe(new ServerError().message);
 	});
 
-	test('Should return 500 if no http request has no params', async () => {
+	test('Should return 500 if http request has no params', async () => {
 		const httpRequest = {
 			body: { contents: 'TESTE' },
+			user: { id: 1 },
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
@@ -48,9 +53,21 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
 		expect(httpResponse.message).toBe(new ServerError().message);
 	});
 
-	test('Should return 500 if no http request has no body', async () => {
+	test('Should return 500 if http request has no body', async () => {
 		const httpRequest = {
 			params: { listId: 1 },
+			user: { id: 1 },
+		};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(500);
+		expect(httpResponse.message).toBe(new ServerError().message);
+	});
+
+	test('Should return 500 if http request has no user', async () => {
+		const httpRequest = {
+			params: { listId: 1 },
+			body: { contents: 'TESTE' },
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
@@ -62,6 +79,7 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
 		const httpRequest = {
 			params: {},
 			body: { contents: 'TESTE' },
+			user: { id: 1 },
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
@@ -75,6 +93,7 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
 		const httpRequest = {
 			params: { listId: 1 },
 			body: {},
+			user: { id: 1 },
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
@@ -84,10 +103,25 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
 		);
 	});
 
+	test('Should return 400 if no user id is provided', async () => {
+		const httpRequest = {
+			params: { listId: 1 },
+			body: { contents: 'TESTE' },
+			user: {},
+		};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(400);
+		expect(httpResponse.message).toBe(
+			new MissingParamError('user id').message,
+		);
+	});
+
 	test('Should return 400 if an invalid list id is provided', async () => {
 		const httpRequest = {
 			params: { listId: 1 },
 			body: { contents: 'TESTE' },
+			user: { id: 1 },
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
@@ -101,6 +135,7 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
 		const httpRequest = {
 			params: { listId: '1' },
 			body: { contents: 1 },
+			user: { id: 1 },
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
@@ -114,6 +149,7 @@ describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
 		const httpRequest = {
 			params: { listId: '1' },
 			body: { contents: 'Teste' },
+			user: { id: 1 },
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
