@@ -1,5 +1,5 @@
 const ILogger = require('./ILogger');
-const winston = require('../../../helpers/logger');
+const winston = require('../../config/logs/winston');
 
 class WinstonLog extends ILogger {
 	static info(message) {
