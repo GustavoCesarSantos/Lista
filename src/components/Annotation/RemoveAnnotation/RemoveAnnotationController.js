@@ -1,32 +1,50 @@
-const logger = require('../../../helpers/logger');
+const HttpResponse = require('../../../helpers/HttpResponse');
+const InvalidParamError = require('../../../helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 const RemoveAnnotationRequestDTO = require('./RemoveAnnotationRequestDTO');
 
 class RemoveAnnotationController {
-	constructor(removeAnnotationService) {
+	constructor(removeAnnotationService, logger, paramTypeValidator) {
 		this.removeAnnotationService = removeAnnotationService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			logger.info(
-				`Usuário:${request.user.id} está tentando excluir a anotação:${request.params.annotationId}.`,
+			const { annotationId } = httpRequest.params;
+			const { id } = httpRequest.user;
+			if (!annotationId) {
+				return HttpResponse.badRequest(
+					new MissingParamError('annotation id'),
+				);
+			}
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
+				);
+			}
+			if (!this.paramTypeValidator.isString(annotationId)) {
+				return HttpResponse.badRequest(
+					new InvalidParamError('annotation id'),
+				);
+			}
+			this.logger.info(
+				`Usuário:${id} está tentando excluir a anotação:${annotationId}.`,
 			);
 			const removeAnnotationRequestDTO = new RemoveAnnotationRequestDTO({
-				...request.params,
+				...httpRequest.params,
 			});
 			await this.removeAnnotationService.execute(
 				removeAnnotationRequestDTO,
 			);
-			logger.info(
-				`Usuário:${request.user.id} conseguiu excluir a anotação:${request.params.annotationId}.`,
+			this.logger.info(
+				`Usuário:${id} conseguiu excluir a anotação:${annotationId}.`,
 			);
-			response.status(201);
-			response.end();
+			return HttpResponse.okWithoutBody();
 		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode);
-			response.send(err.message);
+			this.logger.error(`${err.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }
