@@ -1,3 +1,4 @@
+const NotFoundError = require('./errors/NotFoundError');
 const ServerError = require('./errors/ServerError');
 
 class HttpResponse {
@@ -17,6 +18,12 @@ class HttpResponse {
 	static badRequest(error) {
 		const statusCode = 400;
 		const message = error.message;
+		return { statusCode, message };
+	}
+
+	static notFound(paramIdentification) {
+		const statusCode = 404;
+		const message = new NotFoundError(paramIdentification).message;
 		return { statusCode, message };
 	}
 
