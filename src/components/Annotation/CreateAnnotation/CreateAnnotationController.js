@@ -1,22 +1,20 @@
 const CreateAnnotationRequestDTO = require('./CreateAnnotationRequestDTO');
 const HttpResponse = require('../../../helpers/HttpResponse');
 const InvalidParamError = require('../../../helpers/errors/InvalidParamError');
-// const logger = require('../../../helpers/logger');
 const MissingParamError = require('../../../helpers/errors/MissingParamError');
 
 class CreateAnnotationController {
-	constructor(createAnnotationService, paramTypeValidator) {
+	constructor(createAnnotationService, logger, paramTypeValidator) {
 		this.createAnnotationService = createAnnotationService;
+		this.logger = logger;
 		this.paramTypeValidator = paramTypeValidator;
 	}
 
 	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando cadastrar uma anotação.`,
-			// );
 			const { listId } = httpRequest.params;
 			const { contents } = httpRequest.body;
+			const { id } = httpRequest.user;
 			if (!listId) {
 				return HttpResponse.badRequest(
 					new MissingParamError('list id'),
@@ -25,6 +23,11 @@ class CreateAnnotationController {
 			if (!contents) {
 				return HttpResponse.badRequest(
 					new MissingParamError('contents'),
+				);
+			}
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
 				);
 			}
 			if (!this.paramTypeValidator.isString(listId)) {
@@ -37,6 +40,9 @@ class CreateAnnotationController {
 					new InvalidParamError('contents'),
 				);
 			}
+			this.logger.info(
+				`Usuário:${id} está tentando cadastrar uma anotação.`,
+			);
 			const createAnnotationRequestDTO = new CreateAnnotationRequestDTO({
 				...httpRequest.params,
 				...httpRequest.body,
@@ -44,18 +50,11 @@ class CreateAnnotationController {
 			await this.createAnnotationService.execute(
 				createAnnotationRequestDTO,
 			);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu cadastrar a anotação.`,
-			// );
-			// response.status(201);
-			// response.end();
+			this.logger.info(`Usuário:${id} conseguiu cadastrar a anotação.`);
 			return HttpResponse.okWithoutBody();
 		} catch (error) {
-			// logger.error(`${error.message}`);
+			this.logger.error(`${error.message}`);
 			return HttpResponse.serverError();
-			// if (!err.httpCode) err.httpCode = 500;
-			// response.status(err.httpCode);
-			// response.send(err.message);
 		}
 	}
 }
