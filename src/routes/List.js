@@ -6,28 +6,26 @@ const RemoveListController = require('../components/List/RemoveList/RemoveListCo
 const ReturnListController = require('../components/List/ReturnList/ReturnListController');
 const ReturnListsController = require('../components/List/ReturnLists/ReturnListsController');
 
-const listServiceWithMySqlFactory = new ListServiceWithMySqlFactory();
-
 const createListController = new CreateListController(
-	listServiceWithMySqlFactory.createListService(),
+	ListServiceWithMySqlFactory.createListService(),
 );
-const listListController = new ReturnListController(
-	listServiceWithMySqlFactory.listListService(),
+const returnListController = new ReturnListController(
+	ListServiceWithMySqlFactory.returnListService(),
 );
-const listListsController = new ReturnListsController(
-	listServiceWithMySqlFactory.listListsService(),
+const returnListsController = new ReturnListsController(
+	ListServiceWithMySqlFactory.returnListsService(),
 );
 const modifyListController = new ModifyListController(
-	listServiceWithMySqlFactory.modifyListService(),
+	ListServiceWithMySqlFactory.modifyListService(),
 );
 const removeListController = new RemoveListController(
-	listServiceWithMySqlFactory.removeListService(),
+	ListServiceWithMySqlFactory.removeListService(),
 );
 
 module.exports = app => {
 	app.route('/lists').get(
 		authenticationToken.bearer,
-		listListsController.handler.bind(listListsController),
+		returnListsController.handler.bind(returnListsController),
 	);
 
 	app.route('/users/:userId/lists').post(
@@ -38,7 +36,7 @@ module.exports = app => {
 	app.route('/lists/:listId')
 		.get(
 			authenticationToken.bearer,
-			listListController.handler.bind(listListController),
+			returnListController.handler.bind(returnListController),
 		)
 		.patch(
 			authenticationToken.bearer,
