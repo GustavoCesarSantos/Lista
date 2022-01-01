@@ -1,10 +1,10 @@
 const authenticationToken = require('../middlewares/authenticationToken');
 const AnnotationServiceWithMySqlFactory = require('../components/Annotation/factories/AnnotationServiceWithMySqlFactory');
 const CreateAnnotationController = require('../components/Annotation/CreateAnnotation/CreateAnnotationController');
-const ListAnnotationController = require('../components/Annotation/ListAnnotation/ListAnnotationController');
-const ListAnnotationsController = require('../components/Annotation/ListAnnotations/ListAnnotationsController');
 const ModifyAnnotationController = require('../components/Annotation/ModifyAnnotation/ModifyAnnotationController');
 const RemoveAnnotationController = require('../components/Annotation/RemoveAnnotation/RemoveAnnotationController');
+const ReturnAnnotationController = require('../components/Annotation/ReturnAnnotation/ReturnAnnotationController');
+const ReturnAnnotationsController = require('../components/Annotation/ReturnAnnotations/ReturnAnnotationsController');
 
 const annotationServiceWithMySqlFactory =
 	new AnnotationServiceWithMySqlFactory();
@@ -12,11 +12,11 @@ const annotationServiceWithMySqlFactory =
 const createAnnotationController = new CreateAnnotationController(
 	annotationServiceWithMySqlFactory.createAnnotationService(),
 );
-const listAnnotationController = new ListAnnotationController(
-	annotationServiceWithMySqlFactory.listAnnotationService(),
+const returnAnnotationController = new ReturnAnnotationController(
+	annotationServiceWithMySqlFactory.returnAnnotationService(),
 );
-const listAnnotationsController = new ListAnnotationsController(
-	annotationServiceWithMySqlFactory.listAnnotationsService(),
+const returnAnnotationsController = new ReturnAnnotationsController(
+	annotationServiceWithMySqlFactory.returnAnnotationsService(),
 );
 const modifyAnnotationController = new ModifyAnnotationController(
 	annotationServiceWithMySqlFactory.modifyAnnotationService(),
@@ -28,7 +28,7 @@ const removeAnnotationController = new RemoveAnnotationController(
 module.exports = app => {
 	app.route('/annotations').get(
 		authenticationToken.bearer,
-		listAnnotationsController.handler.bind(listAnnotationsController),
+		returnAnnotationsController.handler.bind(returnAnnotationsController),
 	);
 
 	app.route('/lists/:listId/annotations').post(
@@ -39,7 +39,7 @@ module.exports = app => {
 	app.route('/annotations/:annotationId')
 		.get(
 			authenticationToken.bearer,
-			listAnnotationController.handler.bind(listAnnotationController),
+			returnAnnotationController.handler.bind(returnAnnotationController),
 		)
 		.patch(
 			authenticationToken.bearer,
