@@ -10,35 +10,33 @@ const ReturnUsersController = require('../components/User/ReturnUsers/ReturnUser
 const UserServiceWithMySqlFactory = require('../components/User/factories/UserServiceWithMySqlFactory');
 const VerifyEmailController = require('../components/User/VerifyEmail/VerifyEmailController');
 
-const userServiceWithMySqlFactory = new UserServiceWithMySqlFactory();
-
 const authenticationRefreshToken =
-	userServiceWithMySqlFactory.authenticationRefreshToken();
+	UserServiceWithMySqlFactory.authenticationRefreshToken();
 const authenticationVerificationEmail =
-	userServiceWithMySqlFactory.authenticationVerificationEmail();
+	UserServiceWithMySqlFactory.authenticationVerificationEmail();
 const loginController = new LoginController(
-	userServiceWithMySqlFactory.loginService(),
+	UserServiceWithMySqlFactory.loginService(),
 );
 const logoutController = new LogoutController(
-	userServiceWithMySqlFactory.logoutService(),
+	UserServiceWithMySqlFactory.logoutService(),
 );
 const verifyEmailController = new VerifyEmailController(
-	userServiceWithMySqlFactory.verifyEmailService(),
+	UserServiceWithMySqlFactory.verifyEmailService(),
 );
 const createUserController = new CreateUserController(
-	userServiceWithMySqlFactory.createUserService(),
+	UserServiceWithMySqlFactory.createUserService(),
 );
 const returnUserController = new ReturnUserController(
-	userServiceWithMySqlFactory.returnUserService(),
+	UserServiceWithMySqlFactory.returnUserService(),
 );
 const returnUsersController = new ReturnUsersController(
-	userServiceWithMySqlFactory.returnUsersService(),
+	UserServiceWithMySqlFactory.returnUsersService(),
 );
 const modifyUserController = new ModifyUserController(
-	userServiceWithMySqlFactory.modifyUserService(),
+	UserServiceWithMySqlFactory.modifyUserService(),
 );
 const removeUserController = new RemoveUserController(
-	userServiceWithMySqlFactory.removeUserService(),
+	UserServiceWithMySqlFactory.removeUserService(),
 );
 
 module.exports = app => {

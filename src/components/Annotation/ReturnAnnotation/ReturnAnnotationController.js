@@ -1,11 +1,11 @@
+const ReturnAnnotationRequestDTO = require('./ReturnAnnotationRequestDTO');
 const HttpResponse = require('../../../helpers/HttpResponse');
 const InvalidParamError = require('../../../helpers/errors/InvalidParamError');
 const MissingParamError = require('../../../helpers/errors/MissingParamError');
-const RemoveAnnotationRequestDTO = require('./RemoveAnnotationRequestDTO');
 
-class RemoveAnnotationController {
-	constructor(removeAnnotationService, logger, paramTypeValidator) {
-		this.removeAnnotationService = removeAnnotationService;
+class ReturnAnnotationController {
+	constructor(returnAnnotationService, logger, paramTypeValidator) {
+		this.returnAnnotationService = returnAnnotationService;
 		this.logger = logger;
 		this.paramTypeValidator = paramTypeValidator;
 	}
@@ -30,23 +30,23 @@ class RemoveAnnotationController {
 				);
 			}
 			this.logger.info(
-				`Usuário:${id} está tentando excluir a anotação:${annotationId}.`,
+				`Usuário:${id} está tentando retornar a anotação:${annotationId}.`,
 			);
-			const removeAnnotationRequestDTO = new RemoveAnnotationRequestDTO({
+			const returnAnnotationRequestDTO = new ReturnAnnotationRequestDTO({
 				...httpRequest.params,
 			});
-			await this.removeAnnotationService.execute(
-				removeAnnotationRequestDTO,
+			const annotation = await this.returnAnnotationService.execute(
+				returnAnnotationRequestDTO,
 			);
 			this.logger.info(
-				`Usuário:${id} conseguiu excluir a anotação:${annotationId}.`,
+				`Usuário:${id} conseguiu retornar a anotação:${annotationId}.`,
 			);
-			return HttpResponse.okWithoutBody();
-		} catch (err) {
-			this.logger.error(`${err.message}`);
+			return HttpResponse.ok(annotation);
+		} catch (error) {
+			this.logger.error(`${error.message}`);
 			return HttpResponse.serverError();
 		}
 	}
 }
 
-module.exports = RemoveAnnotationController;
+module.exports = ReturnAnnotationController;

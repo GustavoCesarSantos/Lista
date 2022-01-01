@@ -3,11 +3,11 @@ class IAnnotationServiceFactory {
 		throw new Error('Método não implementado.');
 	}
 
-	static listAnnotationService() {
+	static returnAnnotationService() {
 		throw new Error('Método não implementado.');
 	}
 
-	static listAnnotationsService() {
+	static returnAnnotationsService() {
 		throw new Error('Método não implementado.');
 	}
 

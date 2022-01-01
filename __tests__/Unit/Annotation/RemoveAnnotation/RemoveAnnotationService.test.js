@@ -1,38 +1,59 @@
+const NotFoundError = require('../../../../src/helpers/errors/NotFoundError');
 const RemoveAnnotationService = require('../../../../src/components/Annotation/RemoveAnnotation/RemoveAnnotationService');
 
+class AnnotationRepositoryFake {
+	findOne(annotationId) {
+		annotationId;
+		return true;
+	}
+
+	remove() {}
+}
+
+class AnnotationRepositoryWithErrorFake {
+	findOne(annotationId) {
+		annotationId;
+		return false;
+	}
+
+	remove() {}
+}
+
+const makeSut = () => {
+	const annotationRepositoryFake = new AnnotationRepositoryFake();
+	const sut = new RemoveAnnotationService(annotationRepositoryFake);
+	return sut;
+};
+
 describe('REMOVE ANNOTATION SERVICE UNIT TEST', () => {
-	test('Should throw  an error when not found an annotation', async () => {
-		const annotation = { id: 1 };
-		const AnnotationRepositoryFake = jest.fn().mockImplementation(() => ({
-			async findOne(data) {
-				return false;
-			},
-		}));
-		const annotationRepositoryFake = new AnnotationRepositoryFake();
-		const removeAnnotationService = new RemoveAnnotationService(
-			annotationRepositoryFake,
+	test('Should return 500 if no repository has no provided', async () => {
+		const sut = new RemoveAnnotationService();
+		const annotation = {
+			annotationId: 1,
+		};
+		const httpResponse = sut.execute(annotation);
+		expect(httpResponse).rejects.toThrow();
+	});
+
+	test('Should return 404 if an annotation not founded', async () => {
+		const annotationRepositoryWithErrorFake =
+			new AnnotationRepositoryWithErrorFake();
+		const sut = new RemoveAnnotationService(
+			annotationRepositoryWithErrorFake,
 		);
-		await removeAnnotationService
-			.execute(annotation)
-			.catch(error =>
-				expect(error.message).toBe('Anotação não encontrada'),
-			);
+		const annotation = {
+			annotationId: 1,
+		};
+		expect(sut.execute(annotation)).rejects.toThrow(
+			new NotFoundError(`${annotation.annotationId}`),
+		);
 	});
 
 	test('Should remove an annotation', async () => {
-		const annotation = { id: 1 };
-		const AnnotationRepositoryFake = jest.fn().mockImplementation(() => ({
-			async findOne(data) {
-				return true;
-			},
-			async remove(data) {},
-		}));
-		const annotationRepositoryFake = new AnnotationRepositoryFake();
-		const removeAnnotationService = new RemoveAnnotationService(
-			annotationRepositoryFake,
-		);
-		await expect(
-			removeAnnotationService.execute(annotation),
-		).resolves.not.toThrow();
+		const sut = makeSut();
+		const annotation = {
+			annotationId: 1,
+		};
+		expect(sut.execute(annotation)).resolves.not.toThrow();
 	});
 });

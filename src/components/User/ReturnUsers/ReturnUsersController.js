@@ -1,4 +1,3 @@
-const logger = require('../../../helpers/logger');
 const ReturnUsersRequestDTO = require('./ReturnUsersRequestDTO');
 const ReturnUserService = require('./ReturnUsersService');
 
@@ -9,9 +8,9 @@ class ReturnUsersController {
 
 	async handler(request, response) {
 		try {
-			logger.info(
-				`Usuário:${request.user.id} está tentando retornar todos os usuários.`,
-			);
+			// logger.info(
+			// 	`Usuário:${request.user.id} está tentando retornar todos os usuários.`,
+			// );
 			const returnUsersRequestDTO = new ReturnUsersRequestDTO({
 				...request.query,
 			});
@@ -21,13 +20,13 @@ class ReturnUsersController {
 			const users = await returnUsersService.execute(
 				returnUsersRequestDTO,
 			);
-			logger.info(
-				`Usuário:${request.user.id} conseguiu retornar todos os usuários.`,
-			);
+			// logger.info(
+			// 	`Usuário:${request.user.id} conseguiu retornar todos os usuários.`,
+			// );
 			response.status(200).json(users);
 		} catch (err) {
 			if (!err.httpCode) err.httpCode = 500;
-			logger.error(`${err.httpCode} - ${err.message}`);
+			// logger.error(`${err.httpCode} - ${err.message}`);
 			response.status(err.httpCode).send(err.message);
 		}
 	}

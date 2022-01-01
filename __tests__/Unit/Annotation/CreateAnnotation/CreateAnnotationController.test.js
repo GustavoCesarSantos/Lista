@@ -1,101 +1,158 @@
 const CreateAnnotationController = require('../../../../src/components/Annotation/CreateAnnotation/CreateAnnotationController');
-const logger = require('../../../../src/helpers/logger');
+const InvalidParamError = require('../../../../src/helpers/Errors/InvalidParamError');
+const MissingParamError = require('../../../../src/helpers/Errors/MissingParamError');
+const ServerError = require('../../../../src/helpers/Errors/ServerError');
+
+class CreateAnnotationServiceDummy {
+	async execute() {}
+}
+
+class LoggerDummy {
+	info(message) {
+		return message;
+	}
+	error(message) {
+		return message;
+	}
+}
+
+class ParamTypeValidatorMock {
+	isString(param) {
+		return typeof param === 'string';
+	}
+}
+
+const makeSut = () => {
+	const createAnnotationServiceDummy = new CreateAnnotationServiceDummy();
+	const loggerDummy = new LoggerDummy();
+	const paramTypeValidatorMock = new ParamTypeValidatorMock();
+	const sut = new CreateAnnotationController(
+		createAnnotationServiceDummy,
+		loggerDummy,
+		paramTypeValidatorMock,
+	);
+	return sut;
+};
 
 describe('CREATE ANNOTATION CONTROLLER UNIT TEST', () => {
-	beforeEach(() => {
-		jest.spyOn(logger, 'info').mockImplementation();
-
-		jest.spyOn(logger, 'error').mockImplementation();
+	test('Should return 500 if no http request is provided', async () => {
+		const sut = makeSut();
+		const httpResponse = await sut.handle();
+		expect(httpResponse.statusCode).toBe(500);
+		expect(httpResponse.message).toBe(new ServerError().message);
 	});
 
-	test('Should catch an error with default http status code', async () => {
-		const request = {
+	test('Should return 500 if http request has no params', async () => {
+		const httpRequest = {
+			body: { contents: 'TESTE' },
 			user: { id: 1 },
-			params: { listId: 1 },
-			body: { contents: 'text' },
 		};
-		const response = {
-			status(statusCode) {
-				return statusCode;
-			},
-			send(message) {
-				return message;
-			},
-		};
-		const CreateAnnotationServiceFake = jest
-			.fn()
-			.mockImplementation(() => ({
-				async execute(data) {
-					throw new Error('Teste');
-				},
-			}));
-		const spy = jest.spyOn(response, 'status');
-		const createAnnotationServiceFake = new CreateAnnotationServiceFake();
-		const createAnnotationController = new CreateAnnotationController(
-			createAnnotationServiceFake,
-		);
-		await createAnnotationController.handler(request, response);
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(spy).toHaveBeenCalledWith(500);
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(500);
+		expect(httpResponse.message).toBe(new ServerError().message);
 	});
 
-	test('Should catch an error with custom http status code', async () => {
-		const request = {
-			user: { id: 1 },
+	test('Should return 500 if http request has no body', async () => {
+		const httpRequest = {
 			params: { listId: 1 },
-			body: { contents: 'text' },
+			user: { id: 1 },
 		};
-		const response = {
-			status(statusCode) {
-				return statusCode;
-			},
-			send(message) {
-				return message;
-			},
-		};
-		const CreateAnnotationServiceFake = jest
-			.fn()
-			.mockImplementation(() => ({
-				async execute(data) {
-					const error = new Error('Teste');
-					error.httpCode = 401;
-					throw error;
-				},
-			}));
-		const spy = jest.spyOn(response, 'status');
-		const createAnnotationServiceFake = new CreateAnnotationServiceFake();
-		const createAnnotationController = new CreateAnnotationController(
-			createAnnotationServiceFake,
-		);
-		await createAnnotationController.handler(request, response);
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(spy).toHaveBeenCalledWith(401);
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(500);
+		expect(httpResponse.message).toBe(new ServerError().message);
 	});
 
-	test('Should pass', async () => {
-		const request = {
-			user: { id: 1 },
+	test('Should return 500 if http request has no user', async () => {
+		const httpRequest = {
 			params: { listId: 1 },
-			body: { contents: 'text' },
+			body: { contents: 'TESTE' },
 		};
-		const response = {
-			status(statusCode) {
-				return statusCode;
-			},
-			end() {},
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(500);
+		expect(httpResponse.message).toBe(new ServerError().message);
+	});
+
+	test('Should return 400 if no list id is provided', async () => {
+		const httpRequest = {
+			params: {},
+			body: { contents: 'TESTE' },
+			user: { id: 1 },
 		};
-		const spy = jest.spyOn(response, 'status');
-		const CreateAnnotationServiceFake = jest
-			.fn()
-			.mockImplementation(() => ({
-				execute: data => true,
-			}));
-		const createAnnotationServiceFake = new CreateAnnotationServiceFake();
-		const createAnnotationController = new CreateAnnotationController(
-			createAnnotationServiceFake,
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(400);
+		expect(httpResponse.message).toBe(
+			new MissingParamError('list id').message,
 		);
-		await createAnnotationController.handler(request, response);
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(spy).toHaveBeenCalledWith(201);
+	});
+
+	test('Should return 400 if no contents is provided', async () => {
+		const httpRequest = {
+			params: { listId: 1 },
+			body: {},
+			user: { id: 1 },
+		};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(400);
+		expect(httpResponse.message).toBe(
+			new MissingParamError('contents').message,
+		);
+	});
+
+	test('Should return 400 if no user id is provided', async () => {
+		const httpRequest = {
+			params: { listId: 1 },
+			body: { contents: 'TESTE' },
+			user: {},
+		};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(400);
+		expect(httpResponse.message).toBe(
+			new MissingParamError('user id').message,
+		);
+	});
+
+	test('Should return 400 if an invalid list id is provided', async () => {
+		const httpRequest = {
+			params: { listId: 1 },
+			body: { contents: 'TESTE' },
+			user: { id: 1 },
+		};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(400);
+		expect(httpResponse.message).toBe(
+			new InvalidParamError('list id').message,
+		);
+	});
+
+	test('Should return 400 if an invalid content is provided', async () => {
+		const httpRequest = {
+			params: { listId: '1' },
+			body: { contents: 1 },
+			user: { id: 1 },
+		};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(400);
+		expect(httpResponse.message).toBe(
+			new InvalidParamError('contents').message,
+		);
+	});
+
+	test('Should return 201 when valid infos are provided', async () => {
+		const httpRequest = {
+			params: { listId: '1' },
+			body: { contents: 'Teste' },
+			user: { id: 1 },
+		};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(201);
 	});
 });

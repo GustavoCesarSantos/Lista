@@ -1,13 +1,6 @@
-const logger = require('../../../../src/helpers/logger');
 const RemoveListController = require('../../../../src/components/List/RemoveList/RemoveListController');
 
 describe('REMOVE LIST CONTROLLER UNIT TEST', () => {
-	beforeEach(() => {
-		jest.spyOn(logger, 'info').mockImplementation();
-
-		jest.spyOn(logger, 'error').mockImplementation();
-	});
-
 	test('Should catch an error with default http status code', async () => {
 		const request = {
 			user: { id: 1 },
@@ -23,6 +16,7 @@ describe('REMOVE LIST CONTROLLER UNIT TEST', () => {
 		};
 		const RemoveListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				throw new Error('Teste');
 			},
 		}));
@@ -51,6 +45,7 @@ describe('REMOVE LIST CONTROLLER UNIT TEST', () => {
 		};
 		const RemoveListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				const error = new Error('Teste');
 				error.httpCode = 401;
 				throw error;
@@ -79,7 +74,9 @@ describe('REMOVE LIST CONTROLLER UNIT TEST', () => {
 		};
 		const spy = jest.spyOn(response, 'status');
 		const RemoveListServiceFake = jest.fn().mockImplementation(() => ({
-			execute: data => {},
+			execute: data => {
+				data;
+			},
 		}));
 		const removeListServiceFake = new RemoveListServiceFake();
 		const removeListController = new RemoveListController(

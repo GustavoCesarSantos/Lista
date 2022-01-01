@@ -2,7 +2,7 @@
 
 const nodemailer = require('nodemailer');
 
-const logger = require('./logger');
+const WinstonLog = require('./logs/WinstonLog');
 
 class Email {
 	constructor() {
@@ -22,7 +22,7 @@ class Email {
 		const sendedEmail = await transporter.sendMail(this);
 
 		if (`${process.env.NODE_ENV}` !== 'production') {
-			return logger.info(
+			return WinstonLog.info(
 				`URL: ${nodemailer.getTestMessageUrl(sendedEmail)}`,
 			);
 		}

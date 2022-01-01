@@ -1,13 +1,11 @@
-const ModifyAnnotationService = require('../../../../src/components/Annotation/ModifyAnnotation/ModifyAnnotationService');
 const NotFoundError = require('../../../../src/helpers/errors/NotFoundError');
+const ReturnAnnotationService = require('../../../../src/components/Annotation/ReturnAnnotation/ReturnAnnotationService');
 
 class AnnotationRepositoryFake {
 	findOne(annotationId) {
 		annotationId;
 		return true;
 	}
-
-	modify() {}
 }
 
 class AnnotationRepositoryWithErrorFake {
@@ -19,13 +17,13 @@ class AnnotationRepositoryWithErrorFake {
 
 const makeSut = () => {
 	const annotationRepositoryFake = new AnnotationRepositoryFake();
-	const sut = new ModifyAnnotationService(annotationRepositoryFake);
+	const sut = new ReturnAnnotationService(annotationRepositoryFake);
 	return sut;
 };
 
-describe('MODIFY ANNOTATION SERVICE UNIT TEST', () => {
+describe('RETURN ANNOTATION SERVICE UNIT TEST', () => {
 	test('Should return 500 if no repository has no provided', async () => {
-		const sut = new ModifyAnnotationService();
+		const sut = new ReturnAnnotationService();
 		const annotation = {
 			id: 1,
 			listId: 1,
@@ -38,7 +36,7 @@ describe('MODIFY ANNOTATION SERVICE UNIT TEST', () => {
 	test('Should return 404 if an annotation not founded', async () => {
 		const annotationRepositoryWithErrorFake =
 			new AnnotationRepositoryWithErrorFake();
-		const sut = new ModifyAnnotationService(
+		const sut = new ReturnAnnotationService(
 			annotationRepositoryWithErrorFake,
 		);
 		const annotation = {

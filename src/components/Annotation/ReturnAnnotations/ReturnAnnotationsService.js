@@ -7,7 +7,6 @@ class ListAnnotationsService {
 
 	async execute(listAnnotationsRequestDTO) {
 		const annotation = new Annotation(listAnnotationsRequestDTO);
-		await annotation.returnsAValidQuery();
 		await this.annotationRepository.findMany(annotation);
 	}
 }

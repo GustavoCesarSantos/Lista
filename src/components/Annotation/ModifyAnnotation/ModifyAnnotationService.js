@@ -1,5 +1,5 @@
 const Annotation = require('../entities/Annotation');
-const ErrorHandler = require('../../../helpers/ErrorHandler');
+const NotFoundError = require('../../../helpers/errors/NotFoundError');
 
 class ModifyAnnotationService {
 	constructor(annotationRepository) {
@@ -8,12 +8,10 @@ class ModifyAnnotationService {
 
 	async execute(modifyAnnotationRequestDTO) {
 		const annotation = new Annotation(modifyAnnotationRequestDTO);
-		await annotation.isValid();
 		const hasAnnotation = await this.annotationRepository.findOne(
 			annotation.id,
 		);
-		if (!hasAnnotation)
-			throw new ErrorHandler('Anotação não encontrada', 404);
+		if (!hasAnnotation) throw new NotFoundError(`${annotation.id}`);
 		await this.annotationRepository.modify(annotation);
 	}
 }

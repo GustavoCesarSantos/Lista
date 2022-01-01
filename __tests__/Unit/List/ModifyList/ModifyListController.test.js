@@ -1,13 +1,6 @@
 const ModifyListController = require('../../../../src/components/List/ModifyList/ModifyListController');
-const logger = require('../../../../src/helpers/logger');
 
 describe('MODIFY LIST CONTROLLER UNIT TEST', () => {
-	beforeEach(() => {
-		jest.spyOn(logger, 'info').mockImplementation();
-
-		jest.spyOn(logger, 'error').mockImplementation();
-	});
-
 	test('Should catch an error with default http status code', async () => {
 		const request = {
 			user: { id: 1 },
@@ -24,6 +17,7 @@ describe('MODIFY LIST CONTROLLER UNIT TEST', () => {
 		};
 		const ModifyListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				throw new Error('Teste');
 			},
 		}));
@@ -53,6 +47,7 @@ describe('MODIFY LIST CONTROLLER UNIT TEST', () => {
 		};
 		const ModifyListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				const error = new Error('Teste');
 				error.httpCode = 404;
 				throw error;
@@ -82,7 +77,9 @@ describe('MODIFY LIST CONTROLLER UNIT TEST', () => {
 		};
 		const spy = jest.spyOn(response, 'status');
 		const ModifyListServiceFake = jest.fn().mockImplementation(() => ({
-			execute: data => {},
+			execute: data => {
+				data;
+			},
 		}));
 		const modifyListServiceFake = new ModifyListServiceFake();
 		const modifyListController = new ModifyListController(

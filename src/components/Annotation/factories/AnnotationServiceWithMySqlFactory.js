@@ -2,10 +2,10 @@ const { Annotations } = require('../../../database/models');
 const AnnotationRepositoryMySql = require('../repositories/AnnotationRepositoryMySql');
 const CreateAnnotationService = require('../CreateAnnotation/CreateAnnotationService');
 const IAnnotationServiceFactory = require('./IAnnotationServiceFactory');
-const ListAnnotationService = require('../ListAnnotation/ListAnnotationService');
-const ListAnnotationsService = require('../ListAnnotations/ListAnnotationsService');
 const ModifyAnnotationService = require('../ModifyAnnotation/ModifyAnnotationService');
 const RemoveAnnotationService = require('../RemoveAnnotation/RemoveAnnotationService');
+const ReturnAnnotationService = require('../ReturnAnnotation/ReturnAnnotationService');
+const ReturnAnnotationsService = require('../ReturnAnnotations/ReturnAnnotationsService');
 
 const annotationRepositoryMySql = new AnnotationRepositoryMySql(Annotations);
 
@@ -14,12 +14,12 @@ class AnnotationServiceWithMySqlFactory extends IAnnotationServiceFactory {
 		return new CreateAnnotationService(annotationRepositoryMySql);
 	}
 
-	static listAnnotationService() {
-		return new ListAnnotationService(annotationRepositoryMySql);
+	static returnAnnotationService() {
+		return new ReturnAnnotationService(annotationRepositoryMySql);
 	}
 
-	static listAnnotationsService() {
-		return new ListAnnotationsService(annotationRepositoryMySql);
+	static returnAnnotationsService() {
+		return new ReturnAnnotationsService(annotationRepositoryMySql);
 	}
 
 	static modifyAnnotationService() {

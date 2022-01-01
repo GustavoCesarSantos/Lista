@@ -7,7 +7,6 @@ class CreateAnnotationService {
 
 	async execute(createAnnotationRequestDTO) {
 		const annotation = new Annotation(createAnnotationRequestDTO);
-		await annotation.isValid();
 		await this.annotationRepository.create(annotation);
 	}
 }

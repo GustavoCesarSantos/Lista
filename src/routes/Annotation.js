@@ -1,52 +1,49 @@
 const authenticationToken = require('../middlewares/authenticationToken');
 const AnnotationServiceWithMySqlFactory = require('../components/Annotation/factories/AnnotationServiceWithMySqlFactory');
 const CreateAnnotationController = require('../components/Annotation/CreateAnnotation/CreateAnnotationController');
-const ListAnnotationController = require('../components/Annotation/ListAnnotation/ListAnnotationController');
-const ListAnnotationsController = require('../components/Annotation/ListAnnotations/ListAnnotationsController');
 const ModifyAnnotationController = require('../components/Annotation/ModifyAnnotation/ModifyAnnotationController');
 const RemoveAnnotationController = require('../components/Annotation/RemoveAnnotation/RemoveAnnotationController');
-
-const annotationServiceWithMySqlFactory =
-	new AnnotationServiceWithMySqlFactory();
+const ReturnAnnotationController = require('../components/Annotation/ReturnAnnotation/ReturnAnnotationController');
+const ReturnAnnotationsController = require('../components/Annotation/ReturnAnnotations/ReturnAnnotationsController');
 
 const createAnnotationController = new CreateAnnotationController(
-	annotationServiceWithMySqlFactory.createAnnotationService(),
+	AnnotationServiceWithMySqlFactory.createAnnotationService(),
 );
-const listAnnotationController = new ListAnnotationController(
-	annotationServiceWithMySqlFactory.listAnnotationService(),
+const returnAnnotationController = new ReturnAnnotationController(
+	AnnotationServiceWithMySqlFactory.returnAnnotationService(),
 );
-const listAnnotationsController = new ListAnnotationsController(
-	annotationServiceWithMySqlFactory.listAnnotationsService(),
+const returnAnnotationsController = new ReturnAnnotationsController(
+	AnnotationServiceWithMySqlFactory.returnAnnotationsService(),
 );
 const modifyAnnotationController = new ModifyAnnotationController(
-	annotationServiceWithMySqlFactory.modifyAnnotationService(),
+	AnnotationServiceWithMySqlFactory.modifyAnnotationService(),
 );
 const removeAnnotationController = new RemoveAnnotationController(
-	annotationServiceWithMySqlFactory.removeAnnotationService(),
+	AnnotationServiceWithMySqlFactory.removeAnnotationService(),
 );
 
 module.exports = app => {
 	app.route('/annotations').get(
 		authenticationToken.bearer,
-		listAnnotationsController.handler.bind(listAnnotationsController),
+		returnAnnotationsController.handle.bind(returnAnnotationsController),
 	);
 
 	app.route('/lists/:listId/annotations').post(
 		authenticationToken.bearer,
-		createAnnotationController.handler.bind(createAnnotationController),
+		createAnnotationController.handle.bind(createAnnotationController),
 	);
 
 	app.route('/annotations/:annotationId')
 		.get(
 			authenticationToken.bearer,
-			listAnnotationController.handler.bind(listAnnotationController),
+			returnAnnotationController.handle.bind(returnAnnotationController),
 		)
 		.patch(
 			authenticationToken.bearer,
-			modifyAnnotationController.handler.bind(modifyAnnotationController),
+			modifyAnnotationController.handle.bind(modifyAnnotationController),
 		)
 		.delete(
 			authenticationToken.bearer,
-			removeAnnotationController.handler.bind(removeAnnotationController),
+			removeAnnotationController.handle.bind(removeAnnotationController),
 		);
 };
