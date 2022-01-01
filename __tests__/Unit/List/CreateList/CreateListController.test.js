@@ -1,13 +1,6 @@
 const CreateListController = require('../../../../src/components/List/CreateList/CreateListController');
-const logger = require('../../../../src/helpers/logger');
 
 describe('CREATE LIST CONTROLLER UNIT TEST', () => {
-	beforeEach(() => {
-		jest.spyOn(logger, 'info').mockImplementation();
-
-		jest.spyOn(logger, 'error').mockImplementation();
-	});
-
 	test('Should catch an error with default http status code', async () => {
 		const request = {
 			user: { id: 1 },
@@ -24,6 +17,7 @@ describe('CREATE LIST CONTROLLER UNIT TEST', () => {
 		};
 		const CreateListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				throw new Error('Teste');
 			},
 		}));
@@ -53,6 +47,7 @@ describe('CREATE LIST CONTROLLER UNIT TEST', () => {
 		};
 		const CreateListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				const error = new Error('Teste');
 				error.httpCode = 401;
 				throw error;
@@ -82,7 +77,10 @@ describe('CREATE LIST CONTROLLER UNIT TEST', () => {
 		};
 		const spy = jest.spyOn(response, 'status');
 		const CreateListServiceFake = jest.fn().mockImplementation(() => ({
-			execute: data => true,
+			execute: data => {
+				data;
+				return true;
+			},
 		}));
 		const createListServiceFake = new CreateListServiceFake();
 		const createListController = new CreateListController(

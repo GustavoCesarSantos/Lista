@@ -1,13 +1,6 @@
-const logger = require('../../../../src/helpers/logger');
 const ReturnListController = require('../../../../src/components/List/ReturnList/ReturnListController');
 
 describe('RETURN LIST CONTROLLER UNIT TEST', () => {
-	beforeEach(() => {
-		jest.spyOn(logger, 'info').mockImplementation();
-
-		jest.spyOn(logger, 'error').mockImplementation();
-	});
-
 	test('Should catch an error with default http status code', async () => {
 		const request = {
 			user: { id: 1 },
@@ -23,6 +16,7 @@ describe('RETURN LIST CONTROLLER UNIT TEST', () => {
 		};
 		const ReturnListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				throw new Error('Teste');
 			},
 		}));
@@ -51,6 +45,7 @@ describe('RETURN LIST CONTROLLER UNIT TEST', () => {
 		};
 		const ReturnListServiceFake = jest.fn().mockImplementation(() => ({
 			async execute(data) {
+				data;
 				const error = new Error('Teste');
 				error.httpCode = 401;
 				throw error;
@@ -107,7 +102,10 @@ describe('RETURN LIST CONTROLLER UNIT TEST', () => {
 		};
 		const spy = jest.spyOn(response, 'json');
 		const ReturnListServiceFake = jest.fn().mockImplementation(() => ({
-			execute: data => ({ name: 'Teste' }),
+			execute: data => {
+				data;
+				return { name: 'Teste' };
+			},
 		}));
 		const returnListServiceFake = new ReturnListServiceFake();
 		const returnListController = new ReturnListController(
