@@ -1,9 +1,8 @@
 const ReturnUsersRequestDTO = require('./ReturnUsersRequestDTO');
-const ReturnUserService = require('./ReturnUsersService');
 
 class ReturnUsersController {
-	constructor(userRepository) {
-		this.userRepository = userRepository;
+	constructor(returnUsersService) {
+		this.returnUsersService = returnUsersService;
 	}
 
 	async handler(request, response) {
@@ -14,10 +13,7 @@ class ReturnUsersController {
 			const returnUsersRequestDTO = new ReturnUsersRequestDTO({
 				...request.query,
 			});
-			const returnUsersService = new ReturnUserService(
-				this.userRepository,
-			);
-			const users = await returnUsersService.execute(
+			const users = await this.returnUsersService.execute(
 				returnUsersRequestDTO,
 			);
 			// logger.info(
