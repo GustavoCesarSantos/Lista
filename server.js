@@ -13,8 +13,9 @@ const port = process.env.PORT || 3000;
 const server = app.listen(port, WinstonLog.info(`Server on in port ${port}`));
 
 process.on('uncaughtException', (err, origin) => {
-	WinstonLog.error('uncaughtException', err);
-	WinstonLog.error('uncaughtExceptionOrigin', origin);
+	WinstonLog.error(`uncaughtException' - ${err.message}`);
+	WinstonLog.error(`uncaughtExceptionOrigin' - ${origin}`);
+	process.exit(1);
 });
 
 process.on('SIGTERM', () => {
