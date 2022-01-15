@@ -1,5 +1,4 @@
 const CreateListService = require('../CreateList/CreateListService');
-const IListServiceFactory = require('./IListServiceFactory');
 const { List } = require('../../../database/models');
 const ListRepositoryMySql = require('../repositories/ListRepositoryMySql');
 const ModifyListService = require('../ModifyList/ModifyListService');
@@ -9,7 +8,7 @@ const ReturnListsService = require('../ReturnLists/ReturnListsService');
 
 const listRepositoryMySql = new ListRepositoryMySql(List);
 
-class ListServiceWithMySqlFactory extends IListServiceFactory {
+class ListServiceWithMySqlFactory {
 	static createListService() {
 		return new CreateListService(listRepositoryMySql);
 	}
