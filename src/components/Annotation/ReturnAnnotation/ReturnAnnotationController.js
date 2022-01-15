@@ -39,7 +39,7 @@ class ReturnAnnotationController {
 				returnAnnotationRequestDTO,
 			);
 			this.logger.info(
-				`Usuário:${id} conseguiu retornar a anotação:${annotationId}.`,
+				`Usuário:${id} conseguiu retornar a anotação:${annotation.id} - ${annotation.contents}.`,
 			);
 			return HttpResponse.ok(annotation);
 		} catch (error) {

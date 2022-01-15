@@ -1,7 +1,7 @@
-const InvalidParamError = require('../../../../src/helpers/Errors/InvalidParamError');
-const MissingParamError = require('../../../../src/helpers/Errors/MissingParamError');
+const InvalidParamError = require('../../../../src/helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../../src/helpers/errors/MissingParamError');
 const RemoveAnnotationController = require('../../../../src/components/Annotation/RemoveAnnotation/RemoveAnnotationController');
-const ServerError = require('../../../../src/helpers/Errors/ServerError');
+const ServerError = require('../../../../src/helpers/errors/ServerError');
 
 class RemoveAnnotationServiceDummy {
 	async execute() {}

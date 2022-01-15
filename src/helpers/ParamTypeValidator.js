@@ -1,5 +1,5 @@
 class ParamTypeValidator {
-	isString(param) {
+	static isString(param) {
 		return typeof param === 'string';
 	}
 }

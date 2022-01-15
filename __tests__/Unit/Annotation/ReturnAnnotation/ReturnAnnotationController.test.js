@@ -1,7 +1,7 @@
-const InvalidParamError = require('../../../../src/helpers/Errors/InvalidParamError');
-const MissingParamError = require('../../../../src/helpers/Errors/MissingParamError');
+const InvalidParamError = require('../../../../src/helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../../src/helpers/errors/MissingParamError');
 const ReturnAnnotationController = require('../../../../src/components/Annotation/ReturnAnnotation/ReturnAnnotationController');
-const ServerError = require('../../../../src/helpers/Errors/ServerError');
+const ServerError = require('../../../../src/helpers/errors/ServerError');
 
 class ReturnAnnotationServiceDummy {
 	async execute() {}

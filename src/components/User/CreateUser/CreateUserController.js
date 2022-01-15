@@ -1,9 +1,8 @@
 const CreateUserRequestDTO = require('./CreateUserRequestDTO');
-const CreateUserService = require('./CreateUserService');
 
 class CreateUserController {
-	constructor(userRepository) {
-		this.userRepository = userRepository;
+	constructor(createUserService) {
+		this.createUserService = createUserService;
 	}
 
 	async handler(request, response) {
@@ -12,10 +11,7 @@ class CreateUserController {
 			const createUserRequestDTO = new CreateUserRequestDTO({
 				...request.body,
 			});
-			const createUserService = new CreateUserService(
-				this.userRepository,
-			);
-			await createUserService.execute(createUserRequestDTO);
+			await this.createUserService.execute(createUserRequestDTO);
 			// logger.info(`Usuário:${request.body.email} criado com sucesso.`);
 			response.status(201).end();
 		} catch (err) {
