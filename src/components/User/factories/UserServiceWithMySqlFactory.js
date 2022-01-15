@@ -8,11 +8,11 @@ const ModifyUserService = require('../ModifyUser/ModifyUserService');
 const RemoveUserService = require('../RemoveUser/RemoveUserService');
 const ReturnUserService = require('../ReturnUser/ReturnUserService');
 const ReturnUsersService = require('../ReturnUsers/ReturnUsersService');
-const { User } = require('../../../database/models');
+const { Users } = require('../../../database/models');
 const UserRepositoryMySql = require('../repositories/UserRepositoryMySql');
 const VerifyEmailService = require('../VerifyEmail/VerifyEmailService');
 
-const userRepositoryMySql = new UserRepositoryMySql(User);
+const userRepositoryMySql = new UserRepositoryMySql(Users);
 
 class UserServiceWithMySqlFactory extends IUserServiceFactory {
 	static authenticationRefreshToken() {

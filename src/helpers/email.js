@@ -16,7 +16,7 @@ class Email {
 		};
 	}
 
-	static async sendEmail() {
+	async sendEmail() {
 		const emailConfiguration = await this.createEmailConfiguration();
 		const transporter = nodemailer.createTransport(emailConfiguration);
 		const sendedEmail = await transporter.sendMail(this);
@@ -30,7 +30,7 @@ class Email {
 		return true;
 	}
 
-	static testEmailConfiguration(testEmail) {
+	testEmailConfiguration(testEmail) {
 		return {
 			host: 'smtp.ethereal.email',
 			auth: testEmail,

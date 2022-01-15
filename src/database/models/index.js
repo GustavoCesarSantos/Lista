@@ -47,7 +47,9 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 process.on('SIGTERM', async () => {
+	WinstonLog.info('Close connection with database.');
 	await sequelize.close();
+	WinstonLog.info('Connection closed with success.');
 	process.exit(0);
 });
 

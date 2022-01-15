@@ -1,6 +1,6 @@
-const MissingParamError = require('../../../../src/helpers/Errors/MissingParamError');
+const MissingParamError = require('../../../../src/helpers/errors/MissingParamError');
 const ReturnAnnotationsController = require('../../../../src/components/Annotation/ReturnAnnotations/ReturnAnnotationsController');
-const ServerError = require('../../../../src/helpers/Errors/ServerError');
+const ServerError = require('../../../../src/helpers/errors/ServerError');
 
 class ReturnAnnotationsServiceDummy {
 	async execute() {}

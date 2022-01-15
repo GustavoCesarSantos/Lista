@@ -1,8 +1,8 @@
 const bcryptHelper = require('../../../helpers/bcrypt');
 const ErrorHandler = require('../../../helpers/ErrorHandler');
-const tokenHelper = require('../../../helpers/token');
+// const tokenHelper = require('../../../helpers/token');
 const User = require('../entities/User');
-const { VerificationEmail } = require('../../../helpers/email');
+// const Email = require('../../../helpers/email');
 
 class CreateUserService {
 	constructor(userRepository) {
@@ -23,15 +23,15 @@ class CreateUserService {
 		user.password = hashedPassword;
 		await this.userRepository.create(user);
 
-		const [{ id }] = await this.userRepository.findMany({
-			email: user.email,
-		});
-		const idToken = tokenHelper.createToken({ id });
-		user.id = idToken;
-		const verificationEmail = new VerificationEmail(user);
-		await verificationEmail.sendEmail().catch(error => {
-			throw new ErrorHandler(error, 500);
-		});
+		// const [{ id }] = await this.userRepository.findMany({
+		// 	email: user.email,
+		// });
+		// const idToken = tokenHelper.createToken({ id });
+		// user.id = idToken;
+		// const verificationEmail = new Email();
+		// await verificationEmail.sendEmail().catch(error => {
+		// 	throw new ErrorHandler(error, 500);
+		// });
 	}
 }
 

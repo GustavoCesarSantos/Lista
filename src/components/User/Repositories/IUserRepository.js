@@ -1,23 +1,23 @@
 /* eslint-disable no-unused-vars */
 
 class IUserRepository {
-	static create(user) {
+	create(user) {
 		throw new Error('Método não implementado.');
 	}
 
-	static findOne(userId) {
+	findOne(userId) {
 		throw new Error('Método não implementado.');
 	}
 
-	static findMany(query) {
+	findMany(query) {
 		throw new Error('Método não implementado.');
 	}
 
-	static modify(user) {
+	modify(user) {
 		throw new Error('Método não implementado.');
 	}
 
-	static remove(userId) {
+	remove(userId) {
 		throw new Error('Método não implementado.');
 	}
 }
