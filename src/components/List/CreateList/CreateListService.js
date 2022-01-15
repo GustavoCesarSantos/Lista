@@ -7,7 +7,6 @@ class CreateListService {
 
 	async execute(createListRequestDTO) {
 		const list = new List(createListRequestDTO);
-		await list.isValid();
 		await this.listRepository.create(list);
 	}
 }

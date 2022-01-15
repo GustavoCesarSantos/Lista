@@ -1,30 +1,56 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
+const InvalidParamError = require('../../../helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 const ModifyListRequestDTO = require('./ModifyListRequestDTO');
 
 class ModifyListController {
-	constructor(modifyListService) {
+	constructor(modifyListService, logger, paramTypeValidator) {
 		this.modifyListService = modifyListService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando modificar a lista:${request.params.listId}.`,
-			// );
+			const { listId } = httpRequest.params;
+			const { name } = httpRequest.body;
+			const { id } = httpRequest.user;
+			if (!listId) {
+				return HttpResponse.badRequest(
+					new MissingParamError('list id'),
+				);
+			}
+			if (!name) {
+				return HttpResponse.badRequest(new MissingParamError('name'));
+			}
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
+				);
+			}
+			if (!this.paramTypeValidator.isString(listId)) {
+				return HttpResponse.badRequest(
+					new InvalidParamError('list id'),
+				);
+			}
+			if (!this.paramTypeValidator.isString(name)) {
+				return HttpResponse.badRequest(new InvalidParamError('name'));
+			}
+			this.logger.info(
+				`Usuário:${id} está tentando modificar a lista:${listId}.`,
+			);
 			const modifyListRequestDTO = new ModifyListRequestDTO({
-				...request.params,
-				...request.body,
+				...httpRequest.params,
+				...httpRequest.body,
 			});
 			await this.modifyListService.execute(modifyListRequestDTO);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu modificar a lista:${request.params.listId}.`,
-			// );
-			response.status(201);
-			response.end();
-		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			// logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode);
-			response.send(err.message);
+			this.logger.info(
+				`Usuário:${id} conseguiu modificar a lista:${listId}.`,
+			);
+			return HttpResponse.okWithoutBody();
+		} catch (error) {
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }
