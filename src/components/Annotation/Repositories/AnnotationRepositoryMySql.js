@@ -1,8 +1,5 @@
-const IAnnotationRepository = require('./IAnnotationRepository');
-
-class AnnotationRepositoryMySql extends IAnnotationRepository {
+class AnnotationRepositoryMySql {
 	constructor(annotationModel) {
-		super();
 		this.annotationModel = annotationModel;
 	}
 

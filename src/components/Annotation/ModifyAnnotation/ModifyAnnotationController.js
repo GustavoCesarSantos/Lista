@@ -64,8 +64,8 @@ class ModifyAnnotationController {
 				`Usuário:${id} conseguiu modificar a anotação:${annotationId}.`,
 			);
 			return HttpResponse.okWithoutBody();
-		} catch (err) {
-			this.logger.error(`${err.message}`);
+		} catch (error) {
+			this.logger.error(`${error.message}`);
 			return HttpResponse.serverError();
 		}
 	}
