@@ -1,5 +1,5 @@
 const List = require('../entities/List');
-const ErrorHandler = require('../../../helpers/ErrorHandler');
+const NotFoundError = require('../../../helpers/errors/NotFoundError');
 
 class RemoveListService {
 	constructor(listRepository) {
@@ -8,9 +8,8 @@ class RemoveListService {
 
 	async execute(removeListRequestDTO) {
 		const list = new List(removeListRequestDTO);
-		await list.isValid();
 		const hasList = await this.listRepository.findOne(list.id);
-		if (!hasList) throw new ErrorHandler('Lista não encontrada', 404);
+		if (!hasList) throw new NotFoundError(`${list.id}`);
 		await this.listRepository.remove(list.id);
 	}
 }
