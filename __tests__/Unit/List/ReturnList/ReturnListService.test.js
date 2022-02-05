@@ -1,42 +1,52 @@
+const NotFoundError = require('../../../../src/helpers/errors/NotFoundError');
 const ReturnListService = require('../../../../src/components/List/ReturnList/ReturnListService');
 
+class ListRepositoryFake {
+	findOne(listId) {
+		listId;
+		return true;
+	}
+}
+
+class ListRepositoryWithErrorFake {
+	findOne(listId) {
+		listId;
+		return false;
+	}
+}
+
+const makeSut = () => {
+	const listRepositoryFake = new ListRepositoryFake();
+	const sut = new ReturnListService(listRepositoryFake);
+	return sut;
+};
+
 describe('RETURN LIST SERVICE UNIT TEST', () => {
-	test('Should throw  an error when not found a list', async () => {
+	test('Should return 500 if no repository has no provided', async () => {
+		const sut = new ReturnListService();
 		const list = {
 			id: 1,
-			userId: 1,
-			name: 'Teste',
 		};
-		const ListRepositoryFake = jest.fn().mockImplementation(() => ({
-			async findOne(data) {
-				return false;
-			},
-		}));
-		const listRepositoryFake = new ListRepositoryFake();
-		const returnListService = new ReturnListService(listRepositoryFake);
-		await returnListService
-			.execute(list)
-			.catch(error => expect(error.message).toBe('Lista não encontrada'));
+		const httpResponse = sut.execute(list);
+		expect(httpResponse).rejects.toThrow();
 	});
 
-	test('Should return an list', async () => {
+	test('Should return 404 if an list not founded', async () => {
+		const listRepositoryWithErrorFake = new ListRepositoryWithErrorFake();
+		const sut = new ReturnListService(listRepositoryWithErrorFake);
 		const list = {
-			id: 1,
-			userId: 1,
-			name: 'Teste',
+			listId: 1,
 		};
-		const listResponseDTO = {
-			id: 1,
-			name: 'Teste',
+		expect(sut.execute(list)).rejects.toThrow(
+			new NotFoundError(`${list.listId}`),
+		);
+	});
+
+	test('Should return a valid list', async () => {
+		const sut = makeSut();
+		const list = {
+			listId: 1,
 		};
-		const ListRepositoryFake = jest.fn().mockImplementation(() => ({
-			async findOne(data) {
-				return list;
-			},
-		}));
-		const listRepositoryFake = new ListRepositoryFake();
-		const returnListService = new ReturnListService(listRepositoryFake);
-		const response = await returnListService.execute(list);
-		expect(response).toEqual(listResponseDTO);
+		expect(sut.execute(list)).resolves.not.toThrow();
 	});
 });
