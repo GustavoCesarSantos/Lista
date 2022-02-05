@@ -1,7 +1,7 @@
-const InvalidParamError = require('../../../../src/helpers/Errors/InvalidParamError');
-const MissingParamError = require('../../../../src/helpers/Errors/MissingParamError');
+const InvalidParamError = require('../../../../src/helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../../src/helpers/errors/MissingParamError');
 const ModifyListController = require('../../../../src/components/List/ModifyList/ModifyListController');
-const ServerError = require('../../../../src/helpers/Errors/ServerError');
+const ServerError = require('../../../../src/helpers/errors/ServerError');
 
 class ModifyListServiceDummy {
 	async execute() {}
