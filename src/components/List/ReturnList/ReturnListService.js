@@ -1,5 +1,5 @@
-const ErrorHandler = require('../../../helpers/ErrorHandler');
 const List = require('../entities/List');
+const NotFoundError = require('../../../helpers/errors/NotFoundError');
 const ReturnListResponseDTO = require('./ReturnListResponseDTO');
 
 class ReturnListService {
@@ -9,10 +9,9 @@ class ReturnListService {
 
 	async execute(returnListRequestDTO) {
 		const list = new List(returnListRequestDTO);
-		await list.isValid();
-		const listDb = await this.listRepository.findOne(list.id);
-		if (!listDb) throw new ErrorHandler('Lista não encontrada', 404);
-		return new ReturnListResponseDTO(listDb);
+		const hasList = await this.listRepository.findOne(list.id);
+		if (!hasList) throw new NotFoundError(`${list.id}`);
+		return new ReturnListResponseDTO(hasList);
 	}
 }
 

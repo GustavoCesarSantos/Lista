@@ -26,8 +26,6 @@ describe('RETURN ANNOTATION SERVICE UNIT TEST', () => {
 		const sut = new ReturnAnnotationService();
 		const annotation = {
 			id: 1,
-			listId: 1,
-			contents: 'teste',
 		};
 		const httpResponse = sut.execute(annotation);
 		expect(httpResponse).rejects.toThrow();

@@ -1,31 +1,50 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
+const InvalidParamError = require('../../../helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 const ReturnListRequestDTO = require('./ReturnListRequestDTO');
 
 class ReturnListController {
-	constructor(returnListService) {
+	constructor(returnListService, logger, paramTypeValidator) {
 		this.returnListService = returnListService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando retornar a lista:${request.params.listId}.`,
-			// );
+			const { listId } = httpRequest.params;
+			const { id } = httpRequest.user;
+			if (!listId) {
+				return HttpResponse.badRequest(
+					new MissingParamError('list id'),
+				);
+			}
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
+				);
+			}
+			if (!this.paramTypeValidator.isString(listId)) {
+				return HttpResponse.badRequest(
+					new InvalidParamError('list id'),
+				);
+			}
+			this.logger.info(
+				`Usuário:${id} está tentando retornar a lista:${listId}.`,
+			);
 			const returnListRequestDTO = new ReturnListRequestDTO({
-				...request.params,
+				...httpRequest.params,
 			});
 			const list = await this.returnListService.execute(
 				returnListRequestDTO,
 			);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu retornar a lista:${request.params.listId}.`,
-			// );
-			response.status(200);
-			response.json(list);
+			this.logger.info(
+				`Usuário:${id} conseguiu retornar a lista:${listId}.`,
+			);
+			return HttpResponse.ok(list);
 		} catch (error) {
-			if (!error.httpCode) error.httpCode = 500;
-			// logger.error(`${error.httpCode} - ${error.message}`);
-			response.status(error.httpCode);
-			response.send(error.message);
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }

@@ -1,17 +1,34 @@
 const CreateListService = require('../../../../src/components/List/CreateList/CreateListService');
 
+class ListRepositoryDummy {
+	create() {}
+}
+
+const makeSut = () => {
+	const listRepositoryDummy = new ListRepositoryDummy();
+	const sut = new CreateListService(listRepositoryDummy);
+	return sut;
+};
+
 describe('CREATE LIST SERVICE UNIT TEST', () => {
-	test('Should create a valid list', async () => {
+	test('Should return 500 if no repository has no provided', async () => {
+		const sut = new CreateListService();
 		const list = {
 			id: 1,
 			userId: 1,
 			name: 'teste',
 		};
-		const ListRepositoryFake = jest.fn().mockImplementation(() => ({
-			async create(data) {},
-		}));
-		const listRepositoryFake = new ListRepositoryFake();
-		const createListService = new CreateListService(listRepositoryFake);
-		await expect(createListService.execute(list)).resolves.not.toThrow();
+		const httpResponse = sut.execute(list);
+		expect(httpResponse).rejects.toThrow();
+	});
+
+	test('Should create a valid list', async () => {
+		const sut = makeSut();
+		const list = {
+			id: 1,
+			userId: 1,
+			name: 'teste',
+		};
+		expect(sut.execute(list)).resolves.not.toThrow();
 	});
 });

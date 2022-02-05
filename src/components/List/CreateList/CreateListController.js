@@ -1,30 +1,56 @@
 const CreateListRequestDTO = require('./CreateListRequestDTO');
+const HttpResponse = require('../../../helpers/HttpResponse');
+const InvalidParamError = require('../../../helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 
 class CreateListController {
-	constructor(createListService) {
+	constructor(createListService, logger, paramTypeValidator) {
 		this.createListService = createListService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando cadastrar uma lista.`,
-			// );
+			const { userId } = httpRequest.params;
+			const { name } = httpRequest.body;
+			const { id } = httpRequest.user;
+			if (!userId) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
+				);
+			}
+			if (!name) {
+				return HttpResponse.badRequest(new MissingParamError('name'));
+			}
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('request user id'),
+				);
+			}
+			if (!this.paramTypeValidator.isString(userId)) {
+				return HttpResponse.badRequest(
+					new InvalidParamError('user id'),
+				);
+			}
+			if (!this.paramTypeValidator.isString(name)) {
+				return HttpResponse.badRequest(new InvalidParamError('name'));
+			}
+			this.logger.info(
+				`Usuário:${id} está tentando cadastrar a lista: ${name}.`,
+			);
 			const createListRequestDTO = new CreateListRequestDTO({
-				...request.params,
-				...request.body,
+				...httpRequest.params,
+				...httpRequest.body,
 			});
 			await this.createListService.execute(createListRequestDTO);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu cadastrar a lista.`,
-			// );
-			response.status(201);
-			response.end();
-		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			// logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode);
-			response.send(err.message);
+			this.logger.info(
+				`Usuário:${id} conseguiu cadastrar a lista: ${name}.`,
+			);
+			return HttpResponse.okWithoutBody();
+		} catch (error) {
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }

@@ -1,118 +1,75 @@
+const MissingParamError = require('../../../../src/helpers/errors/MissingParamError');
 const ReturnListsController = require('../../../../src/components/List/ReturnLists/ReturnListsController');
+const ServerError = require('../../../../src/helpers/errors/ServerError');
+
+class ReturnListsServiceDummy {
+	async execute() {}
+}
+
+class ReturnListServiceFake {
+	async execute() {
+		return {
+			status: 'valid',
+		};
+	}
+}
+
+class LoggerDummy {
+	info(message) {
+		return message;
+	}
+	error(message) {
+		return message;
+	}
+}
+
+const makeSut = () => {
+	const returnListsServiceDummy = new ReturnListsServiceDummy();
+	const loggerDummy = new LoggerDummy();
+	const sut = new ReturnListsController(returnListsServiceDummy, loggerDummy);
+	return sut;
+};
 
 describe('RETURN LISTS CONTROLLER UNIT TEST', () => {
-	test('Should catch an error with default http status code', async () => {
-		const request = {
-			user: { id: 1 },
-			query: {},
-		};
-		const response = {
-			status(statusCode) {
-				return statusCode;
-			},
-			send(message) {
-				return message;
-			},
-		};
-		const ReturnListsServiceFake = jest.fn().mockImplementation(() => ({
-			async execute(data) {
-				data;
-				throw new Error('Teste');
-			},
-		}));
-		const spy = jest.spyOn(response, 'status');
-		const returnListsServiceFake = new ReturnListsServiceFake();
-		const returnListsController = new ReturnListsController(
-			returnListsServiceFake,
-		);
-		await returnListsController.handler(request, response);
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(spy).toHaveBeenCalledWith(500);
+	test('Should return 500 if no http request is provided', async () => {
+		const sut = makeSut();
+		const httpResponse = await sut.handle();
+		expect(httpResponse.statusCode).toBe(500);
+		expect(httpResponse.message).toBe(new ServerError().message);
 	});
 
-	test('Should catch an error with custom http status code', async () => {
-		const request = {
-			user: { id: 1 },
-			query: {},
-		};
-		const response = {
-			status(statusCode) {
-				return statusCode;
-			},
-			send(message) {
-				return message;
-			},
-		};
-		const ReturnListsServiceFake = jest.fn().mockImplementation(() => ({
-			async execute(data) {
-				data;
-				const error = new Error('Teste');
-				error.httpCode = 404;
-				throw error;
-			},
-		}));
-		const spy = jest.spyOn(response, 'status');
-		const returnListsServiceFake = new ReturnListsServiceFake();
-		const returnListsController = new ReturnListsController(
-			returnListsServiceFake,
-		);
-		await returnListsController.handler(request, response);
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(spy).toHaveBeenCalledWith(404);
+	test('Should return 500 if http request has no user', async () => {
+		const httpRequest = {};
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(500);
+		expect(httpResponse.message).toBe(new ServerError().message);
 	});
 
-	test('Should pass with http status code 200', async () => {
-		const request = {
-			user: { id: 1 },
-			query: {},
+	test('Should return 400 if no user id is provided', async () => {
+		const httpRequest = {
+			user: {},
 		};
-		const response = {
-			status(statusCode) {
-				return statusCode;
-			},
-			json(data) {
-				return data;
-			},
-		};
-		const spy = jest.spyOn(response, 'status');
-		const ReturnListsServiceFake = jest.fn().mockImplementation(() => ({
-			execute: data => data,
-		}));
-		const returnListsServiceFake = new ReturnListsServiceFake();
-		const returnListsController = new ReturnListsController(
-			returnListsServiceFake,
+		const sut = makeSut();
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(400);
+		expect(httpResponse.message).toBe(
+			new MissingParamError('user id').message,
 		);
-		await returnListsController.handler(request, response);
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(spy).toHaveBeenCalledWith(200);
 	});
 
-	test('Should return a valid content', async () => {
-		const request = {
+	test('Should return 200 when valid infos are provided', async () => {
+		const httpRequest = {
 			user: { id: 1 },
-			query: {},
 		};
-		const response = {
-			status(statusCode) {
-				return statusCode;
-			},
-			json(data) {
-				return data;
-			},
-		};
-		const spy = jest.spyOn(response, 'json');
-		const ReturnListsServiceFake = jest.fn().mockImplementation(() => ({
-			execute: data => {
-				data;
-				return { name: 'Teste' };
-			},
-		}));
-		const returnListsServiceFake = new ReturnListsServiceFake();
-		const returnListsController = new ReturnListsController(
-			returnListsServiceFake,
+		const returnListServiceFake = new ReturnListServiceFake();
+		const loggerDummy = new LoggerDummy();
+		const sut = new ReturnListsController(
+			returnListServiceFake,
+			loggerDummy,
 		);
-		await returnListsController.handler(request, response);
-		expect(spy).toHaveBeenCalledTimes(1);
-		expect(spy).toHaveBeenCalledWith({ name: 'Teste' });
+		const httpResponse = await sut.handle(httpRequest);
+		expect(httpResponse.statusCode).toBe(200);
+		expect(httpResponse.body).toEqual({ status: 'valid' });
 	});
 });
