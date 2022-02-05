@@ -1,49 +1,29 @@
+const adaptRoute = require('../infra/adapters/expressRoutesAdapter');
 const authenticationToken = require('../middlewares/authenticationToken');
-const CreateListController = require('../components/List/CreateList/CreateListController');
-const ListServiceWithMySqlFactory = require('../components/List/factories/ListServiceWithMySqlFactory');
-const ModifyListController = require('../components/List/ModifyList/ModifyListController');
-const RemoveListController = require('../components/List/RemoveList/RemoveListController');
-const ReturnListController = require('../components/List/ReturnList/ReturnListController');
-const ReturnListsController = require('../components/List/ReturnLists/ReturnListsController');
-
-const createListController = new CreateListController(
-	ListServiceWithMySqlFactory.createListService(),
-);
-const returnListController = new ReturnListController(
-	ListServiceWithMySqlFactory.returnListService(),
-);
-const returnListsController = new ReturnListsController(
-	ListServiceWithMySqlFactory.returnListsService(),
-);
-const modifyListController = new ModifyListController(
-	ListServiceWithMySqlFactory.modifyListService(),
-);
-const removeListController = new RemoveListController(
-	ListServiceWithMySqlFactory.removeListService(),
-);
+const ListControllerFactory = require('../components/List/factories/ListControllerFactory');
 
 module.exports = app => {
 	app.route('/lists').get(
 		authenticationToken.bearer,
-		returnListsController.handler.bind(returnListsController),
+		adaptRoute(ListControllerFactory.makeReturnListsController()),
 	);
 
 	app.route('/users/:userId/lists').post(
 		authenticationToken.bearer,
-		createListController.handler.bind(createListController),
+		adaptRoute(ListControllerFactory.makeCreateListController()),
 	);
 
 	app.route('/lists/:listId')
 		.get(
 			authenticationToken.bearer,
-			returnListController.handler.bind(returnListController),
+			adaptRoute(ListControllerFactory.makeReturnListController()),
 		)
 		.patch(
 			authenticationToken.bearer,
-			modifyListController.handler.bind(modifyListController),
+			adaptRoute(ListControllerFactory.makeModifyListController()),
 		)
 		.delete(
 			authenticationToken.bearer,
-			removeListController.handler.bind(removeListController),
+			adaptRoute(ListControllerFactory.makeRemoveListController()),
 		);
 };
