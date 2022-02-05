@@ -1,31 +1,37 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 const ReturnListsRequestDTO = require('./ReturnListsRequestDTO');
 
 class ReturnListsController {
-	constructor(returnListsService) {
+	constructor(returnListsService, logger) {
 		this.returnListsService = returnListsService;
+		this.logger = logger;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando retornar todas as listas.`,
-			// );
+			const { id } = httpRequest.user;
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
+				);
+			}
+			this.logger.info(
+				`Usuário:${id} está tentando retornar todas as listas.`,
+			);
 			const returnListsRequestDTO = new ReturnListsRequestDTO({
-				...request.query,
+				...httpRequest.query,
 			});
 			const lists = await this.returnListsService.execute(
 				returnListsRequestDTO,
 			);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu retornar todas as listas.`,
-			// );
-			response.status(200);
-			response.json(lists);
+			this.logger.info(
+				`Usuário:${id} conseguiu retornar todas as listas.`,
+			);
+			return HttpResponse.ok(lists);
 		} catch (error) {
-			if (!error.httpCode) error.httpCode = 500;
-			// logger.error(`${error.httpCode} - ${error.message}`);
-			response.status(error.httpCode);
-			response.send(error.message);
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }
