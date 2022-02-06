@@ -10,7 +10,7 @@ require('./src/config/databases/blocklist-access-token');
 
 const port = process.env.PORT || 3000;
 
-const server = app.listen(port, WinstonLog.info(`Server on in port ${port}`));
+const server = app.listen(port, WinstonLog.info(`Server on in port ${port}.`));
 
 process.on('uncaughtException', (err, origin) => {
 	WinstonLog.error(`uncaughtException' - ${err.message}`);
