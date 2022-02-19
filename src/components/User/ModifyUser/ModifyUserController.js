@@ -1,32 +1,51 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
+const InvalidParamError = require('../../../helpers/errors/InvalidParamError');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 const ModifyUserRequestDTO = require('./ModifyUserRequestDTO');
-const ModifyUserService = require('./ModifyUserService');
 
 class ModifyUserController {
-	constructor(userRepository) {
-		this.userRepository = userRepository;
+	constructor(modifyUserService, logger, paramTypeValidator) {
+		this.modifyUserService = modifyUserService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando modificar o usuário:${request.params.userId}.`,
-			// );
+			const { userId } = httpRequest.params;
+			const { email } = httpRequest.body;
+			const { id } = httpRequest.user;
+			if (!userId) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
+				);
+			}
+			if (!email) {
+				return HttpResponse.badRequest(new MissingParamError('email'));
+			}
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('request user id'),
+				);
+			}
+			if (!this.paramTypeValidator.isString(email)) {
+				return HttpResponse.badRequest(new InvalidParamError('email'));
+			}
 			const modifyUserRequestDTO = new ModifyUserRequestDTO({
-				...request.params,
-				...request.body,
+				userId,
+				email,
 			});
-			const modifyUserService = new ModifyUserService(
-				this.userRepository,
+			this.logger.info(
+				`Usuário:${id} está tentando modificar o usuário:${userId}.`,
 			);
-			await modifyUserService.execute(modifyUserRequestDTO);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu modificar o usuário:${request.params.userId}.`,
-			// );
-			response.status(204).end();
-		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			// logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode).send(err.message);
+			await this.modifyUserService.execute(modifyUserRequestDTO);
+			this.logger.info(
+				`Usuário:${id} conseguiu modificar o usuário:${userId}.`,
+			);
+			return HttpResponse.okWithoutBody();
+		} catch (error) {
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }
