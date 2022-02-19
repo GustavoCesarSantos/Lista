@@ -1,26 +1,35 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
 const LoginRequestDTO = require('./LoginRequestDTO');
-const LoginService = require('./LoginService');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 
 class Login {
-	async handler(request, response) {
+	constructor(loginService, logger, paramTypeValidator) {
+		this.loginService = loginService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
+	}
+
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando realizar login na aplicação.`,
-			// );
-			const loginRequestDTO = new LoginRequestDTO(request.user);
-			const loginService = new LoginService();
-			const { accessToken, refreshToken } = await loginService.execute(
-				loginRequestDTO,
+			const { id } = httpRequest.user;
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('request user id'),
+				);
+			}
+			const loginRequestDTO = new LoginRequestDTO({ id });
+			this.logger.info(
+				`Usuário:${id} está tentando realizar login na aplicação.`,
 			);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu realizar login na aplicação.`,
-			// );
-			response.set('Authorization', accessToken);
-			response.status(200).json({ refreshToken });
-		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			// logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode).send(err.message);
+			const { accessToken, refreshToken } =
+				await this.loginService.execute(loginRequestDTO);
+			this.logger.info(
+				`Usuário:${id} conseguiu realizar login na aplicação.`,
+			);
+			return HttpResponse.ok({ refreshToken, accessToken });
+		} catch (error) {
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }
