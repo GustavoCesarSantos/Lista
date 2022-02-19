@@ -51,7 +51,7 @@ class CreateAnnotationController {
 				createAnnotationRequestDTO,
 			);
 			this.logger.info(`Usuário:${id} conseguiu cadastrar a anotação.`);
-			return HttpResponse.okWithoutBody();
+			return HttpResponse.created();
 		} catch (error) {
 			this.logger.error(`${error.message}`);
 			return HttpResponse.serverError();

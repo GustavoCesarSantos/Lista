@@ -8,8 +8,7 @@ class ReturnUsersService {
 
 	async execute(returnUsersRequestDTO) {
 		const user = new User(returnUsersRequestDTO);
-		const validQuery = await user.returnsAValidQuery();
-		const usersDb = await this.userRepository.findMany(validQuery);
+		const usersDb = await this.userRepository.findMany(user);
 		return usersDb.map(userDb => new ReturnUsersResponseDTO(userDb));
 	}
 }

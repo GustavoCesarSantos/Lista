@@ -1,31 +1,42 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 const ReturnUserRequestDTO = require('./ReturnUserRequestDTO');
-const ReturnUserService = require('./ReturnUserService');
 
 class ReturnUserController {
-	constructor(userRepository) {
-		this.userRepository = userRepository;
+	constructor(returnUserService, logger, paramTypeValidator) {
+		this.returnUserService = returnUserService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando retornar o usuário:${request.params.userId}.`,
-			// );
-			const returnUserRequestDTO = new ReturnUserRequestDTO({
-				...request.params,
-			});
-			const returnUserService = new ReturnUserService(
-				this.userRepository,
+			const { userId } = httpRequest.params;
+			const { id } = httpRequest.user;
+			if (!userId) {
+				return HttpResponse.badRequest(
+					new MissingParamError('user id'),
+				);
+			}
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('request user id'),
+				);
+			}
+			this.logger.info(
+				`Usuário:${id} está tentando retornar o usuário:${userId}.`,
 			);
-			const user = await returnUserService.execute(returnUserRequestDTO);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu retornar o usuário:${request.params.userId}.`,
-			// );
-			response.status(200).json(user);
-		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			// logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode).send(err.message);
+			const returnUserRequestDTO = new ReturnUserRequestDTO({ userId });
+			const user = await this.returnUserService.execute(
+				returnUserRequestDTO,
+			);
+			this.logger.info(
+				`Usuário:${id} conseguiu retornar o usuário:${userId}.`,
+			);
+			return HttpResponse.ok(user);
+		} catch (error) {
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }

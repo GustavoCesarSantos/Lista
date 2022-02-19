@@ -145,7 +145,7 @@ describe('MODIFY LIST CONTROLLER UNIT TEST', () => {
 		);
 	});
 
-	test('Should return 201 when valid infos are provided', async () => {
+	test('Should return 204 when valid infos are provided', async () => {
 		const httpRequest = {
 			params: { listId: '1' },
 			body: { name: 'TESTE' },
@@ -153,6 +153,6 @@ describe('MODIFY LIST CONTROLLER UNIT TEST', () => {
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
-		expect(httpResponse.statusCode).toBe(201);
+		expect(httpResponse.statusCode).toBe(204);
 	});
 });

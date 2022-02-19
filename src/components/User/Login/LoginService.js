@@ -1,9 +1,11 @@
-const tokenHelper = require('../../../helpers/token');
-
 class LoginService {
+	constructor(tokenHelper) {
+		this.tokenHelper = tokenHelper;
+	}
+
 	async execute(loginRequestDTO) {
-		const accessToken = tokenHelper.createToken(loginRequestDTO);
-		const refreshToken = await tokenHelper.createOpaqueToken(
+		const accessToken = this.tokenHelper.createToken(loginRequestDTO);
+		const refreshToken = await this.tokenHelper.createOpaqueToken(
 			loginRequestDTO,
 		);
 		return {

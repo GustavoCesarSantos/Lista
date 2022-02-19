@@ -47,7 +47,7 @@ class CreateListController {
 			this.logger.info(
 				`Usuário:${id} conseguiu cadastrar a lista: ${name}.`,
 			);
-			return HttpResponse.okWithoutBody();
+			return HttpResponse.created();
 		} catch (error) {
 			this.logger.error(`${error.message}`);
 			return HttpResponse.serverError();

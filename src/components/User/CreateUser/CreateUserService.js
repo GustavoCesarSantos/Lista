@@ -1,23 +1,23 @@
-const bcryptHelper = require('../../../helpers/bcrypt');
 const ErrorHandler = require('../../../helpers/ErrorHandler');
 // const tokenHelper = require('../../../helpers/token');
 const User = require('../entities/User');
 // const Email = require('../../../helpers/email');
 
 class CreateUserService {
-	constructor(userRepository) {
+	constructor(userRepository, encryptHelper) {
 		this.userRepository = userRepository;
+		this.encryptHelper = encryptHelper;
 	}
 
 	async execute(createUserRequestDTO) {
 		const user = new User(createUserRequestDTO);
-		await user.isValid();
 		const userExists = await this.userRepository.findMany({
 			email: user.email,
 		});
-		if (userExists.length > 0)
+		if (userExists.length > 0) {
 			throw new ErrorHandler('Usuário já cadastrado.', 400);
-		const hashedPassword = await bcryptHelper.encryptPassword(
+		}
+		const hashedPassword = await this.encryptHelper.encryptPassword(
 			user.password,
 		);
 		user.password = hashedPassword;

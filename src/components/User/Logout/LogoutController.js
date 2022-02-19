@@ -1,23 +1,40 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
 const LogoutRequestDTO = require('./LogoutRequestDTO');
-const LogoutService = require('./LogoutService');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 
 class Logout {
-	async handler(request, response) {
+	constructor(logoutService, logger, paramTypeValidator) {
+		this.logoutService = logoutService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
+	}
+
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando realizar logout na aplicação.`,
-			// );
-			const logoutRequestDTO = new LogoutRequestDTO(request.token);
-			const logoutService = new LogoutService();
-			await logoutService.execute(logoutRequestDTO);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu realizar logout na aplicação.`,
-			// );
-			response.status(204).end();
-		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			// logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode).send(err.message);
+			const { id } = httpRequest.user;
+			const { token } = httpRequest;
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('request user id'),
+				);
+			}
+			if (!token) {
+				return HttpResponse.badRequest(
+					new MissingParamError('access token'),
+				);
+			}
+			const logoutRequestDTO = new LogoutRequestDTO(token);
+			this.logger.info(
+				`Usuário:${id} está tentando realizar logout na aplicação.`,
+			);
+			await this.logoutService.execute(logoutRequestDTO);
+			this.logger.info(
+				`Usuário:${id} conseguiu realizar logout na aplicação.`,
+			);
+			return HttpResponse.okWithoutBody();
+		} catch (error) {
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }

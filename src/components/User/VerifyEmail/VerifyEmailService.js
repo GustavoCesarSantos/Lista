@@ -8,10 +8,9 @@ class VerifyEmailService {
 
 	async execute(verifyEmailRequestDTO) {
 		const user = new User(verifyEmailRequestDTO);
-		const validUser = await user.returnsAValidQuery();
-		const userExists = await this.userRepository.findOne(validUser.id);
+		const userExists = await this.userRepository.findOne(user.id);
 		if (!userExists) throw new ErrorHandler('Usuário não encontrado', 404);
-		await this.userRepository.modify(validUser);
+		await this.userRepository.modify(user);
 	}
 }
 
