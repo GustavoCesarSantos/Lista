@@ -11,6 +11,13 @@ class HttpResponse {
 
 	static okWithoutBody() {
 		return {
+			statusCode: 204,
+			body: null,
+		};
+	}
+
+	static created() {
+		return {
 			statusCode: 201,
 			body: null,
 		};
