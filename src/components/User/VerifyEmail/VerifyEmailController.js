@@ -1,31 +1,30 @@
+const HttpResponse = require('../../../helpers/HttpResponse');
+const MissingParamError = require('../../../helpers/errors/MissingParamError');
 const VerifyEmailRequestDTO = require('./VerifyEmailRequestDTO');
-const VerifyEmailService = require('./VerifyEmailService');
 
 class VerifyEmailController {
-	constructor(userRepository) {
-		this.userRepository = userRepository;
+	constructor(verifyEmailService, logger, paramTypeValidator) {
+		this.verifyEmailService = verifyEmailService;
+		this.logger = logger;
+		this.paramTypeValidator = paramTypeValidator;
 	}
 
-	async handler(request, response) {
+	async handle(httpRequest) {
 		try {
-			// logger.info(
-			// 	`Usuário:${request.user.id} está tentando validar seu e-mail.`,
-			// );
-			const verifyEmailRequestDTO = new VerifyEmailRequestDTO(
-				request.user,
-			);
-			const verifyEmailService = new VerifyEmailService(
-				this.userRepository,
-			);
-			await verifyEmailService.execute(verifyEmailRequestDTO);
-			// logger.info(
-			// 	`Usuário:${request.user.id} conseguiu validar seu e-mail.`,
-			// );
-			response.status(204).end();
-		} catch (err) {
-			if (!err.httpCode) err.httpCode = 500;
-			// logger.error(`${err.httpCode} - ${err.message}`);
-			response.status(err.httpCode).send(err.message);
+			const { id } = httpRequest.user;
+			if (!id) {
+				return HttpResponse.badRequest(
+					new MissingParamError('request user id'),
+				);
+			}
+			this.logger.info(`Usuário:${id} está tentando validar seu e-mail.`);
+			const verifyEmailRequestDTO = new VerifyEmailRequestDTO({ id });
+			await this.verifyEmailService.execute(verifyEmailRequestDTO);
+			this.logger.info(`Usuário:${id} conseguiu validar seu e-mail.`);
+			return HttpResponse.okWithoutBody();
+		} catch (error) {
+			this.logger.error(`${error.message}`);
+			return HttpResponse.serverError();
 		}
 	}
 }
