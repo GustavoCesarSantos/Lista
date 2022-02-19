@@ -173,7 +173,7 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
 		);
 	});
 
-	test('Should return 201 when valid infos are provided', async () => {
+	test('Should return 204 when valid infos are provided', async () => {
 		const httpRequest = {
 			params: { annotationId: '1' },
 			body: { listId: '1', contents: 'TESTE' },
@@ -181,6 +181,6 @@ describe('MODIFY ANNOTATION CONTROLLER UNIT TEST', () => {
 		};
 		const sut = makeSut();
 		const httpResponse = await sut.handle(httpRequest);
-		expect(httpResponse.statusCode).toBe(201);
+		expect(httpResponse.statusCode).toBe(204);
 	});
 });
