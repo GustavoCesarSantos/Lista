@@ -1,8 +1,10 @@
-const tokenHelper = require('../../../helpers/token');
-
 class LogoutService {
+	constructor(tokenHelper) {
+		this.tokenHelper = tokenHelper;
+	}
+
 	static async execute(logoutRequestDTO) {
-		await tokenHelper.invalidateToken(logoutRequestDTO.token);
+		await this.tokenHelper.invalidateToken(logoutRequestDTO.token);
 	}
 }
 
