@@ -9,8 +9,7 @@ class ReturnUserService {
 
 	async execute(returnUserRequestDTO) {
 		const user = new User(returnUserRequestDTO);
-		const validUser = await user.returnsAValidQuery();
-		const userDb = await this.userRepository.findOne(validUser.id);
+		const userDb = await this.userRepository.findOne(user.id);
 		if (!userDb) throw new ErrorHandler('Usuário não encontrado', 404);
 		return new ReturnUserResponseDTO(userDb);
 	}
