@@ -1,4 +1,3 @@
-const ErrorHandler = require('../../../helpers/ErrorHandler');
 // const tokenHelper = require('../../../helpers/token');
 const User = require('../entities/User');
 // const Email = require('../../../helpers/email');
@@ -15,7 +14,7 @@ class CreateUserService {
 			email: user.email,
 		});
 		if (userExists.length > 0) {
-			throw new ErrorHandler('Usuário já cadastrado.', 400);
+			throw new Error('Usuário já cadastrado.', 400);
 		}
 		const hashedPassword = await this.encryptHelper.encryptPassword(
 			user.password,
