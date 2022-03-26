@@ -1,48 +1,18 @@
+const adaptRoute = require('../infra/adapters/expressRoutesAdapter');
 const authenticationToken = require('../middlewares/authenticationToken');
 const authenticationUser = require('../middlewares/authenticationUser');
-const CreateUserController = require('../components/User/CreateUser/CreateUserController');
-const LoginController = require('../components/User/Login/LoginController');
-const LogoutController = require('../components/User/Logout/LogoutController');
-const ModifyUserController = require('../components/User/ModifyUser/ModifyUserController');
-const RemoveUserController = require('../components/User/RemoveUser/RemoveUserController');
-const ReturnUserController = require('../components/User/ReturnUser/ReturnUserController');
-const ReturnUsersController = require('../components/User/ReturnUsers/ReturnUsersController');
+const UserControllerFactory = require('../components/User/factories/UserControllerFactory');
 const UserServiceWithMySqlFactory = require('../components/User/factories/UserServiceWithMySqlFactory');
-const VerifyEmailController = require('../components/User/VerifyEmail/VerifyEmailController');
 
 const authenticationRefreshToken =
 	UserServiceWithMySqlFactory.authenticationRefreshToken();
 const authenticationVerificationEmail =
 	UserServiceWithMySqlFactory.authenticationVerificationEmail();
-const loginController = new LoginController(
-	UserServiceWithMySqlFactory.loginService(),
-);
-const logoutController = new LogoutController(
-	UserServiceWithMySqlFactory.logoutService(),
-);
-const verifyEmailController = new VerifyEmailController(
-	UserServiceWithMySqlFactory.verifyEmailService(),
-);
-const createUserController = new CreateUserController(
-	UserServiceWithMySqlFactory.createUserService(),
-);
-const returnUserController = new ReturnUserController(
-	UserServiceWithMySqlFactory.returnUserService(),
-);
-const returnUsersController = new ReturnUsersController(
-	UserServiceWithMySqlFactory.returnUsersService(),
-);
-const modifyUserController = new ModifyUserController(
-	UserServiceWithMySqlFactory.modifyUserService(),
-);
-const removeUserController = new RemoveUserController(
-	UserServiceWithMySqlFactory.removeUserService(),
-);
 
 module.exports = app => {
 	app.route('/login').post(
 		authenticationUser.local,
-		loginController.handler.bind(loginController),
+		adaptRoute(UserControllerFactory.makeLogin()),
 	);
 
 	app.route('/logout').post(
@@ -50,39 +20,39 @@ module.exports = app => {
 			authenticationRefreshToken.refresh.bind(authenticationRefreshToken),
 			authenticationToken.bearer,
 		],
-		logoutController.handler.bind(logoutController),
+		adaptRoute(UserControllerFactory.makeLogout()),
 	);
 
 	app.route('/users/:userId/tokens/refresh').post(
 		authenticationRefreshToken.refresh.bind(authenticationRefreshToken),
-		loginController.handler.bind(loginController),
+		adaptRoute(UserControllerFactory.makeLogin()),
 	);
 
 	app.route('/users/:token/emails/verify').get(
 		authenticationVerificationEmail.verify.bind(
 			authenticationVerificationEmail,
 		),
-		verifyEmailController.handler.bind(verifyEmailController),
+		adaptRoute(UserControllerFactory.makeVerifyEmail()),
 	);
 
 	app.route('/users')
 		.get(
 			authenticationToken.bearer,
-			returnUsersController.handler.bind(returnUsersController),
+			adaptRoute(UserControllerFactory.makeReturnUsers()),
 		)
-		.post(createUserController.handler.bind(createUserController));
+		.post(adaptRoute(UserControllerFactory.makeCreateUser()));
 
 	app.route('/users/:userId')
 		.get(
 			authenticationToken.bearer,
-			returnUserController.handler.bind(returnUserController),
+			adaptRoute(UserControllerFactory.makeReturnUser()),
 		)
 		.patch(
 			authenticationToken.bearer,
-			modifyUserController.handler.bind(modifyUserController),
+			adaptRoute(UserControllerFactory.makeModifyUser()),
 		)
 		.delete(
 			authenticationToken.bearer,
-			removeUserController.handler.bind(removeUserController),
+			adaptRoute(UserControllerFactory.makeRemoveUser()),
 		);
 };
