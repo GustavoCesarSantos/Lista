@@ -36,7 +36,7 @@ class CreateUserController {
 			this.logger.info('Tentando criar um usuário.');
 			await this.createUserService.execute(createUserRequestDTO);
 			this.logger.info(`Usuário:${email} criado com sucesso.`);
-			HttpResponse.created();
+			return HttpResponse.created();
 		} catch (error) {
 			this.logger.error(`${error.message}`);
 			return HttpResponse.serverError();
