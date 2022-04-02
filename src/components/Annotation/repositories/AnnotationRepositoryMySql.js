@@ -12,7 +12,10 @@ class AnnotationRepositoryMySql {
 	}
 
 	async findMany(query) {
-		return await this.annotationModel.findAll({ where: query });
+		const annotationsDb = await this.annotationModel.findAll({
+			where: query,
+		});
+		return annotationsDb;
 	}
 
 	async modify(annotation) {
