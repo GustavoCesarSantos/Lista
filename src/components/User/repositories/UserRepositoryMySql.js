@@ -17,7 +17,8 @@ class UserRepositoryMySql extends IUserRepository {
 	}
 
 	async findMany(query) {
-		return await this.userModel.findAll({ where: query });
+		const userDb = await this.userModel.findAll({ where: query });
+		return userDb;
 	}
 
 	async modify(user) {

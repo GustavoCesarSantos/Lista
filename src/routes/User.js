@@ -12,7 +12,7 @@ const authenticationVerificationEmail =
 module.exports = app => {
 	app.route('/login').post(
 		authenticationUser.local,
-		adaptRoute(UserControllerFactory.makeLogin()),
+		adaptRoute(UserControllerFactory.makeLoginController()),
 	);
 
 	app.route('/logout').post(
@@ -20,39 +20,39 @@ module.exports = app => {
 			authenticationRefreshToken.refresh.bind(authenticationRefreshToken),
 			authenticationToken.bearer,
 		],
-		adaptRoute(UserControllerFactory.makeLogout()),
+		adaptRoute(UserControllerFactory.makeLogoutController()),
 	);
 
 	app.route('/users/:userId/tokens/refresh').post(
 		authenticationRefreshToken.refresh.bind(authenticationRefreshToken),
-		adaptRoute(UserControllerFactory.makeLogin()),
+		adaptRoute(UserControllerFactory.makeLoginController()),
 	);
 
 	app.route('/users/:token/emails/verify').get(
 		authenticationVerificationEmail.verify.bind(
 			authenticationVerificationEmail,
 		),
-		adaptRoute(UserControllerFactory.makeVerifyEmail()),
+		adaptRoute(UserControllerFactory.makeVerifyEmailController()),
 	);
 
 	app.route('/users')
 		.get(
 			authenticationToken.bearer,
-			adaptRoute(UserControllerFactory.makeReturnUsers()),
+			adaptRoute(UserControllerFactory.makeReturnUsersController()),
 		)
-		.post(adaptRoute(UserControllerFactory.makeCreateUser()));
+		.post(adaptRoute(UserControllerFactory.makeCreateUserController()));
 
 	app.route('/users/:userId')
 		.get(
 			authenticationToken.bearer,
-			adaptRoute(UserControllerFactory.makeReturnUser()),
+			adaptRoute(UserControllerFactory.makeReturnUserController()),
 		)
 		.patch(
 			authenticationToken.bearer,
-			adaptRoute(UserControllerFactory.makeModifyUser()),
+			adaptRoute(UserControllerFactory.makeModifyUserController()),
 		)
 		.delete(
 			authenticationToken.bearer,
-			adaptRoute(UserControllerFactory.makeRemoveUser()),
+			adaptRoute(UserControllerFactory.makeRemoveUserController()),
 		);
 };
