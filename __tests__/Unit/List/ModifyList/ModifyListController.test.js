@@ -23,11 +23,11 @@ class ParamTypeValidatorMock {
 }
 
 const makeSut = () => {
-	const modifyAnnotationServiceDummy = new ModifyListServiceDummy();
+	const modifyListServiceDummy = new ModifyListServiceDummy();
 	const loggerDummy = new LoggerDummy();
 	const paramTypeValidatorMock = new ParamTypeValidatorMock();
 	const sut = new ModifyListController(
-		modifyAnnotationServiceDummy,
+		modifyListServiceDummy,
 		loggerDummy,
 		paramTypeValidatorMock,
 	);
