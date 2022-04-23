@@ -28,6 +28,11 @@ class ModifyUserController {
 					new MissingParamError('request user id'),
 				);
 			}
+			if (!this.paramTypeValidator.isString(userId)) {
+				return HttpResponse.badRequest(
+					new InvalidParamError('user id'),
+				);
+			}
 			if (!this.paramTypeValidator.isString(email)) {
 				return HttpResponse.badRequest(new InvalidParamError('email'));
 			}
