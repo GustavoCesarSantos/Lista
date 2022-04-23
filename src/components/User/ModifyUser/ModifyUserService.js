@@ -1,4 +1,4 @@
-const ErrorHandler = require('../../../helpers/ErrorHandler');
+const NotFoundError = require('../../../helpers/errors/NotFoundError');
 const User = require('../entities/User');
 
 class ModifyUserService {
@@ -9,7 +9,7 @@ class ModifyUserService {
 	async execute(modifyUserRequestDTO) {
 		const user = new User(modifyUserRequestDTO);
 		const userExists = await this.userRepository.findOne(user.id);
-		if (!userExists) throw new ErrorHandler('Usuário não encontrado', 404);
+		if (!userExists) return new NotFoundError('Usuário não encontrado');
 		await this.userRepository.modify(user);
 	}
 }
